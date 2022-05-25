@@ -1,0 +1,25 @@
+{
+  "name": "lespetitsplats",
+  "version": "1.0.0",
+  "description": "sites permettant la recherche de recettes",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:./public/css/style.css --style compressed",
+    "prefix": "postcss ./public/css/style.css --use autoprefixer -d ./public/css/prefixed/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DA-JS-REACT/lesPetitsPlats.git"
+  },
+  "author": "fred",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DA-JS-REACT/lesPetitsPlats/issues"
+  },
+  "homepage": "https://github.com/DA-JS-REACT/lesPetitsPlats#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3"
+  }
+}
