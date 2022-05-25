@@ -3,5 +3,7 @@
 // @import "../node_modules/bootstrap/scss/bootstrap-utilities.scss";
 @import "../node_modules/bootstrap/scss/bootstrap.scss";  // Required
 
-
+@import "./Utils/variables";
 @import "./Base/base";
+
+@import "./Layout/header";
