@@ -14,25 +14,68 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400&display=swap" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
       <header class="container-fluid">
           <div class="row">
-              <div class="col-md-6 mx-auto d-flex flex-column ">
-                  <h1>Hello</h1>
-                  <h1>Les petits plats</h1>
+              <div class="col-md-6 mx-auto my-4 d-flex flex-column ">
+                <svg role="img" class="mx-auto " width="52" height="47" viewBox="0 0 52 47" fill="none" xmlns="http://www.w3.org/2000/svg" aria-describedby="title description">
+                  <title id="title">toque de chef cuisinier</title>
+                  <desc id="description">le logo du site </desc>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M39.5083 25.3424V35.1415H12.4024V25.3424C7.99768 25.3424 4.60945 21.9635 4.60945 17.5708C4.60945 13.1781 7.99768 9.79908 12.4024 9.79908C15.4518 9.79908 18.1624 11.4886 19.5177 14.1918L22.9059 12.5023C21.8895 10.8128 20.873 9.12328 19.1789 8.10958C20.5342 5.74429 22.9059 4.05479 25.9553 4.05479C30.36 4.05479 33.7483 7.43378 33.7483 11.8265C33.7483 13.1781 33.4095 14.5297 32.7318 15.8813L36.12 17.9087C37.1365 16.2192 37.8142 14.1918 37.8142 11.8265C37.8142 11.1507 37.8142 10.8128 37.8142 10.137C38.4918 9.79908 39.1695 9.79908 39.8471 9.79908C44.2518 9.79908 47.64 13.1781 47.64 17.5708C47.64 21.9635 43.913 25.3424 39.5083 25.3424ZM39.5083 42.9132H12.4024V39.1963H39.5083V42.9132ZM39.5083 6.08219C38.4918 6.08219 37.4753 6.42009 36.12 6.42009C34.0871 2.70319 30.36 0 25.9553 0C21.5506 0 17.4847 2.36529 15.7906 6.42009C14.7742 6.08219 13.7577 6.08219 12.4024 6.08219C5.96474 6.08219 0.882385 11.1507 0.882385 17.5708C0.882385 22.6393 4.27062 27.0319 8.67533 28.3835V46.2922H43.5742V28.7214C47.9789 27.0319 51.3671 22.9772 51.3671 17.9087C51.3671 11.4886 45.9459 6.08219 39.5083 6.08219ZM22.2283 31.0867H18.5012V23.653H22.2283V31.0867ZM33.7483 31.0867H30.0212V23.653H33.7483V31.0867Z" fill="#D04F4F"/>
+                  </svg>
+
+                  <h1 class="mx-auto ">Les petits plats</h1>
               </div>
           </div>
         </header>
         <main class="container">
+            <section class="row">
+              <form id="form "class="form-search search" action="index.html" method="get" >
+                <div class="col-12 search__main">
+                  <label for="mainSearch" class="sr-only">Rechercher une recette</label>
+                  <input type="search" id="mainSearch" class="search__mainInput" placeholder="Rechercher une recette" aria-label="Search">
+                  <i class="fa-solid fa-magnifying-glass fa-2x"></i>
+                </div>
+                <div class="col-12 search__tag ">
+                  <button type="button" class="btn me-2 search__tag--ingredients">
+                    lait de coco 
+                    <span class="tag-close">
+                      <i class="fa-regular fa-circle-xmark fa-lg"></i>
+                    </span>
+                  </button>
+                  <button type="button" class="btn me-2 search__tag--appareils">
+                    robot fouet
+                    <span class="tag-close">
+                      <i class="fa-regular fa-circle-xmark fa-lg"></i>
+                    </span>
+                  </button>
+                  <button type="button" class="btn me-2 search__tag--ustensils">
+                    coco
+                    <span class="tag-close">
+                      <i class="fa-regular fa-circle-xmark fa-lg"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="col-12 search__filter">
+
+
+                </div>
+
+              </form>
+            </section>
             <div class="row">
-                <div class="col-12"></div>
-                <div class="col-6"></div>
+              <div class="col-12 recipes">
+
+              </div>
             </div>
-        </main> 
+        </main>
 
     <!-- Optional JavaScript Bootstrap -->
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.esm.js"></script>
+   
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    
   </body>
 </html>
