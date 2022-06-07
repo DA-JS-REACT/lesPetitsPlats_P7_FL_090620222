@@ -60,82 +60,123 @@
                   </button>
                 </div>
                 <div class="col-12 search__filter">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      <input  class="bg-primary border-0 text-white" type="search" placeholder="Search">
+                  <div class="dropdown dropdown--ingredients">
+                    <button type="button" class="btn dropdown-btn">
+                      <input  class=" border-0 text-white dropdown-input" type="search" placeholder="Ingredients">
+                      <i class="fa-solid fa-angle-up"></i>
                     </button>
-                    <ul class="dropdown-menu list-inline bg-primary ">
-                      <li class="list-inline-item"><option value="">toto</option></li>
-                      <li class="list-inline-item">tata</li>
-                      <li class="list-inline-item">titi</li>
-                      <li class="list-inline-item">toto</li>
-                      <li class="list-inline-item">tata</li>
-                      <li class="list-inline-item">titi</li>
-                      <li class="list-inline-item">toto</li>
-                      <li class="list-inline-item">tata</li>
-                      <li class="list-inline-item">titi</li>
-                      <li class="list-inline-item">toto</li>
-                      <li class="list-inline-item">tata</li>
-                      <li class="list-inline-item">titi</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="accordion bg-primary" id="accordionExample">
-                  <div class="accordion-item bg-primary">
-                    <h2 class="accordion-header bg-primary" id="headingOne">
-                      <button class="accordion-button bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <input  class="bg-primary border-0 text-white" type="search" placeholder="Search">
-                      </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <ul class=" list-inline bg-primary ">
-                          <li class="list-inline-item"><option value="">toto</option></li>
-                          <li class="list-inline-item">tata</li>
-                          <li class="list-inline-item">titi</li>
-                          <li class="list-inline-item">toto</li>
-                          <li class="list-inline-item">tata</li>
-                          <li class="list-inline-item">titi</li>
-                          <li class="list-inline-item">toto</li>
-                          <li class="list-inline-item">tata</li>
-                          <li class="list-inline-item">titi</li>
-                          <li class="list-inline-item">toto</li>
-                          <li class="list-inline-item">tata</li>
-                          <li class="list-inline-item">titi</li>
-                        </ul>
-                      </div>
+                    <div class="dropdown__child dropdown__child--ingredients filter ">
+                      <ul class=" list-inline  filter__list filter__list--ul">
+                        <li class="list-inline-item filter__list--li"><option value="">lait de coco</option></li>
+                        <li class="list-inline-item filter__list--li">jus de citron</li>
+                        <li class="list-inline-item filter__list--li">Crème de coco</li>
+                        <li class="list-inline-item filter__list--li">Moutarde de dijon</li>
+                        <li class="list-inline-item filter__list--li">sucre</li>
+                        <li class="list-inline-item filter__list--li">chocolat au lait</li>
+                        <li class="list-inline-item filter__list--li">toto</li>
+                        <li class="list-inline-item filter__list--li">tata</li>
+                        <li class="list-inline-item filter__list--li">titi</li>
+                        <li class="list-inline-item filter__list--li">toto</li>
+                        <li class="list-inline-item filter__list--li">tata</li>
+                        <li class="list-inline-item filter__list--li">titi</li>
+                      </ul>
                     </div>
                   </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Accordion Item #2
-                      </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                      </div>
+                  <div class="dropdown dropdown--appareils">
+                    <button type="button" class="btn dropdown-btn">
+                      <input  class=" border-0 text-white dropdown-input dropdown-input--appareils" type="search" placeholder="Ingredients">
+                    </button>
+                    <div class="dropdown__child dropdown__child--appareils filter">
+                      <input  class=" text-white filter__input" type="search" placeholder="rechercher une recette">
+                      <ul class=" list-inline  filter__list filter__list--ul">
+                        <li class="list-inline-item filter__list--li"><option value="">lait de coco</option></li>
+                        <li class="list-inline-item filter__list--li">jus de citron</li>
+                        <li class="list-inline-item filter__list--li">Crème de coco</li>
+                        <li class="list-inline-item filter__list--li">Moutarde de dijon</li>
+                        <li class="list-inline-item filter__list--li">sucre</li>
+                        <li class="list-inline-item filter__list--li">chocolat au lait</li>
+                        <li class="list-inline-item filter__list--li">toto</li>
+                        <li class="list-inline-item filter__list--li">tata</li>
+                        <li class="list-inline-item filter__list--li">titi</li>
+                        <li class="list-inline-item filter__list--li">toto</li>
+                        <li class="list-inline-item filter__list--li">tata</li>
+                        <li class="list-inline-item filter__list--li">titi</li>
+                      </ul>
                     </div>
                   </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Accordion Item #3
-                      </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                      </div>
+                  <div class="dropdown dropdown--ustensils">
+                    <button type="button" class="btn dropdown-btn">
+                      <input  class=" border-0 text-white dropdown-input dropdown-input--ustensils" type="search" placeholder="Ingredients">
+                    </button>
+                    <div class="dropdown__child dropdown__child--ustensils filter">
+                      <input  class=" text-white filter__input" type="search" placeholder="rechercher une recette">
+                      <ul class=" list-inline  filter__list filter__list--ul">
+                        <li class="list-inline-item filter__list--li"><option value="">lait de coco</option></li>
+                        <li class="list-inline-item filter__list--li">jus de citron</li>
+                        <li class="list-inline-item filter__list--li">Crème de coco</li>
+                        <li class="list-inline-item filter__list--li">Moutarde de dijon</li>
+                        <li class="list-inline-item filter__list--li">sucre</li>
+                        <li class="list-inline-item filter__list--li">chocolat au lait</li>
+                        <li class="list-inline-item filter__list--li">toto</li>
+                        <li class="list-inline-item filter__list--li">tata</li>
+                        <li class="list-inline-item filter__list--li">titi</li>
+                        <li class="list-inline-item filter__list--li">toto</li>
+                        <li class="list-inline-item filter__list--li">tata</li>
+                        <li class="list-inline-item filter__list--li">titi</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
+
 
               </form>
             </section>
             <div class="row">
               <div class="col-12 recipes">
+                <article class=" card">
+                  <img  class="card-img" src="" alt="">
+                  <div class="card-body">
+                    <div class="card-title">
+                      <h2>Poisson Cru </h2>
+                      <div class="card-title__time">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>60 min </span>
+                      </div>
+                    </div>
+                    <div class="card-describe">
+                      <ul>
+                        <li>tomate</li>
+                        <li>concombre</li>
+                        <li></li>
+                      </ul>
+                      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio, quibusdam nobis doloremque dolorem repellat suscipit delectus eos blanditiis temporibus recusandae laboriosam id nostrum</p>
+                    </div>
+                  </div>
+                </article>
+                <article class=" card">
+                  <img  class="card-img" src="" alt="">
+                  <div class="card-body">
+                    <div class="card-title">
+                      <h2>Poisson Cru </h2>
+                      <div class="card-title__time">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>60 min </span>
+                      </div>
+                    </div>
+                    <div class="card-describe">
+                      <ul>
+                        <li>tomate</li>
+                        <li>concombre</li>
+                        <li></li>
+                      </ul>
+                      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio, quibusdam nobis doloremque dolorem repellat suscipit delectus eos blanditiis temporibus recusandae laboriosam id nostrum</p>
+                    </div>
+                  </div>
+                </article>
+
+
+
+
 
               </div>
             </div>

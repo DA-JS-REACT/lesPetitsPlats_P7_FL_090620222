@@ -19,7 +19,6 @@
     &__tag {
         margin-top:20px;
         height:60px;
-        border: 1px solid black;
         &--ingredients,
         &--appareils,
         &--ustensils {
@@ -41,4 +40,99 @@
             background:$colorOrange;
         }
     }
+    &__filter {
+        margin-top:10px;
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            border-radius:5px;
+            &--ingredients{
+                background-color: $colorBlue;
+            }
+            &--appareils{
+                background:$colorGreen;
+            }
+            &--ustensils{
+                background:$colorOrange;
+            }
+            input::placeholder {
+                color:white;
+                font-weight:bold;
+            }
+            .dropdown-btn {
+                color: white;
+                border: none;
+                cursor: pointer;
+                padding:5px;
+
+            }
+            .dropdown-btn > i {
+                position:absolute;
+                right:5%;
+                margin-top:10px;
+                transform: rotate(0deg);
+                transition: transform 0.2s;
+            }
+
+            .dropdown-input {
+                background:$colorBlue;
+                padding: 5px;
+                &--appareils {
+                    background:$colorGreen;
+                }
+                &--ustensils{
+                    background:$colorOrange;
+                }
+             }
+            &__child {
+                display: none;
+                min-height:50px;
+                position:relative;
+                z-index: 50;
+                &--ingredients,
+                &--ingredients > input{
+                    background: $colorBlue;
+                }
+
+                &--appareils,
+                &--appareils > input{
+                    background:$colorGreen;
+                }
+                &--ustensils,
+                &--ustensils > input{
+                    background:$colorOrange;
+                }
+                .filter {
+                    margin-top:5px;
+                    padding: 5px;
+                    &__input {
+                        margin-left: 10px;
+                        padding:10px 5px;
+                        border:1px solid $colorGreyLight;
+                    }
+                    &__list {
+                        padding: 5px;
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr;
+                        &--li {
+                            margin-left: 5px;
+                            padding: 5px;
+                            color: white;
+                            cursor: pointer;
+                            text-align: left;
+
+                        }
+                    }
+                }
+            }
+
+        }
+        .dropdown:hover .dropdown__child {
+            display: block;
+        }
+        .dropdown:hover .dropdown-btn > i {
+            animation: cursor 0.3s both;
+        }
+    }
+
 }

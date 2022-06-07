@@ -4,7 +4,9 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 @import "./Utils/variables";
+@import "./Utils/mixins";
 @import "./Base/base";
 
 @import "./Layout/header";
 @import "./Layout/form";
+@import "./Layout/card";
