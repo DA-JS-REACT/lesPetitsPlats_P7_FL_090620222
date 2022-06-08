@@ -86,8 +86,10 @@
              }
             &__child {
                 display: none;
-                min-height:50px;
-                position:relative;
+                position: absolute;
+                border-radius:0 0 5px 5px;
+                min-width: 550px;
+                max-width: 550px;
                 z-index: 50;
                 &--ingredients,
                 &--ingredients > input{
@@ -112,11 +114,13 @@
                     }
                     &__list {
                         padding: 5px;
+                        margin-top: 10px;
                         display: grid;
                         grid-template-columns: 1fr 1fr 1fr;
                         &--li {
+                            min-width:160px;
                             margin-left: 5px;
-                            padding: 5px;
+                            padding:0 5px;
                             color: white;
                             cursor: pointer;
                             text-align: left;
@@ -126,6 +130,12 @@
                 }
             }
 
+        }
+        .dropdown:hover {
+
+          
+            min-width: 550px;
+            border-radius:5px 5px 0 0;
         }
         .dropdown:hover .dropdown__child {
             display: block;
