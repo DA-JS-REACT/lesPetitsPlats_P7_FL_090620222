@@ -59,7 +59,26 @@ class CardFactory {
             li.classList.add('describe-ul__li');
 
             const spanLi = document.createElement('span');
-            spanLi.textContent= this.ingredients[i]['quantity'] + this.ingredients[i]['unit'];
+            if(this.ingredients[i].hasOwnProperty('unit')){
+                switch(this.ingredients[i]['unit']){
+                    case 'grammes':
+                        this.ingredients[i]['unit']= 'g';
+                        break;
+                    case 'cuillères à soupe':
+                        this.ingredients[i]['unit']= 'c.à.soupes';
+                       break;
+                    case 'cuillère à soupe':
+                        this.ingredients[i]['unit']= 'c.à.s';
+                       break;
+                    case 'cuillères à café':
+                        this.ingredients[i]['unit']= 'c.à.café';
+                       break;
+                }
+                spanLi.textContent= this.ingredients[i]['quantity'] +' '+ this.ingredients[i]['unit'];
+            }else {
+                spanLi.textContent= this.ingredients[i]['quantity'];
+            }
+
 
             li.textContent = this.ingredients[i]['ingredient'] +': ';
             li.appendChild(spanLi);
