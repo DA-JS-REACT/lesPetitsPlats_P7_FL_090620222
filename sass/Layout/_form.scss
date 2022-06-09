@@ -46,6 +46,7 @@
             position: relative;
             display: inline-block;
             border-radius:5px;
+            margin-right: 10px;
             &--ingredients{
                 background-color: $colorBlue;
             }
@@ -64,19 +65,27 @@
                 border: none;
                 cursor: pointer;
                 padding:5px;
+                min-width:150px;
+                text-align: start;
 
+            }
+            .dropdown-btn > span {
+                margin-left:2px;
             }
             .dropdown-btn > i {
                 position:absolute;
                 right:5%;
-                margin-top:10px;
+                margin-top:5px;
                 transform: rotate(0deg);
                 transition: transform 0.2s;
             }
 
             .dropdown-input {
-                background:$colorBlue;
+                visibility:hidden;
                 padding: 5px;
+                &--ingredients{
+                    background:$colorBlue;
+                }
                 &--appareils {
                     background:$colorGreen;
                 }
@@ -132,16 +141,21 @@
 
         }
         .dropdown:hover {
-
-          
             min-width: 550px;
             border-radius:5px 5px 0 0;
         }
-        .dropdown:hover .dropdown__child {
-            display: block;
+        .dropdown:hover .dropdown__child{
+           display: block;
+        }
+        .dropdown:hover .dropdown-input {
+            visibility:visible;
         }
         .dropdown:hover .dropdown-btn > i {
             animation: cursor 0.3s both;
+            top: 15%;
+        }
+        .dropdown:hover .dropdown-btn > span {
+            display: none;
         }
     }
 

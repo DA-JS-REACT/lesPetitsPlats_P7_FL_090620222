@@ -1,6 +1,6 @@
 class CardFactory {
 
-    constructor (id, name, servings,ingredients,time,decription,appliance,ustensils) {
+    constructor (id, name, servings,ingredients,time,decription) {
 
         this.id = id;
         this.name = name;
@@ -8,8 +8,6 @@ class CardFactory {
         this.ingredients = ingredients;
         this.time = time;
         this.decription = decription;
-        this.appliance = appliance;
-        this.ustensils = ustensils;
     }
     /**
      * 
@@ -22,6 +20,7 @@ class CardFactory {
         /* div for img  */
         const divImg = document.createElement('div');
         divImg.classList.add('card-img');
+        divImg.setAttribute('title', this.name);
         article.appendChild(divImg);
         /* div for main recipes */
         const divBody = document.createElement('div');
@@ -85,7 +84,6 @@ class CardFactory {
 
             ul.appendChild(li);
         }
-        console.log(this.ingredients.length);
 
         divDescribe.appendChild(ul);
 

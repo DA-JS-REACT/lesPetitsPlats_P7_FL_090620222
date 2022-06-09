@@ -1,11 +1,14 @@
 import {recipes} from '../data/recipes.js';
 import {CardFactory} from '../factories/cardFactory.js';
 import {Recipes} from '../models/Recipes.js';
+import {FilterFactory} from '../factories/filterFactory.js';
+import {FilterData} from '../utils/filterData.js';
 
 class Home {
 
     constructor () {
         this.articleDiv = document.querySelector('.recipes');
+        this.filterData = new FilterData();
     }
 
 
@@ -25,11 +28,28 @@ class Home {
 
     }
 
+    displayFilter(){
+        const filter = document.querySelector('.search__filter');
+        const ingredientsData = this.filterData.getIngredient(recipes);
+        const applianceData = this.filterData.getAppliance(recipes);
+        const ustensilsData = this.filterData.getUstensils(recipes);
+   
+
+        const ingredients= new FilterFactory(ingredientsData).getFilter({hasIngredients:true});
+        const appliance = new FilterFactory(applianceData).getFilter({hasAppareils:true});
+        const ustensils = new FilterFactory(ustensilsData).getFilter({hasUstensils:true});
+        filter.appendChild(ingredients);
+        filter.appendChild(appliance);
+        filter.appendChild(ustensils);
+    }
+
     init() {
         for(let i = 0; i < recipes.length; i++) {
-            const test = new Recipes(recipes[i]);
-            this.displayCard(test);
+            const card = new Recipes(recipes[i]);
+            this.displayCard(card);
         }
+
+        this.displayFilter();
     }
 }
 
