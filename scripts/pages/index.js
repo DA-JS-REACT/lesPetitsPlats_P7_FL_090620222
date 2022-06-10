@@ -3,12 +3,14 @@ import {CardFactory} from '../factories/cardFactory.js';
 import {Recipes} from '../models/Recipes.js';
 import {FilterFactory} from '../factories/filterFactory.js';
 import {FilterData} from '../utils/filterData.js';
+import {SearchBar} from '../utils/searchBar.js';
 
 class Home {
 
     constructor () {
         this.articleDiv = document.querySelector('.recipes');
         this.filterData = new FilterData();
+        this.searchBar = new SearchBar();
     }
 
 
@@ -50,6 +52,7 @@ class Home {
         }
 
         this.displayFilter();
+        this.searchBar.initializeSearch();
     }
 }
 

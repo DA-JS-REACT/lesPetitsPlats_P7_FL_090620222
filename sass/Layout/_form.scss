@@ -18,7 +18,8 @@
 
     &__tag {
         margin-top:20px;
-        height:60px;
+        height:50px;
+        display: flex;
         &--ingredients,
         &--appareils,
         &--ustensils {
@@ -32,12 +33,15 @@
         }
         &--ingredients {
             background:$colorBlue;
+            order: 1;
         }
         &--appareils{
             background:$colorGreen;
+            order: 2;
         }
         &--ustensils{
             background:$colorOrange;
+            order: 3;
         }
     }
     &__filter {
@@ -71,6 +75,7 @@
             }
             .dropdown-btn > span {
                 margin-left:2px;
+                text-transform: capitalize;
             }
             .dropdown-btn > i {
                 position:absolute;
