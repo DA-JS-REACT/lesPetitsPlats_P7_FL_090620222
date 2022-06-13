@@ -4,6 +4,7 @@ import {Recipes} from '../models/Recipes.js';
 import {FilterFactory} from '../factories/filterFactory.js';
 import {FilterData} from '../utils/filterData.js';
 import {SearchBar} from '../utils/searchBar.js';
+import {FilterEvent} from '../utils/filterEvent.js';
 
 class Home {
 
@@ -11,6 +12,7 @@ class Home {
         this.articleDiv = document.querySelector('.recipes');
         this.filterData = new FilterData();
         this.searchBar = new SearchBar();
+        this.filterEvents = new FilterEvent();
     }
 
 

@@ -104,6 +104,20 @@ class CardFactory {
         article.appendChild(divBody);
         return article;
     }
+    getCardError(){
+
+        const article = document.createElement('article');
+        article.classList.add('card');
+        
+        const h3 = document.createElement('h3');
+        h3.textContent = 'Désolé nous n\'avons pas trouver de recette ';
+        article.appendChild(h3);
+
+        return article;
+
+
+
+    }
 }
 
 export {CardFactory};

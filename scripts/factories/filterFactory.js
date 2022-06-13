@@ -19,11 +19,11 @@ class FilterFactory {
         button.appendChild(span);
 
         const input = document.createElement('input');
-        input.classList.add('border-0','text-white','dropdown-input');
+        input.classList.add('border-0','text-white','dropdown-input','dropdown-inputHidden');
         input.setAttribute('type', 'search');
 
         const i = document.createElement('i');
-        i.classList.add('fa-solid','fa-angle-down');
+        i.classList.add('fa-solid','fa-angle-down','launch');
 
         button.appendChild(input);
         button.appendChild(i);
@@ -62,8 +62,10 @@ class FilterFactory {
 
 
         divMain.classList.add('dropdown','dropdown--'+ choice);
+        divMain.setAttribute('id',choice);
         span.textContent = choice;
         input.setAttribute('placeholder','Rechercher un '+ choice);
+        
         input.classList.add('dropdown-input--' + choice)
         divChild.classList.add('dropdown__child--'+ choice);
 
