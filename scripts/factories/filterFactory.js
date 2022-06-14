@@ -19,7 +19,7 @@ class FilterFactory {
         button.appendChild(span);
 
         const input = document.createElement('input');
-        input.classList.add('border-0','text-white','dropdown-input','dropdown-inputHidden');
+        input.classList.add('border-0','text-white','dropdown-input','input-hidden');
         input.setAttribute('type', 'search');
 
         const i = document.createElement('i');
@@ -35,16 +35,9 @@ class FilterFactory {
         const ul = document.createElement('ul');
         ul.classList.add('list-inline','filter__list','filter__list--ul');
 
-        // loop for generic li
-        // [...this.data] convert Set  in a array
-        for(let i=0; i<[...this.data].length; i++) {
 
-            const li = document.createElement('li');
-            li.classList.add('list-inline-item','filter__list--li');
-            li.textContent = [...this.data][i];
-            ul.appendChild(li);
-        }
-
+        this.displaysearchFilter(ul);
+       
         divChild.appendChild(ul);
 
         divMain.appendChild(divChild);
@@ -70,6 +63,21 @@ class FilterFactory {
         divChild.classList.add('dropdown__child--'+ choice);
 
         return divMain;
+    }
+
+    displaysearchFilter(ul){
+        if([...this.data].length > 0){
+            // loop for generic li
+       // [...this.data] convert Set  in a array
+       for(let i=0; i<[...this.data].length; i++) {
+
+           const li = document.createElement('li');
+           li.classList.add('list-inline-item','filter__list--li');
+           li.textContent = [...this.data][i];
+           ul.appendChild(li);
+       }
+
+       }
     }
 }
 

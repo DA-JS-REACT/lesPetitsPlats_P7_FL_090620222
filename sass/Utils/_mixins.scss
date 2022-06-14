@@ -9,3 +9,28 @@
 
     }
 }
+
+@mixin filter {
+    @each  $name in $filter {
+        @debug $name;
+        ##{$name}:hover {
+            min-width:550px;
+            border-radius:5px 5px 0 0;
+
+            .dropdown-btn > span {
+                display: none;
+            }
+            .input-hidden {
+                visibility:visible;
+            }
+            .dropdown-btn > i {
+                animation: cursor 0.2s both;
+                top: 15%;
+            }
+            .dropdown__child {
+                display: block;
+            }
+        }
+    }
+
+}

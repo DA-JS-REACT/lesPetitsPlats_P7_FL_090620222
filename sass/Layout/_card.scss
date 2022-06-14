@@ -55,3 +55,24 @@
         }
     }
 }
+.error{
+    margin-top:10px;
+    .card-error {
+        width: 100%;
+        padding:5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        &__title,
+        &__text {
+            padding:2px;
+            color:$colorRed;
+        }
+        &__text {
+            font-size: 0.8rem;
+
+        }
+    }
+
+}

@@ -106,12 +106,18 @@ class CardFactory {
     }
     getCardError(){
 
+
+
         const article = document.createElement('article');
-        article.classList.add('card');
-        
+        article.classList.add('card-error');
         const h3 = document.createElement('h3');
-        h3.textContent = 'Désolé nous n\'avons pas trouver de recette ';
+        h3.textContent = 'Désolé nous n\'avons pas trouver de recette ....';
+        h3.classList.add('card-error__title');
         article.appendChild(h3);
+        const p = document.createElement('p');
+        p.textContent= 'mais nous allons y remedier , en attendant consulter celles déjà présente';
+        p.classList.add('card-error__text');
+        article.appendChild(p);
 
         return article;
 
