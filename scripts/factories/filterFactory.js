@@ -77,6 +77,8 @@ class FilterFactory {
            ul.appendChild(li);
        }
 
+       }else if ([...this.data].length === 0){
+            ul.removeChild(li);
        }
     }
 }

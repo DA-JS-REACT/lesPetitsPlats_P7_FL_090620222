@@ -36,18 +36,11 @@ class Recipes {
         // });
         // for(let i=0; i < this._ingredients.length; i++){
         //     if (this._ingredients[i].hasOwnProperty('unit')) {
-        //         return this._ingredients[i];
+        //         this._ingredients = this._ingredients[i];
 
-        //     }else {
-        //     return this._ingredients[i];
         //     }
-        // let test = [];
-        // for (const result of this._ingredients) {
-        //     test.push(result,result)
-        //     console.log(test);
-        //     return test;
-           
-        // }
+        // }   
+        // console.log(this._ingredients);
         return this._ingredients;
 
 

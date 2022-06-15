@@ -40,6 +40,7 @@ class Home {
    
 
         const ingredients= new FilterFactory(ingredientsData).getFilter({hasIngredients:true});
+      
         const appliance = new FilterFactory(applianceData).getFilter({hasAppareils:true});
         const ustensils = new FilterFactory(ustensilsData).getFilter({hasUstensils:true});
         filter.appendChild(ingredients);
