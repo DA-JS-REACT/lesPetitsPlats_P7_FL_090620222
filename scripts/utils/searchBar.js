@@ -19,7 +19,7 @@ class  SearchBar {
 
 
     initializeSearch() {
-
+        this.filterEvents.initializeFilterEvents();
         const input = document.getElementById('mainSearch');
         input.addEventListener('change',(evt) => {
             this.onSearchChange(evt);
@@ -28,10 +28,14 @@ class  SearchBar {
             this.onSearchChange(evt);
 
         });
-        this.filterEvents.initializeFilterEvents();
+        const dropdownInput = document.querySelectorAll('.dropdown-input');
+        dropdownInput.forEach(el => el.addEventListener('keyup',(event) => {
+            this.searchOnFilter(event);
+        }));
     }
 
     onSearchChange(evt) {
+        evt.preventDefault();
         const search = evt.target.value.toLowerCase();
 
 
@@ -44,63 +48,53 @@ class  SearchBar {
         if(searchError > 0){
             this.divError.removeChild(lastElement);
         }
+        let test = false;
+        let newtab = this.onSearch(search);
+        console.log(newtab);
+        
+        if(test){
+            console.log('yes');
+        }
+        if (search.length >= 3 ){
 
-        let tab = [];
-        this.onSearch(tab,search);
-        // this.deleteList();
-        if (search.length >= 3 && tab.length > 0 ){
-
-            // efface les articles par défault
-            this.deleteArticle();
-
-            // this.deleteList();
-            this.displayFilter(tab);
+            if(newtab.length > 0){
+                test = true;
+                 // efface les articles par défault
+                this.deleteArticle();
+                this.refreshList();
+                this.displayFilter(newtab);
                 // parcour le tableau des resultats
-                for(let j = 0; j < tab.length; j++) {
-                    const card = new Recipes(tab[j]);
+                for(let j = 0; j < newtab.length; j++) {
+                    const card = new Recipes(newtab[j]);
                     this.displayNewCard(card);
                 }
-        //     if (tab.length > 0) {
-        //         // parcour le tableau des resultats
-        //        for(let j = 0; j < tab.length; j++) {
-        //            const card = new Recipes(tab[j]);
-        //            this.displayNewCard(card);
-        //        }
-        //        // met à jour les filtres
-        //        this.deleteList();
-        //        this.displayFilter(tab);
-        //        console.log(tab);
-
-
-        //    }else if (tab.length === 0) {
-        //        this.displayFilter(recipes);
-        //        this.displayErrorCard();
-        //        // delete the last element , limmit 1
-        //        if(searchError === 1) {
-        //            this.divError.removeChild(lastElement);
-
-        //        }
-
-        //    }
-        }else if(search.length >= 3 && tab.length === 0){
-            this.deleteArticle();
-            // this.displayFilter(recipes);
-            this.displayErrorCard();
-            // delete the last element , limmit 1
-            if(searchError === 1) {
-                this.divError.removeChild(lastElement);
+            }else if(newtab.length === 0){
+                this.deleteArticle();
+                // this.refreshList();
+                // this.displayFilter(recipes);
+                this.displayErrorCard();
+                // delete the last element , limmit 1
+                if(searchError === 1) {
+                    this.divError.removeChild(lastElement);
+    
+                }
 
             }
 
+
+     
+           
+
         }else if(search.length === 0 || search.length < 3 && search.length > 0) {
-            tab.length = 0 ;
-            this.displayFilter(recipes);
+            newtab.length = 0;
+            // this.refreshList();
+            // this.displayFilter(recipes);
              // efface les articles par défault
              const article = this.articleDiv.querySelectorAll('.card');
              article.forEach(element => {
                  this.articleDiv.removeChild(element);
              })
- 
+
 
             // restore default article
             for(let i = 0; i < recipes.length; i++) {
@@ -109,17 +103,48 @@ class  SearchBar {
             }
 
         }
+        const input = document.getElementById('mainSearch');
 
+        // if(test) {
+        //     input.value=  ' ';
+        // }
+        console.log(test);
+    }
+
+    searchOnFilter(event){
+
+        const value = event.target.value;
+
+        const parent = event.target.closest('.dropdown');
+        const ul = parent.querySelector('.list-inline');
+
+        if(value.length > 0){
+            ul.innerHTML = '';
+        }
+       
+        console.log(value);
+        const newtab = this.onSearch(value);
+        const Data = this.filterData.getIngredient(newtab);
+        const ingredients = new FilterFactory(Data).displaysearchFilter(ul);
+       console.log( Data);
+       
+        
+       
+        // if(value.length > 0){
+           
+        //     li.textContent = value;
+        // }
+      
 
     }
 
     /**
-     * 
+     *
      * @param {String} search
      * @returns
      */
-    onSearch(tab,search){
-        
+    onSearch(search){
+        let tab = [];
         let recipe = '';
         for(let i = 0; i < recipes.length; i++) {
 
@@ -131,9 +156,6 @@ class  SearchBar {
                     if(element.toString().toLowerCase().includes(search)) {
                         // si ok stock dans le tableau
                         tab.push(recipe);
-                        // const input = document.getElementById('mainSearch');
-                        // input.value='';
-
                     }
                 }
             }
@@ -169,11 +191,11 @@ class  SearchBar {
 
 
     displayFilter(tab){
-        this.deleteList();
+        this.refreshList();
+
         const FilterIngredients = document.getElementById('ingredients');
         const ulIngredients = FilterIngredients.querySelector('.list-inline');
-        console.log('1',ulIngredients);
-        console.log(ulIngredients);
+       
 
         const childUl = ulIngredients.childElementCount;
 
@@ -187,26 +209,26 @@ class  SearchBar {
         // ulUstensils.innerHTML='';
 
         const ingredientsData = this.filterData.getIngredient(tab);
+       
         const applianceData = this.filterData.getAppliance(tab);
         const ustensilsData = this.filterData.getUstensils(tab);
-
-
+     
+  
         const ingredients = new FilterFactory(ingredientsData).displaysearchFilter(ulIngredients);
 
         const appliance = new FilterFactory(applianceData).displaysearchFilter(ulAppliances);
         const ustensils = new FilterFactory(ustensilsData).displaysearchFilter(ulUstensils);
-        console.log(ingredients);
-
         this.filterEvents.initializeFilterEvents();
         return [ingredients,appliance,ustensils];
     }
 
 
-    deleteList(){
+    refreshList(){
         const ul = document.querySelectorAll('.list-inline');
         ul.forEach(element => {
             element.innerHTML = '';
         })
+
     }
 
     deleteArticle() {
@@ -215,6 +237,14 @@ class  SearchBar {
           article.forEach(element => {
               this.articleDiv.removeChild(element);
           })
+    }
+
+    refreshPage(){
+        location.reload(true);
+
+      
+        const input = document.getElementById('mainSearch');
+        input.value=  ' ';
     }
 
 }

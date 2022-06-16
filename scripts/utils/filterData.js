@@ -1,4 +1,4 @@
-import {Recipes} from '../models/Recipes.js';
+
 
 class  FilterData {
 
@@ -15,6 +15,8 @@ class  FilterData {
  * @returns Objects with Set();
  */
 getIngredient(recipes) {
+
+
     for (const element of recipes) {
         for (const result of element['ingredients']) {
             this.dataIngredients.add(result['ingredient'])

@@ -53,9 +53,10 @@ class Home {
             const card = new Recipes(recipes[i]);
             this.displayCard(card);
         }
-
+        
         this.displayFilter();
         this.searchBar.initializeSearch();
+        
     }
 }
 

@@ -58,7 +58,8 @@ class FilterFactory {
         divMain.setAttribute('id',choice);
         span.textContent = choice;
         input.setAttribute('placeholder','Rechercher un '+ choice);
-        
+        input.setAttribute('autocomplete','off');
+
         input.classList.add('dropdown-input--' + choice)
         divChild.classList.add('dropdown__child--'+ choice);
 
