@@ -6,7 +6,18 @@ class  FilterData {
         this.dataIngredients = new Set();
         this.dataAppliance = new Set();
         this.dataUstensils = new Set();
+        // this.ingredient = new Set();
     }
+
+
+gettingDataForFilter(data) {
+
+    const filter  = new Set(data);
+    for (const item of [...filter]) {
+       
+    }
+   return filter ;
+}
 
 
 /**

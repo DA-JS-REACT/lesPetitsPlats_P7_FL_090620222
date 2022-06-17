@@ -55,7 +55,7 @@
             &--ingredients{
                 background-color: $colorBlue;
             }
-            &--appareils{
+            &--appliance{
                 background:$colorGreen;
             }
             &--ustensils{
@@ -95,7 +95,7 @@
                 &--ingredients{
                     background:$colorBlue;
                 }
-                &--appareils {
+                &--appliance {
                     background:$colorGreen;
                 }
                 &--ustensils{
@@ -114,8 +114,8 @@
                     background: $colorBlue;
                 }
 
-                &--appareils,
-                &--appareils > input{
+                &--appliance,
+                &--appliance > input{
                     background:$colorGreen;
                 }
                 &--ustensils,

@@ -22,19 +22,19 @@ class  SearchBar {
         this.filterEvents.initializeFilterEvents();
         const input = document.getElementById('mainSearch');
         input.addEventListener('change',(evt) => {
-            this.onSearchChange(evt);
+            this.onSearchMain(evt);
         });
         input.addEventListener('keyup',(evt) => {
-            this.onSearchChange(evt);
+            this.onSearchMain(evt);
 
         });
         const dropdownInput = document.querySelectorAll('.dropdown-input');
         dropdownInput.forEach(el => el.addEventListener('keyup',(event) => {
-            this.searchOnFilter(event);
+            this.onSearchFilter(event);
         }));
     }
 
-    onSearchChange(evt) {
+    onSearchMain(evt) {
         evt.preventDefault();
         const search = evt.target.value.toLowerCase();
 
@@ -72,6 +72,9 @@ class  SearchBar {
                 this.deleteArticle();
                 // this.refreshList();
                 // this.displayFilter(recipes);
+                newtab.push(recipes);
+                console.log('recipe',recipes);
+                this.displayFilter(recipes);
                 this.displayErrorCard();
                 // delete the last element , limmit 1
                 if(searchError === 1) {
@@ -111,30 +114,62 @@ class  SearchBar {
         console.log(test);
     }
 
-    searchOnFilter(event){
-
+    onSearchFilter(event){
         const value = event.target.value;
 
         const parent = event.target.closest('.dropdown');
+       
         const ul = parent.querySelector('.list-inline');
+        ul.innerHTML = '';
+        const newTab = this.onSearch(value);
+        let tab = [];
+        let suggestions = '';
 
-        if(value.length > 0){
-            ul.innerHTML = '';
-        }
+        const test = parent.className.toString().toLowerCase();
+        const toto = test.split('dropdown--');
        
-        console.log(value);
-        const newtab = this.onSearch(value);
-        const Data = this.filterData.getIngredient(newtab);
-        const ingredients = new FilterFactory(Data).displaysearchFilter(ul);
-       console.log( Data);
-       
-        
-       
-        // if(value.length > 0){
-           
-        //     li.textContent = value;
-        // }
+        const name = toto[1];
       
+        if(value.length > 0){
+            newTab.forEach(item => {
+                
+               if(name != "appliance"){
+               
+                for (const element of item[name]) {
+                                       const el = name === "ingredients" ? name.split('s')[0] : name.split(' ')[0];
+
+                    const elt = name === "ingredients" ? element.ingredient : element;
+                    if(elt.toString().toLowerCase().includes(value)) {
+
+                      tab.push(elt.toLowerCase());
+
+                    }
+
+                }
+              
+               }else if (name === "appliance"){
+                console.log(item[name].toLowerCase() );
+                if(item[name].toLowerCase() === value ) {
+                    console.log(item[name].toLowerCase() );
+                    tab.push(item[name].toLowerCase());
+
+                  }
+               }
+           
+                return tab;
+            })
+         
+           const uniqueData = this.filterData.gettingDataForFilter(tab);
+
+
+            for (const iterator of [...uniqueData]) {
+
+                suggestions += `<li> ${iterator}</li>`;
+            }
+        }
+        ul.innerHTML = suggestions ;
+      
+
 
     }
 
@@ -144,6 +179,7 @@ class  SearchBar {
      * @returns
      */
     onSearch(search){
+        console.log(search);
         let tab = [];
         let recipe = '';
         for(let i = 0; i < recipes.length; i++) {
@@ -189,9 +225,15 @@ class  SearchBar {
 
     }
 
+    recup(){
+
+    }
+
 
     displayFilter(tab){
         this.refreshList();
+
+       
 
         const FilterIngredients = document.getElementById('ingredients');
         const ulIngredients = FilterIngredients.querySelector('.list-inline');
@@ -200,7 +242,7 @@ class  SearchBar {
         const childUl = ulIngredients.childElementCount;
 
 
-        const FilterAppliances = document.getElementById('appareils');
+        const FilterAppliances = document.getElementById('appliance');
         const ulAppliances = FilterAppliances.querySelector('.list-inline');
         ulAppliances.innerHTML='';
 
@@ -212,7 +254,7 @@ class  SearchBar {
        
         const applianceData = this.filterData.getAppliance(tab);
         const ustensilsData = this.filterData.getUstensils(tab);
-     
+     console.log(ustensilsData);
   
         const ingredients = new FilterFactory(ingredientsData).displaysearchFilter(ulIngredients);
 

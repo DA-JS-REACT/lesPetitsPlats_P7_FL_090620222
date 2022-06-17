@@ -48,7 +48,7 @@ class FilterFactory {
         if(options.hasIngredients) {
              choice = 'ingredients';
         }else if (options.hasAppareils){
-            choice = 'appareils';
+            choice = 'appliance';
         }else if (options.hasUstensils){
             choice = 'ustensils';
         }
