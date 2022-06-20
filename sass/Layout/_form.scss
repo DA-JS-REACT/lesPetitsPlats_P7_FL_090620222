@@ -20,9 +20,13 @@
         margin-top:20px;
         height:50px;
         display: flex;
+        .tag {
+            display: none;
+        }
         &--ingredients,
-        &--appareils,
+        &--appliance,
         &--ustensils {
+            
             position: relative;
             padding:8px 45px 12px 10px;
             color:white;
@@ -35,7 +39,7 @@
             background:$colorBlue;
             order: 1;
         }
-        &--appareils{
+        &--appliance{
             background:$colorGreen;
             order: 2;
         }

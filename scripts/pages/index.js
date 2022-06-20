@@ -5,6 +5,7 @@ import {FilterFactory} from '../factories/filterFactory.js';
 import {FilterData} from '../utils/filterData.js';
 import {SearchBar} from '../utils/searchBar.js';
 import {FilterEvent} from '../utils/filterEvent.js';
+import {TagFactory} from '../factories/tagFactory.js'
 
 class Home {
 
@@ -13,6 +14,7 @@ class Home {
         this.filterData = new FilterData();
         this.searchBar = new SearchBar();
         this.filterEvents = new FilterEvent();
+        this.tag = new TagFactory();
     }
 
 
@@ -31,7 +33,7 @@ class Home {
         this.articleDiv.appendChild(cardDom);
 
     }
-
+  
     displayFilter(){
         const filter = document.querySelector('.search__filter');
         const ingredientsData = this.filterData.getIngredient(recipes);
@@ -56,6 +58,7 @@ class Home {
         
         this.displayFilter();
         this.searchBar.initializeSearch();
+      
         
     }
 }

@@ -36,8 +36,9 @@ class FilterFactory {
         ul.classList.add('list-inline','filter__list','filter__list--ul');
 
 
-        this.displaysearchFilter(ul);
-       
+
+        this.displayLiFilter(ul);
+
         divChild.appendChild(ul);
 
         divMain.appendChild(divChild);
@@ -66,22 +67,23 @@ class FilterFactory {
         return divMain;
     }
 
-    displaysearchFilter(ul){
+    displayLiFilter(ul){
         if([...this.data].length > 0){
             // loop for generic li
-       // [...this.data] convert Set  in a array
-       for(let i=0; i<[...this.data].length; i++) {
+            // [...this.data] convert Set  in a array
+            for(let i=0; i<[...this.data].length; i++) {
+                const li = document.createElement('li');
+                li.classList.add('list-inline-item','filter__list--li');
+                li.textContent = [...this.data][i];
+                ul.appendChild(li);
+                }
 
-           const li = document.createElement('li');
-           li.classList.add('list-inline-item','filter__list--li');
-           li.textContent = [...this.data][i];
-           ul.appendChild(li);
-       }
+            }
 
-       }else if ([...this.data].length === 0){
-            ul.removeChild(li);
-       }
+
+
     }
+
 }
 
 export {FilterFactory};
