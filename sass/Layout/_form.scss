@@ -19,34 +19,41 @@
     &__tag {
         margin-top:20px;
         height:50px;
-        display: flex;
-        .tag {
-            display: none;
-        }
+         display:flex;
         &--ingredients,
         &--appliance,
         &--ustensils {
-            
-            position: relative;
-            padding:8px 45px 12px 10px;
-            color:white;
-            .tag-close {
-                position: absolute;
-                right: 10%;
+            display: flex;
+          
+        }
+        .tag {
+            display: block;
+            &--ingredients,
+            &--appliance,
+            &--ustensils {
+                
+                position: relative;
+                padding:8px 45px 12px 10px;
+                color:white;
+                .tag-close {
+                    position: absolute;
+                    right: 10%;
+                }
+            }
+            &--ingredients {
+                background:$colorBlue;
+                order: 1;
+            }
+            &--appliance{
+                background:$colorGreen;
+                
+            }
+            &--ustensils{
+                background:$colorOrange;
+               
             }
         }
-        &--ingredients {
-            background:$colorBlue;
-            order: 1;
-        }
-        &--appliance{
-            background:$colorGreen;
-            order: 2;
-        }
-        &--ustensils{
-            background:$colorOrange;
-            order: 3;
-        }
+       
     }
     &__filter {
         margin-top:10px;

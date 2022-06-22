@@ -27,7 +27,7 @@ class TagFactory {
             choice = 'ustensils';
         }
 
-        button.classList.add('search__tag--'+ choice);
+        button.classList.add('tag--'+ choice);
         return button;
 
     }

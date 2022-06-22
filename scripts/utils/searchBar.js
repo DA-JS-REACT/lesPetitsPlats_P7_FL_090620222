@@ -4,6 +4,8 @@ import {Recipes} from '../models/Recipes.js';
 import {FilterData} from '../utils/filterData.js';
 import {FilterFactory} from '../factories/filterFactory.js';
 import {FilterEvent} from '../utils/filterEvent.js';
+import {onSearch} from '../utils/functionSearch.js';
+import {displayCard , deleteArticle} from '../utils/articleForSearch.js';
 
 class  SearchBar {
 
@@ -19,7 +21,7 @@ class  SearchBar {
 
 
     initializeSearch() {
-        this.filterEvents.initializeFilterEvents();
+        
         const input = document.getElementById('mainSearch');
         // input.addEventListener('change',(evt) => {
         //     this.onSearchMain(evt);
@@ -35,9 +37,12 @@ class  SearchBar {
         dropdownInput.forEach(el => el.addEventListener('click',(event) => {
             this.onSearchFilter(event);
         }));
+
+        this.filterEvents.initializeFilterEvents();
     }
 
     onSearchMain(evt) {
+        
         evt.preventDefault();
         const search = evt.target.value.toLowerCase();
 
@@ -51,62 +56,51 @@ class  SearchBar {
         if(searchError > 0){
             this.divError.removeChild(lastElement);
         }
-        let test = false;
+
         let newtab = [];
-      
+
         if (search.length >= 3 ){
-            newtab = this.onSearch(search);
+            newtab = onSearch(search);
             if(newtab.length > 0){
-                test = true;
+
                  // efface les articles par défault
-                this.deleteArticle();
-               
+                deleteArticle();
+
                 this.displayFilter(newtab);
                 // parcour le tableau des resultats
                 for(let j = 0; j < newtab.length; j++) {
                     const card = new Recipes(newtab[j]);
-                    this.displayCard(card);
+                    displayCard(card);
                 }
+
             }else if(newtab.length === 0){
-                this.deleteArticle();
-                test = false;
-                newtab= [];
-                // this.refreshList();
-                // this.displayFilter(recipes);
-                
-                console.log('test',newtab);
-                this.displayFilter(newtab);
+                deleteArticle();
+
                 this.displayErrorCard();
                 // delete the last element , limmit 1
                 if(searchError === 1) {
                     this.divError.removeChild(lastElement);
                 }
+                newtab= [];
+                this.displayFilter(recipes);
 
             }
 
 
         }else if(search.length === 0 || search.length < 3 ) {
-            newtab= [];
-            console.log(search.length);
-            console.log('test1',newtab);
-             this.deleteArticle();
-             this.displayFilter(newtab);
 
+            newtab = [];
+            deleteArticle();
+            this.displayFilter(recipes);
 
             // restore default article
             for(let i = 0; i < recipes.length; i++) {
                 const card = new Recipes(recipes[i]);
-                this.displayCard(card);
+                displayCard(card);
             }
 
         }
 
-       
-        
-        if(test){
-           newtab= [];
-        }
-        
 
     }
 
@@ -124,7 +118,7 @@ class  SearchBar {
         if(event.type === 'click'){
             ul.innerHTML = '';
         }
-        const newTab = this.onSearch(value);
+        const newTab = onSearch(value);
         let tab = [];
         let suggestions = '';
 
@@ -153,7 +147,7 @@ class  SearchBar {
                }else if (name === "appliance"){
                 
                 if(item[name].toLowerCase() === value ) {
-                   
+
                     tab.push(item[name].toLowerCase());
 
                   }
@@ -172,59 +166,61 @@ class  SearchBar {
             }else {
                 suggestions += `<li class="list-inline-item text-white"> Aucune correspondance</li>`;
             }
-           
+
+        }else{
+            this.displayFilter(recipes);
         }
         ul.innerHTML = suggestions ;
-      
+        this.filterEvents.initializeFilterEvents();
 
 
     }
 
-    /**
-     *
-     * @param {String} search
-     * @returns
-     */
-    onSearch(search){
-        console.log(search);
-        let tab = [];
-        let recipe = '';
-        for(let i = 0; i < recipes.length; i++) {
+    // /**
+    //  *
+    //  * @param {String} search
+    //  * @returns
+    //  */
+    // onSearch(search){
+    //     console.log(search);
+    //     let tab = [];
+    //     let recipe = '';
+    //     for(let i = 0; i < recipes.length; i++) {
 
-            recipe = recipes[i];
-            for (const key in recipe) {
-                if (Object.hasOwnProperty.call(recipe, key)) {
-                    const element = recipe[key];
-                    // recherche dans tout les éléments des recettes et convertit tout en string
-                    if(element.toString().toLowerCase().includes(search)) {
-                        // si ok stock dans le tableau
-                        tab.push(recipe);
-                    }
-                }
-            }
+    //         recipe = recipes[i];
+    //         for (const key in recipe) {
+    //             if (Object.hasOwnProperty.call(recipe, key)) {
+    //                 const element = recipe[key];
+    //                 // recherche dans tout les éléments des recettes et convertit tout en string
+    //                 if(element.toString().toLowerCase().includes(search)) {
+    //                     // si ok stock dans le tableau
+    //                     tab.push(recipe);
+    //                 }
+    //             }
+    //         }
 
-        }
+    //     }
 
-        return tab;
+    //     return tab;
 
-    }
+    // }
 
-    displayCard(tab) {
-        const articleModel = new CardFactory(
-            tab.id,
-            tab.name,
-            tab.servings,
-            tab.ingredients,
-            tab.time,
-            tab.description,
-            tab.appliance,
-            tab.ustensils
-        );
+    // displayCard(tab) {
+    //     const articleModel = new CardFactory(
+    //         tab.id,
+    //         tab.name,
+    //         tab.servings,
+    //         tab.ingredients,
+    //         tab.time,
+    //         tab.description,
+    //         tab.appliance,
+    //         tab.ustensils
+    //     );
 
-        const newcardDom = articleModel.getCard();
-        this.articleDiv.appendChild(newcardDom);
+    //     const newcardDom = articleModel.getCard();
+    //     this.articleDiv.appendChild(newcardDom);
 
-    }
+    // }
 
     displayErrorCard() {
        const articleError = new CardFactory().getCardError();
@@ -241,29 +237,12 @@ class  SearchBar {
      */
     displayFilter(tab){
         this.refreshList();
-        
-        if(tab.length === 0) {
-
-            for(let i = 0; i < recipes.length; i++){
-                tab.push(recipes[i]);
-                return tab;
-            }
-            
-        }
-        console.log('filter',tab);
-
-
 
         const FilterIngredients = document.getElementById('ingredients');
         const ulIngredients = FilterIngredients.querySelector('.list-inline');
 
-
-
-
-
         const FilterAppliances = document.getElementById('appliance');
         const ulAppliances = FilterAppliances.querySelector('.list-inline');
-
 
         const FilterUstensils = document.getElementById('ustensils');
         const ulUstensils = FilterUstensils.querySelector('.list-inline');
@@ -274,11 +253,10 @@ class  SearchBar {
         const ustensilsData = this.filterData.getUstensils(tab);
 
 
-
         const ingredients = new FilterFactory(ingredientsData).displayLiFilter(ulIngredients);
-
         const appliance = new FilterFactory(applianceData).displayLiFilter(ulAppliances);
         const ustensils = new FilterFactory(ustensilsData).displayLiFilter(ulUstensils);
+
         this.filterEvents.initializeFilterEvents();
 
     }
@@ -292,13 +270,13 @@ class  SearchBar {
 
     }
 
-    deleteArticle() {
-          // efface les articles par défault
-          const article = this.articleDiv.querySelectorAll('.card');
-          article.forEach(element => {
-              this.articleDiv.removeChild(element);
-          })
-    }
+    // deleteArticle() {
+    //       // efface les articles par défault
+    //       const article = this.articleDiv.querySelectorAll('.card');
+    //       article.forEach(element => {
+    //           this.articleDiv.removeChild(element);
+    //       })
+    // }
 
     refreshPage(){
         location.reload(true);

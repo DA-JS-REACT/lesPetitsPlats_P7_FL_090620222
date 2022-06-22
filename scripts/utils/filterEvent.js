@@ -1,4 +1,7 @@
-import {TagFactory} from '../factories/tagFactory.js'
+import {TagFactory} from '../factories/tagFactory.js';
+import {onSearch} from '../utils/functionSearch.js';
+import {displayCard , deleteArticle} from '../utils/articleForSearch.js';
+import {Recipes} from '../models/Recipes.js';
 
 class FilterEvent {
     constructor () {
@@ -25,12 +28,21 @@ class FilterEvent {
         const li = evt.currentTarget;
         const value = li.textContent;
         const parent = li.parentElement;
+        const newtab = onSearch(value);
+        console.log(value);
+        deleteArticle();
+
+           // parcour le tableau des resultats
+           for(let j = 0; j < newtab.length; j++) {
+            const card = new Recipes(newtab[j]);
+            displayCard(card);
+        }
 
         this.displayTag(parent,value);
 
     }
     displayTag(parent,value) {
-        const divTag = document.querySelector('.search__tag');
+
 
         const parentContainer = parent.parentElement;
         // cherche le nom de la classe du  filtre cliquer
@@ -47,33 +59,33 @@ class FilterEvent {
         }else if (name === 'appliance'){
             options = {hasAppareils:true};
         }
+
+        const divTag = document.querySelector('.search__tag--' + name);
         // appel de la tagFactory
         const tag  = this.tag.tag(value,options);
-        tag.style.display ='block';
+ 
         divTag.appendChild(tag);
+
         //! test
-        // ajoute que 3 tag
+        // ajoute que 2 tag
         const lastChild = divTag.lastChild;
-        if(divTag.childElementCount > 3){
+        if(divTag.childElementCount > 2){
             divTag.removeChild(lastChild);
-        }
-        // remplace le tag existant
-        if(tag.classList.contains('search__tag--'+ name)){
-            console.log(tag);
-            const old = divTag.firstChild;
+        
 
-            divTag.replaceChild(tag,old);
         }
 
 
-       const tagClose = document.querySelector('.tag-close');
-        tagClose.addEventListener('click',(evt) => {
+
+       const tagClose = document.querySelectorAll('.tag-close');
+        tagClose.forEach(elt => elt.addEventListener('click',(evt) => {
+
             const tag = evt.currentTarget;
-
             const button = tag.parentElement;
-            button.style.display = 'none';
+            const div = button.parentElement;
+            div.removeChild(button);
 
-        })
+        }))
     }
 
 

@@ -27,7 +27,7 @@ gettingDataForFilter(data) {
  */
 getIngredient(recipes) {
 
-
+    this.dataIngredients = new Set();
     for (const element of recipes) {
         for (const result of element['ingredients']) {
             this.dataIngredients.add(result['ingredient'])
@@ -45,7 +45,7 @@ getIngredient(recipes) {
  * @returns Objects with Set();
  */
 getAppliance(recipes) {
-
+    this.dataAppliance = new Set();
     for (const element of recipes) {
         const result = element['appliance'];
         this.dataAppliance.add(result);
@@ -61,7 +61,7 @@ getAppliance(recipes) {
  * @returns Objects with Set();
  */
 getUstensils(recipes) {
-
+    this.dataUstensils = new Set();
     for (const element of recipes) {
         for (const result of element['ustensils']) {
             this.dataUstensils.add(result);
