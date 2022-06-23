@@ -29,7 +29,7 @@ class FilterEvent {
         const value = li.textContent;
         const parent = li.parentElement;
         const newtab = onSearch(value);
-        console.log(value);
+        console.log(newtab);
         deleteArticle();
 
            // parcour le tableau des resultats
