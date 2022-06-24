@@ -1,5 +1,5 @@
 import {TagFactory} from '../factories/tagFactory.js';
-import {onSearch} from '../utils/functionSearch.js';
+import {onSearch,displayFilter} from '../utils/functionSearch.js';
 import {displayCard , deleteArticle} from '../utils/articleForSearch.js';
 import {Recipes} from '../models/Recipes.js';
 
@@ -37,7 +37,7 @@ class FilterEvent {
             const card = new Recipes(newtab[j]);
             displayCard(card);
         }
-
+        displayFilter(newtab);
         this.displayTag(parent,value);
 
     }

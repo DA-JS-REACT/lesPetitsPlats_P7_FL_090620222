@@ -68,13 +68,17 @@ class FilterFactory {
     }
 
     displayLiFilter(ul){
+        const data = [...this.data].sort((a,b)=> {
+            return  a.toLowerCase().localeCompare(b);
+        });
+
         if([...this.data].length > 0){
             // loop for generic li
             // [...this.data] convert Set  in a array
-            for(let i=0; i<[...this.data].length; i++) {
+            for(let i=0; i<data.length; i++) {
                 const li = document.createElement('li');
                 li.classList.add('list-inline-item','filter__list--li');
-                li.textContent = [...this.data][i];
+                li.textContent = data[i];
                 ul.appendChild(li);
                 }
 

@@ -18,10 +18,12 @@ class Recipes {
     }
 
     get name() {
+
         if(this._name.length > 35) {
             return this._name.slice(0, 30) + ' ...';
         }else {
              return this._name;
+
         }
 
     }
@@ -31,19 +33,7 @@ class Recipes {
     }
 
     get ingredients() {
-        // this._ingredients.forEach(element => {
-        //     console.log('yes',element);
-        // });
-        // for(let i=0; i < this._ingredients.length; i++){
-        //     if (this._ingredients[i].hasOwnProperty('unit')) {
-        //         this._ingredients = this._ingredients[i];
-
-        //     }
-        // }   
-        // console.log(this._ingredients);
         return this._ingredients;
-
-
     }
 
     get time() {

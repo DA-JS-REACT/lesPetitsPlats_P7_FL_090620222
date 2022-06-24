@@ -33,16 +33,15 @@ class Home {
         this.articleDiv.appendChild(cardDom);
 
     }
-  
     displayFilter(){
         const filter = document.querySelector('.search__filter');
         const ingredientsData = this.filterData.getIngredient(recipes);
         const applianceData = this.filterData.getAppliance(recipes);
         const ustensilsData = this.filterData.getUstensils(recipes);
-   
+
 
         const ingredients= new FilterFactory(ingredientsData).getFilter({hasIngredients:true});
-      
+
         const appliance = new FilterFactory(applianceData).getFilter({hasAppareils:true});
         const ustensils = new FilterFactory(ustensilsData).getFilter({hasUstensils:true});
         filter.appendChild(ingredients);
@@ -51,6 +50,9 @@ class Home {
     }
 
     init() {
+        recipes.sort((a,b) => {
+          return  a.name.toLowerCase().localeCompare(b.name);
+        });
         for(let i = 0; i < recipes.length; i++) {
             const card = new Recipes(recipes[i]);
             this.displayCard(card);
@@ -58,6 +60,7 @@ class Home {
         
         this.displayFilter();
         this.searchBar.initializeSearch();
+       
       
         
     }

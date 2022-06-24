@@ -35,8 +35,6 @@ getIngredient(recipes) {
     }
 
     return this.dataIngredients;
-
-
 }
 
 /**

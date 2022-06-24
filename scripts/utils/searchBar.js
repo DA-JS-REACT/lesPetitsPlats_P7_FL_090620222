@@ -215,39 +215,47 @@ class  SearchBar {
         const appliance = new FilterFactory(applianceData).displayLiFilter(ulAppliances);
         const ustensils = new FilterFactory(ustensilsData).displayLiFilter(ulUstensils);
 
-        this.filterEvents.initializeFilterEvents();
+        // this.filterEvents.initializeFilterEvents();
+        console.log(tab);
+        let recipe = '';
+        // for(let i = 0; i < tab.length; i++){
+        //    recipe = tab[i];
+       
+
+        // }
+       
+        console.log(recipe);
         const list = document.querySelectorAll('.filter__list--li');
-  
+
         list.forEach(item => item.addEventListener('click',(evt) => {
 
             const li = evt.currentTarget;
-            const value = li.textContent;
+            const value = li.textContent.toLowerCase();
             const parent = li.parentElement;
-       
-            // for(const recipe in tab) {
 
-            //     const test = tab[recipe];
-             
-            //     const result = onSearchIngredients(test,value);
-            //     console.log(result);
-
-            // }
-            let recipe = '';
-            let result = '';
-            for(let i = 0; i < tab.length; i++){
-                console.log(tab[i]);
-                recipe = tab[i];
-                result = onSearchIngredients(recipe,value);
-                console.log('result',result);
+            
+            let result = [];
+            for (const key in tab) {
+                if (Object.hasOwnProperty.call(tab, key)) {
+                    const element = tab[key];
+                    result = onSearchIngredients(element,value,{hasFilter: true});
+                   console.log(element);
+                   console.log('result',result);
+                }
             }
+        
+         
+            
+
             deleteArticle();
 
             // parcour le tableau des resultats
             for(let j = 0; j < result.length; j++) {
-             const card = new Recipes(result[j]);
-             displayCard(card);
-         }
-            
+                const card = new Recipes(result[j]);
+                displayCard(card);
+            }
+            this.displayFilter(result);
+
         }))
 
     }
