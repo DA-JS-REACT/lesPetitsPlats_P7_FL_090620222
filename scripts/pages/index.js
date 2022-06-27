@@ -50,6 +50,7 @@ class Home {
     }
 
     init() {
+
         recipes.sort((a,b) => {
           return  a.name.toLowerCase().localeCompare(b.name);
         });
@@ -57,12 +58,11 @@ class Home {
             const card = new Recipes(recipes[i]);
             this.displayCard(card);
         }
-        
+
         this.displayFilter();
         this.searchBar.initializeSearch();
-       
-      
-        
+        this.filterEvents.initializeFilterEvents();
+
     }
 }
 

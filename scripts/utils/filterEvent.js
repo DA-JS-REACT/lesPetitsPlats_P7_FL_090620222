@@ -1,7 +1,9 @@
 import {TagFactory} from '../factories/tagFactory.js';
-import {onSearch,displayFilter} from '../utils/functionSearch.js';
+import {onSearch} from '../utils/functionSearch.js';
+import {displayFilter} from '../utils/functionFilter.js';
 import {displayCard , deleteArticle} from '../utils/articleForSearch.js';
 import {Recipes} from '../models/Recipes.js';
+import {recipes} from '../data/recipes.js';
 
 class FilterEvent {
     constructor () {
@@ -84,6 +86,13 @@ class FilterEvent {
             const button = tag.parentElement;
             const div = button.parentElement;
             div.removeChild(button);
+            displayFilter(recipes);
+            deleteArticle();
+               // parcour le tableau des resultats
+           for(let j = 0; j < recipes.length; j++) {
+            const card = new Recipes(recipes[j]);
+            displayCard(card);
+        }
 
         }))
     }

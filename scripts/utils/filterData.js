@@ -14,7 +14,7 @@ gettingDataForFilter(data) {
 
     const filter  = new Set(data);
     for (const item of [...filter]) {
-       
+
     }
    return filter ;
 }

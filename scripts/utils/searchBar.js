@@ -1,11 +1,10 @@
 import {recipes} from '../data/recipes.js';
 import {CardFactory} from '../factories/cardFactory.js';
-import {Recipes} from '../models/Recipes.js';
 import {FilterData} from '../utils/filterData.js';
-import {FilterFactory} from '../factories/filterFactory.js';
 import {FilterEvent} from '../utils/filterEvent.js';
 import {onSearch,onSearchIngredients} from '../utils/functionSearch.js';
-import {displayCard , deleteArticle} from '../utils/articleForSearch.js';
+import {displayFilter} from '../utils/functionFilter.js';
+import {displayCard,refreshArticle, deleteArticle} from '../utils/articleForSearch.js';
 
 class  SearchBar {
 
@@ -38,7 +37,7 @@ class  SearchBar {
             this.onSearchFilter(event);
         }));
 
-        this.filterEvents.initializeFilterEvents();
+        // this.filterEvents.initializeFilterEvents();
     }
 
     onSearchMain(evt) {
@@ -64,15 +63,8 @@ class  SearchBar {
             // console.log(newtab);
             if(newtab.length > 0){
 
-                 // efface les articles par défault
-                deleteArticle();
-
-                this.displayFilter(newtab);
-                // parcour le tableau des resultats
-                for(let j = 0; j < newtab.length; j++) {
-                    const card = new Recipes(newtab[j]);
-                    displayCard(card);
-                }
+                displayFilter(newtab);
+                refreshArticle(newtab);
 
 
 
@@ -85,7 +77,7 @@ class  SearchBar {
                     this.divError.removeChild(lastElement);
                 }
                 newtab= [];
-                this.displayFilter(recipes);
+                displayFilter(recipes);
 
             }
 
@@ -93,14 +85,9 @@ class  SearchBar {
         }else if(search.length === 0 || search.length < 3 ) {
 
             newtab = [];
-            deleteArticle();
-            this.displayFilter(recipes);
+            displayFilter(recipes);
 
-            // restore default article
-            for(let i = 0; i < recipes.length; i++) {
-                const card = new Recipes(recipes[i]);
-                displayCard(card);
-            }
+            refreshArticle(recipes);
 
         }
 
@@ -170,8 +157,6 @@ class  SearchBar {
                 suggestions += `<li class="list-inline-item text-white"> Aucune correspondance</li>`;
             }
 
-        }else{
-            this.displayFilter(recipes);
         }
         ul.innerHTML = suggestions ;
         this.filterEvents.initializeFilterEvents();
@@ -186,94 +171,12 @@ class  SearchBar {
 
     }
 
- 
-
-    /**
-     * 
-     * @param {array} tab 
-     * @returns HTML element
-     */
-    displayFilter(tab){
-        this.refreshList();
-
-        const FilterIngredients = document.getElementById('ingredients');
-        const ulIngredients = FilterIngredients.querySelector('.list-inline');
-
-        const FilterAppliances = document.getElementById('appliance');
-        const ulAppliances = FilterAppliances.querySelector('.list-inline');
-
-        const FilterUstensils = document.getElementById('ustensils');
-        const ulUstensils = FilterUstensils.querySelector('.list-inline');
-
-
-        const ingredientsData = this.filterData.getIngredient(tab);
-        const applianceData = this.filterData.getAppliance(tab);
-        const ustensilsData = this.filterData.getUstensils(tab);
-
-
-        const ingredients = new FilterFactory(ingredientsData).displayLiFilter(ulIngredients);
-        const appliance = new FilterFactory(applianceData).displayLiFilter(ulAppliances);
-        const ustensils = new FilterFactory(ustensilsData).displayLiFilter(ulUstensils);
-
-        // this.filterEvents.initializeFilterEvents();
-        console.log(tab);
-        let recipe = '';
-        // for(let i = 0; i < tab.length; i++){
-        //    recipe = tab[i];
-       
-
-        // }
-       
-        console.log(recipe);
-        const list = document.querySelectorAll('.filter__list--li');
-
-        list.forEach(item => item.addEventListener('click',(evt) => {
-
-            const li = evt.currentTarget;
-            const value = li.textContent.toLowerCase();
-            const parent = li.parentElement;
-
-            
-            let result = [];
-            for (const key in tab) {
-                if (Object.hasOwnProperty.call(tab, key)) {
-                    const element = tab[key];
-                    result = onSearchIngredients(element,value,{hasFilter: true});
-                   console.log(element);
-                   console.log('result',result);
-                }
-            }
-        
-         
-            
-
-            deleteArticle();
-
-            // parcour le tableau des resultats
-            for(let j = 0; j < result.length; j++) {
-                const card = new Recipes(result[j]);
-                displayCard(card);
-            }
-            this.displayFilter(result);
-
-        }))
-
-    }
-
-
-    refreshList(){
-        const ul = document.querySelectorAll('.list-inline');
-        ul.forEach(element => {
-            element.innerHTML = '';
-        })
-
-    }
 
 
     refreshPage(){
         location.reload(true);
 
-      
+
         const input = document.getElementById('mainSearch');
         input.value=  ' ';
     }

@@ -1,4 +1,5 @@
 import {CardFactory} from '../factories/cardFactory.js';
+import {Recipes} from '../models/Recipes.js';
 
 const articleDiv = document.querySelector('.recipes');
 
@@ -30,4 +31,13 @@ export function   deleteArticle() {
     article.forEach(element => {
         articleDiv.removeChild(element);
     })
+}
+
+export function refreshArticle(data) {
+    // efface les articles par défault
+    deleteArticle();
+    for(let i = 0; i < data.length; i++) {
+        const card = new Recipes(data[i]);
+        displayCard(card);
+    }
 }
