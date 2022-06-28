@@ -20,7 +20,7 @@ class  SearchBar {
 
 
     initializeSearch() {
-        
+
         const input = document.getElementById('mainSearch');
         // input.addEventListener('change',(evt) => {
         //     this.onSearchMain(evt);
@@ -41,7 +41,7 @@ class  SearchBar {
     }
 
     onSearchMain(evt) {
-        
+
         evt.preventDefault();
         const search = evt.target.value.toLowerCase();
 
@@ -55,7 +55,7 @@ class  SearchBar {
         if(searchError > 0){
             this.divError.removeChild(lastElement);
         }
-       
+
         let newtab = [];
 
         if (search.length >= 3 ){
@@ -86,7 +86,6 @@ class  SearchBar {
 
             newtab = [];
             displayFilter(recipes);
-
             refreshArticle(recipes);
 
         }
@@ -119,14 +118,13 @@ class  SearchBar {
 
         if(value.length > 0){
             newTab.forEach(item => {
-                console.log(item);
                if(name != "appliance"){
 
                 for (const element of item[name]) {
                     // const el = name === "ingredients" ? name.split('s')[0] : name.split(' ')[0];
 
                     const elt = name === "ingredients" ? element.ingredient: element;
-                    if(elt.toString().toLowerCase().includes(value)) {
+                    if(elt.toString().toLowerCase().includes(value.toLowerCase())) {
 
                       tab.push(elt.toLowerCase());
 
@@ -135,7 +133,7 @@ class  SearchBar {
                 }
 
                }else if (name === "appliance"){
-                
+
                 if(item[name].toLowerCase() === value ) {
 
                     tab.push(item[name].toLowerCase());

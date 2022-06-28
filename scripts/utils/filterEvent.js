@@ -1,7 +1,7 @@
 import {TagFactory} from '../factories/tagFactory.js';
-import {onSearch} from '../utils/functionSearch.js';
+import {onSearch, onSearchIngredients} from '../utils/functionSearch.js';
 import {displayFilter} from '../utils/functionFilter.js';
-import {displayCard , deleteArticle} from '../utils/articleForSearch.js';
+import {displayCard,refreshArticle, deleteArticle} from '../utils/articleForSearch.js';
 import {Recipes} from '../models/Recipes.js';
 import {recipes} from '../data/recipes.js';
 
@@ -20,27 +20,24 @@ class FilterEvent {
         const list = document.querySelectorAll('.filter__list--li');
 
         list.forEach(item => item.addEventListener('click',(evt) => {
+
             this.onClicklist(evt);
         }))
 
     }
 
     onClicklist(evt) {
-
+       console.log(evt);
         const li = evt.currentTarget;
         const value = li.textContent;
         const parent = li.parentElement;
-        const newtab = onSearch(value);
-        console.log(newtab);
-        deleteArticle();
-
-           // parcour le tableau des resultats
-           for(let j = 0; j < newtab.length; j++) {
-            const card = new Recipes(newtab[j]);
-            displayCard(card);
-        }
-        displayFilter(newtab);
+      
+        
+      
+       
         this.displayTag(parent,value);
+      
+       
 
     }
     displayTag(parent,value) {
@@ -65,7 +62,7 @@ class FilterEvent {
         const divTag = document.querySelector('.search__tag--' + name);
         // appel de la tagFactory
         const tag  = this.tag.tag(value,options);
- 
+
         divTag.appendChild(tag);
 
         //! test
@@ -73,7 +70,32 @@ class FilterEvent {
         const lastChild = divTag.lastChild;
         if(divTag.childElementCount > 2){
             divTag.removeChild(lastChild);
-        
+            // refreshArticle(newtab);
+            // displayFilter(newtab);
+
+        }
+        let test = divTag.childElementCount;
+        console.log(test);
+        let toto = [];
+        // let newtab = [];
+        const newtab = onSearch(value);
+        switch(divTag.childElementCount){
+            case 1:
+                
+               
+                refreshArticle(newtab);
+                displayFilter(newtab);
+                console.log('case 0',newtab);
+                break;
+
+            case 2:
+                
+              
+                
+                toto = onSearch(value,newtab);
+                console.log('case 1',toto);
+                refreshArticle(toto);
+                displayFilter(toto);
 
         }
 
@@ -87,14 +109,11 @@ class FilterEvent {
             const div = button.parentElement;
             div.removeChild(button);
             displayFilter(recipes);
-            deleteArticle();
-               // parcour le tableau des resultats
-           for(let j = 0; j < recipes.length; j++) {
-            const card = new Recipes(recipes[j]);
-            displayCard(card);
-        }
+            refreshArticle(recipes);
+
 
         }))
+
     }
 
 
@@ -142,6 +161,32 @@ class FilterEvent {
         })
 
 
+
+    }
+
+    secondsearch(newtab, value){
+        console.log('start Newtab',newtab);
+        let tab =new Set();
+        let recipe = {};
+    
+        for(let i = 0; i < newtab.length; i++) {
+    
+            recipe = newtab[i];
+    
+            for (const key in recipe) {
+                if (Object.hasOwnProperty.call(recipe, key)) {
+
+                    if(key === 'ingredients') {
+                       tab = onSearchIngredients(recipe,value,{hasFilter:true});
+                    }
+    
+                }
+    
+            }
+    
+        }
+        console.log('end Newtab',newtab);
+        return [...tab];
 
     }
 }
