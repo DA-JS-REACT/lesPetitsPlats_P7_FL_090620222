@@ -2,7 +2,7 @@ import {recipes} from '../data/recipes.js';
 import {CardFactory} from '../factories/cardFactory.js';
 import {FilterData} from '../utils/filterData.js';
 import {FilterEvent} from '../utils/filterEvent.js';
-import {onSearch,onSearchIngredients} from '../utils/functionSearch.js';
+import {onSearch,onSearchIngredients,onSearchAppliance} from '../utils/functionSearch.js';
 import {displayFilter} from '../utils/functionFilter.js';
 import {displayCard,refreshArticle, deleteArticle} from '../utils/articleForSearch.js';
 
@@ -60,7 +60,7 @@ class  SearchBar {
 
         if (search.length >= 3 ){
             newtab = onSearch(search);
-            // console.log(newtab);
+
             if(newtab.length > 0){
 
                 displayFilter(newtab);
@@ -94,10 +94,8 @@ class  SearchBar {
     }
 
     onSearchFilter(event){
-        
-        if(event.type === 'click'){
-            console.log(event);
-        }
+
+
         const value = event.target.value;
 
         const parent = event.target.closest('.dropdown');
@@ -107,7 +105,7 @@ class  SearchBar {
         if(event.type === 'click'){
             ul.innerHTML = '';
         }
-        const newTab = onSearch(value);
+        const newTab = onSearch(value,{hasInputFilter:true});
         let tab = [];
         let suggestions = '';
 
@@ -117,32 +115,31 @@ class  SearchBar {
         const name = nameOfFilter[1];
 
         if(value.length > 0){
-            newTab.forEach(item => {
-               if(name != "appliance"){
 
-                for (const element of item[name]) {
-                    // const el = name === "ingredients" ? name.split('s')[0] : name.split(' ')[0];
+            for (const item of newTab) {
 
-                    const elt = name === "ingredients" ? element.ingredient: element;
-                    if(elt.toString().toLowerCase().includes(value.toLowerCase())) {
-
-                      tab.push(elt.toLowerCase());
-
+                if (name === "appliance"){
+                    if(onSearchAppliance(item,value)){
+                        tab.push(item[name].toLowerCase());
                     }
+                }
+                 if(name != "appliance"){
+                     for(const element of item[name]) {
+
+                        const elt = name === "ingredients" ? element.ingredient: element;
+
+                        if(elt.toString().toLowerCase().includes(value.toLowerCase())) {
+
+                            tab.push(elt.toLowerCase());
+
+                        }
+
+                     }
 
                 }
 
-               }else if (name === "appliance"){
+            }
 
-                if(item[name].toLowerCase() === value ) {
-
-                    tab.push(item[name].toLowerCase());
-
-                  }
-               }
-
-                return tab;
-            })
 
            const uniqueData = this.filterData.gettingDataForFilter(tab);
 
@@ -157,7 +154,10 @@ class  SearchBar {
 
         }
         ul.innerHTML = suggestions ;
+
+        refreshArticle(newTab);
         this.filterEvents.initializeFilterEvents();
+
 
 
     }

@@ -36,6 +36,9 @@ class FilterEvent {
       
        
         this.displayTag(parent,value);
+        const newtab = onSearch(value);
+        refreshArticle(newtab);
+        displayFilter(newtab);
       
        
 
@@ -74,30 +77,7 @@ class FilterEvent {
             // displayFilter(newtab);
 
         }
-        let test = divTag.childElementCount;
-        console.log(test);
-        let toto = [];
-        // let newtab = [];
-        const newtab = onSearch(value);
-        switch(divTag.childElementCount){
-            case 1:
-                
-               
-                refreshArticle(newtab);
-                displayFilter(newtab);
-                console.log('case 0',newtab);
-                break;
 
-            case 2:
-                
-              
-                
-                toto = onSearch(value,newtab);
-                console.log('case 1',toto);
-                refreshArticle(toto);
-                displayFilter(toto);
-
-        }
 
 
 
