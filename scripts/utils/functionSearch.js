@@ -24,7 +24,7 @@ export function  onSearch(search,options={}){
             if (Object.hasOwnProperty.call(recipe, key)) {
                 const element = recipe[key];
               
-                if(options.hasInputFilter){
+                if(options.hasFilter){
                     if(key === 'ingredients') {
                         if(onSearchIngredients(recipe,search)){
                             tab.add(recipe);

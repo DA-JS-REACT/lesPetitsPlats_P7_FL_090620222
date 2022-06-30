@@ -105,7 +105,7 @@ class  SearchBar {
         if(event.type === 'click'){
             ul.innerHTML = '';
         }
-        const newTab = onSearch(value,{hasInputFilter:true});
+        const newTab = onSearch(value,{hasFilter:true});
         let tab = [];
         let suggestions = '';
 
@@ -123,20 +123,23 @@ class  SearchBar {
                         tab.push(item[name].toLowerCase());
                     }
                 }
-                 if(name != "appliance"){
+                // if(name != "appliance"){
                      for(const element of item[name]) {
 
                         const elt = name === "ingredients" ? element.ingredient: element;
+                      
+                        
 
                         if(elt.toString().toLowerCase().includes(value.toLowerCase())) {
 
                             tab.push(elt.toLowerCase());
+                            console.log(tab);
 
                         }
 
                      }
 
-                }
+                //}
 
             }
 

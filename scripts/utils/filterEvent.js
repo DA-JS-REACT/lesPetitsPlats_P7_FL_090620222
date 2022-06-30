@@ -36,7 +36,7 @@ class FilterEvent {
       
        
         this.displayTag(parent,value);
-        const newtab = onSearch(value);
+        const newtab = onSearch(value,{hasFilter:true});
         refreshArticle(newtab);
         displayFilter(newtab);
       
