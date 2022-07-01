@@ -97,7 +97,7 @@ export const recipes = [
                 "quantity": 1
             },
             {
-                "ingredient": "Huile d'olive",
+                "ingredient": "Huile d'olives",
                 "quantity": 1,
                "unit": "cuillères à soupe"
             }
@@ -316,7 +316,7 @@ export const recipes = [
                 "ingredient": "Vinaigre Balsamic"
             },
             {
-                "ingredient": "Huile d'olive"
+                "ingredient": "Huile d'olives"
             }, 
             {
                 "ingredient": "Basilic"    
@@ -455,7 +455,7 @@ export const recipes = [
                 "unit":"Cuillère à soupe"
             },
             {
-                "ingredient": "huile d'olive",
+                "ingredient": "Huile d'olives",
                 "quantity": 2,
                 "unit": "Cuillère à soupe"
             }
@@ -570,7 +570,7 @@ export const recipes = [
                 "unit":"tiges"
             },
             {
-                "ingredient": "huile d'olives",
+                "ingredient": "Huile d'olives",
                 "quantity": 2,
                 "unit": "Cuillère à soupe"
             }
@@ -696,7 +696,7 @@ export const recipes = [
                 "unit":"grammes"
             },
             {
-                "ingredient": "huile d'olive",
+                "ingredient": "Huile d'olives",
                 "quantity": 1,
                 "unit": "cuillères à soupe"
             }
@@ -1015,7 +1015,7 @@ export const recipes = [
                 "quantity": 2
             },
             {
-                "ingredient": "Huile d'olive"
+                "ingredient": "Huile d'olives"
             },
             {
                 "ingredient": "Paprika"
@@ -1177,7 +1177,7 @@ export const recipes = [
                 "unit": "cl"
             },
             {
-                "ingredient": "Huile d'olive"
+                "ingredient": "Huile d'olives"
             },
             {
                 "ingredient": "Orange",

@@ -2,12 +2,13 @@ import {TagFactory} from '../factories/tagFactory.js';
 import {onSearch, onSearchIngredients} from '../utils/functionSearch.js';
 import {displayFilter} from '../utils/functionFilter.js';
 import {displayCard,refreshArticle, deleteArticle} from '../utils/articleForSearch.js';
-import {Recipes} from '../models/Recipes.js';
+import {StateSearch} from '../models/StateSearch.js';
 import {recipes} from '../data/recipes.js';
 
 class FilterEvent {
     constructor () {
         this.tag = new TagFactory();
+        this.state = new StateSearch();
     }
 
     initializeFilterEvents(){
@@ -31,16 +32,37 @@ class FilterEvent {
         const li = evt.currentTarget;
         const value = li.textContent;
         const parent = li.parentElement;
-      
-        
-      
-       
+        const parentDiv =document.querySelector('.testing');
+        const nbrChild = parentDiv.childElementCount;
         this.displayTag(parent,value);
-        const newtab = onSearch(value,{hasFilter:true});
-        refreshArticle(newtab);
-        displayFilter(newtab);
-      
-       
+
+        let newtab = onSearch(value,{hasFilter:true});
+        this.state.value = newtab;
+
+        if(nbrChild === 0) {
+            this.state.status  = true;
+            refreshArticle(newtab);
+            displayFilter(newtab);
+        }
+
+
+        if( nbrChild > 0){
+            newtab = [];
+            const toto =  this.secondsearch(this.state.value , value);
+            console.log(newtab);
+            // refreshArticle(toto);
+            // displayFilter(toto);
+
+        }
+
+        const test = new Map();
+        console.log(test.set(this.state.status,this.state.value));
+
+
+
+
+    //    refreshArticle()
+        
 
     }
     displayTag(parent,value) {
@@ -71,12 +93,12 @@ class FilterEvent {
         //! test
         // ajoute que 2 tag
         const lastChild = divTag.lastChild;
-        if(divTag.childElementCount > 2){
-            divTag.removeChild(lastChild);
-            // refreshArticle(newtab);
-            // displayFilter(newtab);
+        // if(divTag.childElementCount > 2){
+        //     divTag.removeChild(lastChild);
+        //     // refreshArticle(newtab);
+        //     // displayFilter(newtab);
 
-        }
+        // }
 
 
 
@@ -144,20 +166,23 @@ class FilterEvent {
 
     }
 
-    secondsearch(newtab, value){
-        console.log('start Newtab',newtab);
+    secondsearch(test, value){
+        console.log('start Newtab',test);
         let tab =new Set();
         let recipe = {};
     
-        for(let i = 0; i < newtab.length; i++) {
+        for(let i = 0; i < test.length; i++) {
     
-            recipe = newtab[i];
+            recipe = test[i];
     
             for (const key in recipe) {
                 if (Object.hasOwnProperty.call(recipe, key)) {
 
                     if(key === 'ingredients') {
-                       tab = onSearchIngredients(recipe,value,{hasFilter:true});
+                        if(onSearchIngredients(recipe,value)){
+                            tab.add(recipe);
+                        }
+    
                     }
     
                 }
@@ -165,7 +190,7 @@ class FilterEvent {
             }
     
         }
-        console.log('end Newtab',newtab);
+        console.log('end Newtab',test);
         return [...tab];
 
     }

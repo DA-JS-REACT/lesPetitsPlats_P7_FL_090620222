@@ -127,8 +127,7 @@ class  SearchBar {
                      for(const element of item[name]) {
 
                         const elt = name === "ingredients" ? element.ingredient: element;
-                      
-                        
+
 
                         if(elt.toString().toLowerCase().includes(value.toLowerCase())) {
 
