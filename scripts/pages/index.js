@@ -47,10 +47,11 @@ class Home {
         filter.appendChild(ingredients);
         filter.appendChild(appliance);
         filter.appendChild(ustensils);
+        this.filterEvents.initializeFilterEvents();
     }
 
     init() {
-
+        
         recipes.sort((a,b) => {
           return  a.name.toLowerCase().localeCompare(b.name);
         });
@@ -61,7 +62,7 @@ class Home {
 
         this.displayFilter();
         this.searchBar.initializeSearch();
-        this.filterEvents.initializeFilterEvents();
+        
 
     }
 }

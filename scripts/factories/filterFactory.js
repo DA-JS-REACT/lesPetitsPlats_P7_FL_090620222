@@ -1,8 +1,12 @@
+import {FilterEvent} from '../utils/filterEvent.js';
+
 class FilterFactory {
 
 
     constructor (data) {
         this.data =  data;
+        this.filterEvents = new FilterEvent();
+
         // this.appliance = appliance;
         // this.ustensils = ustensils;
     }
@@ -84,7 +88,7 @@ class FilterFactory {
 
             }
 
-
+            
 
     }
 

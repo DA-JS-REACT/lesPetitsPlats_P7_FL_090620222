@@ -9,9 +9,14 @@ class FilterEvent {
     constructor () {
         this.tag = new TagFactory();
         this.state = new StateSearch();
+        this.cash = new Map();
+        this.cashSearch = this.cash.set(this.state.status,this.state.value);
+        this.test =[];
+
     }
 
     initializeFilterEvents(){
+        
         const  launchDropdown = document.querySelectorAll('.launch');
 
         launchDropdown.forEach(btn => btn.addEventListener('click',(evt) => {
@@ -21,48 +26,55 @@ class FilterEvent {
         const list = document.querySelectorAll('.filter__list--li');
 
         list.forEach(item => item.addEventListener('click',(evt) => {
-
+            console.log('object');
             this.onClicklist(evt);
         }))
 
     }
 
     onClicklist(evt) {
-       console.log(evt);
+
         const li = evt.currentTarget;
         const value = li.textContent;
         const parent = li.parentElement;
         const parentDiv =document.querySelector('.testing');
         const nbrChild = parentDiv.childElementCount;
+        const child = nbrChild + 1;
+
         this.displayTag(parent,value);
 
-        let newtab = onSearch(value,{hasFilter:true});
-        this.state.value = newtab;
 
-        if(nbrChild === 0) {
-            this.state.status  = true;
+        const newtab = onSearch(value,recipes,{hasFilter:true});
+        this.state.value = newtab;
+        this.test.push(newtab);
+        console.log('test',this.test);
+        this.state.status ++;
+
+
+   
+       
+       
+        if(child === 1) {
+
             refreshArticle(newtab);
             displayFilter(newtab);
         }
 
-
-        if( nbrChild > 0){
-            newtab = [];
-            const toto =  this.secondsearch(this.state.value , value);
-            console.log(newtab);
-            // refreshArticle(toto);
-            // displayFilter(toto);
-
-        }
-
-        const test = new Map();
-        console.log(test.set(this.state.status,this.state.value));
-
-
-
-
-    //    refreshArticle()
+        this.cashSearch = this.cash.set(this.state.status,this.state.value);
+        console.log('cash',this.cashSearch);
+        const key = this.state.status === 1  ? this.state.status  : this.state.status -1;
+        // const key = this.state.status;
+        // console.log('key',key);
+        // console.log('status',this.state.status);
+        // console.log('cash key',this.cashSearch.get(key));
+        const secondSearch =  onSearch(value,this.test[0],{hasFilter:true});
+       
+        //     console.log(toto);
+        refreshArticle(secondSearch);
+        // displayFilter(secondSearch);
         
+   
+
 
     }
     displayTag(parent,value) {
@@ -119,81 +131,8 @@ class FilterEvent {
     }
 
 
-    toggleDropdown(evt){
-        // on balise i
-        const dropdown = evt.target;
-
-        const parentElement = dropdown.closest('.dropdown');
-        parentElement.classList.toggle('active');
-        dropdown.classList.toggle('active__i');
-
-        // parentElement.lastChild.classList.toggle('active__child');
-
-        // const input = dropdown.previousElementSibling;
-        // input.classList.toggle('input-hidden');
-        // input.classList.toggle('input-visible');
-
-        // const span = input.previousElementSibling;
-        // span.classList.toggle('active__span');
-
-
-
-        const divContain = parentElement.parentNode;
-
-        const allChild = divContain.querySelectorAll('.dropdown');
-        allChild.forEach(element => {
-            if(element.classList.contains('active')){
-                console.log(element);
-
-                element.lastChild.classList.add('active__child');
-                const input = element.querySelector('.dropdown-input');
-                input.classList.remove('input-hidden');
-                input.classList.add('input-visible');
-                const span = input.previousElementSibling;
-                span.classList.add('active__span');
-            }else {
-
-                element.lastChild.classList.remove('active__child');
-                const input = element.querySelector('.dropdown-input');
-                input.classList.add('input-hidden');
-                input.classList.remove('input-visible');
-                const span = input.previousElementSibling;
-                span.classList.remove('active__span');
-            }
-        })
-
-
-
-    }
-
-    secondsearch(test, value){
-        console.log('start Newtab',test);
-        let tab =new Set();
-        let recipe = {};
-    
-        for(let i = 0; i < test.length; i++) {
-    
-            recipe = test[i];
-    
-            for (const key in recipe) {
-                if (Object.hasOwnProperty.call(recipe, key)) {
-
-                    if(key === 'ingredients') {
-                        if(onSearchIngredients(recipe,value)){
-                            tab.add(recipe);
-                        }
-    
-                    }
-    
-                }
-    
-            }
-    
-        }
-        console.log('end Newtab',test);
-        return [...tab];
-
-    }
+ 
 }
+
 
 export {FilterEvent};

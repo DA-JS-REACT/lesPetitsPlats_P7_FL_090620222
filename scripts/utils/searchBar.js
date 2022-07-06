@@ -37,7 +37,7 @@ class  SearchBar {
             this.onSearchFilter(event);
         }));
 
-        // this.filterEvents.initializeFilterEvents();
+        
     }
 
     onSearchMain(evt) {
@@ -59,7 +59,7 @@ class  SearchBar {
         let newtab = [];
 
         if (search.length >= 3 ){
-            newtab = onSearch(search);
+            newtab = onSearch(search,recipes);
 
             if(newtab.length > 0){
 
@@ -90,7 +90,7 @@ class  SearchBar {
 
         }
 
-
+       
     }
 
     onSearchFilter(event){
@@ -158,8 +158,6 @@ class  SearchBar {
         ul.innerHTML = suggestions ;
 
         refreshArticle(newTab);
-        this.filterEvents.initializeFilterEvents();
-
 
 
     }

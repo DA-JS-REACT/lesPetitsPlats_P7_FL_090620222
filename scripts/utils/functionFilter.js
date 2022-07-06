@@ -5,6 +5,7 @@ import {FilterEvent} from '../utils/filterEvent.js';
 
 const filterData = new FilterData();
 
+
 /**
      * 
      * @param {array} tab 
@@ -12,7 +13,7 @@ const filterData = new FilterData();
      */
  export function displayFilter(tab){
 
-   
+
     refreshList();
 
 
@@ -34,11 +35,11 @@ const filterData = new FilterData();
     const ingredients = new FilterFactory(ingredientsData).displayLiFilter(ulIngredients);
     const appliance = new FilterFactory(applianceData).displayLiFilter(ulAppliances);
     const ustensils = new FilterFactory(ustensilsData).displayLiFilter(ulUstensils);
-
     const filterEvents = new FilterEvent();
     filterEvents.initializeFilterEvents();
-  
+    
 
+ 
 }
 
  function refreshList(){

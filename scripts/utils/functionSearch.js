@@ -9,11 +9,11 @@ import {recipes} from '../data/recipes.js';
  * @param {String} search
  * @returns array
  */
-export function  onSearch(search,options={}){
+export function  onSearch(search,recipes,options={}){
 
     const tab =new Set();
     let recipe = {};
-   
+
 
     for(let i = 0; i < recipes.length; i++) {
 
