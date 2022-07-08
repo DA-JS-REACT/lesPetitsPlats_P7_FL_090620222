@@ -33,7 +33,7 @@ class Home {
         this.articleDiv.appendChild(cardDom);
 
     }
-    displayFilter(){
+    displayFilterHome(){
         const filter = document.querySelector('.search__filter');
         const ingredientsData = this.filterData.getIngredient(recipes);
         const applianceData = this.filterData.getAppliance(recipes);
@@ -47,7 +47,7 @@ class Home {
         filter.appendChild(ingredients);
         filter.appendChild(appliance);
         filter.appendChild(ustensils);
-        this.filterEvents.initializeFilterEvents();
+        
     }
 
     init() {
@@ -60,8 +60,9 @@ class Home {
             this.displayCard(card);
         }
 
-        this.displayFilter();
+        this.displayFilterHome();
         this.searchBar.initializeSearch();
+        this.filterEvents.initializeFilterEvents();
         
 
     }

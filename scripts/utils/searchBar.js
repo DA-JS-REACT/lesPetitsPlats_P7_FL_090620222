@@ -105,7 +105,9 @@ class  SearchBar {
         if(event.type === 'click'){
             ul.innerHTML = '';
         }
-        const newTab = onSearch(value,{hasFilter:true});
+
+        const newTab = onSearch(value,recipes,{hasFilter:true});
+
         let tab = [];
         let suggestions = '';
 
@@ -132,7 +134,7 @@ class  SearchBar {
                         if(elt.toString().toLowerCase().includes(value.toLowerCase())) {
 
                             tab.push(elt.toLowerCase());
-                            console.log(tab);
+
 
                         }
 
@@ -156,7 +158,7 @@ class  SearchBar {
 
         }
         ul.innerHTML = suggestions ;
-
+        this.filterEvents.initializeFilterEvents();
         refreshArticle(newTab);
 
 

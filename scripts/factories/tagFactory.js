@@ -16,9 +16,9 @@ class TagFactory {
         span.appendChild(i);
         button.appendChild(span);
 
-        
+
         let choice = '';
-       
+
         if(options.hasIngredients) {
              choice = 'ingredients';
         }else if (options.hasAppareils){
@@ -26,6 +26,11 @@ class TagFactory {
         }else if (options.hasUstensils){
             choice = 'ustensils';
         }
+        const nbrChild = document.querySelector('.search__tag--' + choice).childElementCount;
+        for (let i = 0; i <= nbrChild; i++) {
+            button.setAttribute('id',i+1);
+        }
+
 
         button.classList.add('tag--'+ choice);
         return button;

@@ -1,25 +1,32 @@
 class StateSearch {
-    constructor(status = 0,value= []){
+    constructor(key= 0,value= []){
 
-        this._status = status;
+        this._key = key;
         this._value = value;
+        this.cash =  new Map();
     }
 
 
 
-    get status() {
-        return this._status;
+    get key() {
+        return this._key;
     }
     get value() {
         return this._value;
     }
 
-    set status(status) {
-        this._status = status;
+    set key(key) {
+        this._key = key;
     }
 
     set value(value) {
         this._value = value;
+    }
+
+    getCash(key,value) {
+
+        const cashData = this.cash.set(this._key,this._value);
+        return cashData;
     }
 
 

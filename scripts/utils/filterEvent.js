@@ -1,18 +1,24 @@
 import {TagFactory} from '../factories/tagFactory.js';
 import {onSearch, onSearchIngredients} from '../utils/functionSearch.js';
-import {displayFilter} from '../utils/functionFilter.js';
+import {displayFilter,refreshList} from '../utils/functionFilter.js';
 import {displayCard,refreshArticle, deleteArticle} from '../utils/articleForSearch.js';
 import {StateSearch} from '../models/StateSearch.js';
 import {recipes} from '../data/recipes.js';
+
+import {FilterFactory} from '../factories/filterFactory.js';
+import {FilterData} from '../utils/filterData.js';
 
 class FilterEvent {
     constructor () {
         this.tag = new TagFactory();
         this.state = new StateSearch();
-        this.cash = new Map();
-        this.cashSearch = this.cash.set(this.state.status,this.state.value);
-        this.test =[];
+        this.cashData = new Map();
+        this.cashValue = new Map();
+        this.cashSearchData = this.cashData.set(this.state.key,this.state.value);
+        this.cashSearchValue = this.cashValue .set(this.state.key,this.state.value);
+        this.filterData = new FilterData();
 
+  
     }
 
     initializeFilterEvents(){
@@ -25,57 +31,70 @@ class FilterEvent {
 
         const list = document.querySelectorAll('.filter__list--li');
 
-        list.forEach(item => item.addEventListener('click',(evt) => {
-            console.log('object');
-            this.onClicklist(evt);
+        // list.forEach(item => item.addEventListener('click',(evt) => {
+
+        //     this.onClicklist(evt);
+        // }))
+        // event by delegation @see https://davidwalsh.name/event-delegate
+        const ul = document.querySelectorAll('.list-inline');
+        ul.forEach(li => li.addEventListener('click',(evt) => {
+
+           this.onClicklist(evt);
         }))
 
     }
 
-    onClicklist(evt) {
 
-        const li = evt.currentTarget;
+    onClicklist(evt) {
+        // evt.preventDefault();
+        const li = evt.target;
+        console.log(li);
         const value = li.textContent;
         const parent = li.parentElement;
-        const parentDiv =document.querySelector('.testing');
-        const nbrChild = parentDiv.childElementCount;
-        const child = nbrChild + 1;
 
-        this.displayTag(parent,value);
+        // const parentDiv =parent.parentElement;
 
 
-        const newtab = onSearch(value,recipes,{hasFilter:true});
-        this.state.value = newtab;
-        this.test.push(newtab);
-        console.log('test',this.test);
-        this.state.status ++;
 
 
+        // const nameOnFilter =  parentDiv.className.toString().toLowerCase();
+        // const nameOfFilter = nameOnFilter.split('dropdown__child--');
+
+        // const name = nameOfFilter[1];
+        // const nbrChild = document.querySelector('.search__tag--' + name).childElementCount;
+
+        // const child = nbrChild + 1;
+        // console.log('click', nbrChild);
+
+        // refreshList();
+    
+      // effectuer une recherche
+      const newtab = onSearch(value,recipes,{hasFilter:true});
+        // actualiser les filtres et articles
+       
+            //stocker la recherche
+            this.state.value = newtab;
+            this.state.key++;
+            this.cashSearchData = this.cashData.set(this.state.key,this.state.value);
+            this.cashSearchValue = this.cashValue.set(this.state.key,value);
+      // effectuer une autre recherche à partir de la precedente
+      const key = this.state.key === 1  ? this.state.key  : this.state.key -1;
+      const nextSearch =  onSearch(value,this.cashSearchData.get(key),{hasFilter:true});
+        // actualiser les filtres et articles
+        refreshArticle(nextSearch);
+        displayFilter(nextSearch);
+        // this.newFilter(nextSearch);
+
+      // fermeture d'un tag retour à la derniére recherche
+
+
+
+      this.displayTag(parent,value);
    
-       
-       
-        if(child === 1) {
 
-            refreshArticle(newtab);
-            displayFilter(newtab);
-        }
-
-        this.cashSearch = this.cash.set(this.state.status,this.state.value);
-        console.log('cash',this.cashSearch);
-        const key = this.state.status === 1  ? this.state.status  : this.state.status -1;
-        // const key = this.state.status;
-        // console.log('key',key);
-        // console.log('status',this.state.status);
-        // console.log('cash key',this.cashSearch.get(key));
-        const secondSearch =  onSearch(value,this.test[0],{hasFilter:true});
-       
-        //     console.log(toto);
-        refreshArticle(secondSearch);
-        // displayFilter(secondSearch);
-        
-   
-
-
+        console.log('data',this.cashSearchData);
+        console.log('value',this.cashSearchValue);
+      
     }
     displayTag(parent,value) {
 
@@ -112,6 +131,8 @@ class FilterEvent {
 
         // }
 
+        console.log(this.cashSearchData);
+        const nbrChild = document.querySelector('.search__tag--' + name).childElementCount;
 
 
 
@@ -120,14 +141,49 @@ class FilterEvent {
 
             const tag = evt.currentTarget;
             const button = tag.parentElement;
+            console.log(button);
             const div = button.parentElement;
             div.removeChild(button);
-            displayFilter(recipes);
-            refreshArticle(recipes);
+            // displayFilter(recipes);
+            // refreshArticle(recipes);
+            console.log(nbrChild);
+            if(nbrChild === 1) {
+
+                displayFilter(recipes);
+                refreshArticle(recipes);
+            }else if(nbrChild === 2) {
+               
+                const test = onSearch(this.cashSearchValue.get(1),recipes,{hasFilter:true});
+                displayFilter(test);
+                refreshArticle(test);
+            }
 
 
         }))
 
+    }
+
+    newFilter(recipes){
+
+        const filter = document.querySelector('.search__filter');
+        
+        filter.innerHTML = '';
+        const ingredientsData = this.filterData.getIngredient(recipes);
+        const applianceData = this.filterData.getAppliance(recipes);
+        const ustensilsData = this.filterData.getUstensils(recipes);
+
+
+        const ingredients= new FilterFactory(ingredientsData).getFilter({hasIngredients:true});
+
+        const appliance = new FilterFactory(applianceData).getFilter({hasAppareils:true});
+        const ustensils = new FilterFactory(ustensilsData).getFilter({hasUstensils:true});
+        filter.appendChild(ingredients);
+        filter.appendChild(appliance);
+        filter.appendChild(ustensils);
+        const filterEvents = new FilterEvent();
+        filterEvents.initializeFilterEvents();
+    
+        
     }
 
 

@@ -37,12 +37,12 @@ const filterData = new FilterData();
     const ustensils = new FilterFactory(ustensilsData).displayLiFilter(ulUstensils);
     const filterEvents = new FilterEvent();
     filterEvents.initializeFilterEvents();
-    
+
 
  
 }
 
- function refreshList(){
+export function refreshList(){
         const ul = document.querySelectorAll('.list-inline');
         ul.forEach(element => {
             element.innerHTML = '';
