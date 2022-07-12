@@ -160,7 +160,17 @@
                             font-weight: bold;
 
                         }
+
                     }
+
+                }
+                .disabled {
+                    cursor:default;
+                    font-weight: normal;
+                    color: black;
+                }
+                .disabled:hover {
+                    font-weight: normal;
                 }
             }
 

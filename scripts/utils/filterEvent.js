@@ -48,58 +48,57 @@ class FilterEvent {
     onClicklist(evt) {
         // evt.preventDefault();
         const li = evt.target;
-        console.log(li);
+        
         const value = li.textContent;
-        const parent = li.parentElement;
+        const parent = li.closest('.list-inline');
+       
 
-        // const parentDiv =parent.parentElement;
+        const parentDiv =parent.parentElement;
+        
 
 
 
 
-        // const nameOnFilter =  parentDiv.className.toString().toLowerCase();
-        // const nameOfFilter = nameOnFilter.split('dropdown__child--');
+        const nameOnFilter =  parentDiv.className.toString().toLowerCase();
+        const nameOfFilter = nameOnFilter.split('dropdown__child--');
 
-        // const name = nameOfFilter[1];
-        // const nbrChild = document.querySelector('.search__tag--' + name).childElementCount;
+        const name = nameOfFilter[1];
+        const nbrChild = document.querySelector('.search__tag--' + name).childElementCount;
 
         // const child = nbrChild + 1;
         // console.log('click', nbrChild);
 
-        // refreshList();
-    
       // effectuer une recherche
       const newtab = onSearch(value,recipes,{hasFilter:true});
         // actualiser les filtres et articles
-       
+
             //stocker la recherche
             this.state.value = newtab;
             this.state.key++;
             this.cashSearchData = this.cashData.set(this.state.key,this.state.value);
             this.cashSearchValue = this.cashValue.set(this.state.key,value);
+
       // effectuer une autre recherche à partir de la precedente
       const key = this.state.key === 1  ? this.state.key  : this.state.key -1;
       const nextSearch =  onSearch(value,this.cashSearchData.get(key),{hasFilter:true});
+      this.state.value = nextSearch;
+      this.cashSearchData = this.cashData.set(this.state.key,this.state.value);
         // actualiser les filtres et articles
         refreshArticle(nextSearch);
         displayFilter(nextSearch);
-        // this.newFilter(nextSearch);
-
-      // fermeture d'un tag retour à la derniére recherche
-
-
 
       this.displayTag(parent,value);
-   
 
-        console.log('data',this.cashSearchData);
-        console.log('value',this.cashSearchValue);
-      
+
+        // console.log('data',this.cashSearchData);
+        // console.log('value',this.cashSearchValue);
+
     }
     displayTag(parent,value) {
 
 
         const parentContainer = parent.parentElement;
+
         // cherche le nom de la classe du  filtre cliquer
         const nameOnFilter = parentContainer.className.toString().toLowerCase();
         const nameOfFilter = nameOnFilter.split('dropdown__child--');
@@ -131,63 +130,92 @@ class FilterEvent {
 
         // }
 
-        console.log(this.cashSearchData);
-        const nbrChild = document.querySelector('.search__tag--' + name).childElementCount;
+        // console.log('data',this.cashSearchData);
+        // console.log('value',this.cashSearchValue);
+       const nbrChild = document.querySelector('.search__tag--' + name).childElementCount;
+        console.log('nbrchild',nbrChild);
+        // const test = onSearch(this.cashSearchValue.get(nbrChild - 1),this.cashSearchData.get(nbrChild),{hasFilter:true});
+        // console.log(test);
+        // recherche les li pour ajouter la classe disabled une fois cliquer
+      const  li = document.querySelectorAll('.list-inline-item');
+      li.forEach(li => {
+        for (const iterator of this.cashSearchValue) {
 
+           if(iterator.includes(li.textContent)){
+            li.classList.add('disabled');
+           }
+        }
 
-
+      })
        const tagClose = document.querySelectorAll('.tag-close');
         tagClose.forEach(elt => elt.addEventListener('click',(evt) => {
 
             const tag = evt.currentTarget;
             const button = tag.parentElement;
-            console.log(button);
+            console.log(button.id );
+
             const div = button.parentElement;
+
+
             div.removeChild(button);
-            // displayFilter(recipes);
-            // refreshArticle(recipes);
-            console.log(nbrChild);
-            if(nbrChild === 1) {
-
-                displayFilter(recipes);
-                refreshArticle(recipes);
-            }else if(nbrChild === 2) {
-               
-                const test = onSearch(this.cashSearchValue.get(1),recipes,{hasFilter:true});
-                displayFilter(test);
-                refreshArticle(test);
-            }
-
+            this.whenCloseTag(button,nbrChild);
+            // refreshArticle(this.cashSearchData.get(this.state.key -1))
+            // displayFilter(this.cashSearchData.get(this.state.key -1))
 
         }))
 
+
     }
 
-    newFilter(recipes){
+    whenCloseTag(button,nbrChild) {
+        const idButton = button.getAttribute('id');
 
-        const filter = document.querySelector('.search__filter');
-        
-        filter.innerHTML = '';
-        const ingredientsData = this.filterData.getIngredient(recipes);
-        const applianceData = this.filterData.getAppliance(recipes);
-        const ustensilsData = this.filterData.getUstensils(recipes);
+        const id =  parseInt(idButton);
+
+         const valueButton = button.textContent;
+         const  li = document.querySelectorAll('.list-inline-item');
+         li.forEach(li => {
+           for (const iterator of this.cashSearchValue) {
+
+              if(iterator.includes(valueButton)){
+                if(li.textContent === valueButton){
+                    li.classList.remove('disabled');
+                }
+
+              }
+           }
+
+         })
+         console.log('close',nbrChild );
+         // fermeture d'un tag retour à la derniére recherche
+         let toto = [];
+         const closeSearch =  onSearch(this.cashSearchValue.get(3),this.cashSearchData.get(1),{hasFilter:true});
+         if(nbrChild > 2){
+            if(id === 3) {
+                toto = onSearch(this.cashSearchValue.get(id - 1),this.cashSearchData.get(id -2),{hasFilter:true})
+            }
+
+         }else if (nbrChild > 1){
+            if(id === 2){
+                toto = onSearch(this.cashSearchValue.get(id + 1),this.cashSearchData.get(id - 1),{hasFilter:true})
+            }else if (id === 1){
+                toto = onSearch(this.cashSearchValue.get(id + 2 ),recipes,{hasFilter:true})
+            }
+
+         }
+
+         refreshArticle(toto);
+         console.log(toto);
+        if(nbrChild  === 1){
+
+            // location.reload();
+            refreshArticle(recipes);
+            displayFilter(recipes);
+        }
 
 
-        const ingredients= new FilterFactory(ingredientsData).getFilter({hasIngredients:true});
-
-        const appliance = new FilterFactory(applianceData).getFilter({hasAppareils:true});
-        const ustensils = new FilterFactory(ustensilsData).getFilter({hasUstensils:true});
-        filter.appendChild(ingredients);
-        filter.appendChild(appliance);
-        filter.appendChild(ustensils);
-        const filterEvents = new FilterEvent();
-        filterEvents.initializeFilterEvents();
-    
-        
     }
 
-
- 
 }
 
 

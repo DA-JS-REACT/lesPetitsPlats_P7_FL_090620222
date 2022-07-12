@@ -28,7 +28,12 @@ class TagFactory {
         }
         const nbrChild = document.querySelector('.search__tag--' + choice).childElementCount;
         for (let i = 0; i <= nbrChild; i++) {
-            button.setAttribute('id',i+1);
+            if(button.id === i ){
+                console.log('yes');
+            }else {
+                button.setAttribute('id',i+1);
+            }
+            
         }
 
 
