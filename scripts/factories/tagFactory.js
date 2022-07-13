@@ -1,7 +1,7 @@
 class TagFactory {
 
 
-    tag(value = '',options={}) {
+    tag(value = '',cacheTag,options={}) {
 
 
         const button = document.createElement('button');
@@ -26,12 +26,18 @@ class TagFactory {
         }else if (options.hasUstensils){
             choice = 'ustensils';
         }
-        const nbrChild = document.querySelector('.search__tag--' + choice).childElementCount;
-        for (let i = 0; i <= nbrChild; i++) {
-            if(button.id === i ){
-                console.log('yes');
-            }else {
-                button.setAttribute('id',i+1);
+
+        for (let i = 0; i < cacheTag.length; i++) {
+
+                button.setAttribute('id',i);
+               
+
+        }
+        console.log(button.id);
+        for (const number of cacheTag) {
+            console.log('number',number);
+            if(number === parseInt(button.id)) {
+                button.setAttribute('id',number + 1);
             }
             
         }

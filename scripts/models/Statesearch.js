@@ -3,7 +3,7 @@ class StateSearch {
 
         this._key = key;
         this._value = value;
-        this.cash =  new Map();
+        this.cache =  new Map();
     }
 
 
@@ -23,10 +23,10 @@ class StateSearch {
         this._value = value;
     }
 
-    getCash(key,value) {
+    getcache(key,value) {
 
-        const cashData = this.cash.set(this._key,this._value);
-        return cashData;
+        const cacheData = this.cache.set(this._key,this._value);
+        return cacheData;
     }
 
 
