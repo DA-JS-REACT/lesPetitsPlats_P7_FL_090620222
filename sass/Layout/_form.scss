@@ -147,31 +147,36 @@
                         display: grid;
                         grid-template-columns: 1fr 1fr 1fr;
                         &--li {
-                            min-width:160px;
-                            margin-left: 5px;
-                            padding:0 5px;
-                            color: white;
+                            min-width:180px;
+                            margin:2px 2px;
                             cursor: pointer;
-                            text-align: left;
                             font-weight: normal;
+                            .li-button{
+                                background-color: transparent;
+                                border: none;
+                                color: white;
+                                text-align: left;
+                                padding:2px
+                            }
+                            .li-button:hover{
+                                font-weight: bold;
+                            }
+                            .disabled {
+                                cursor:not-allowed;
+                                color: $colorBlueDark;
+                            }
+                            .disabled:hover {
+                                font-weight: normal;
+                            }
+
 
                         }
-                        &--li:hover {
-                            font-weight: bold;
 
-                        }
 
                     }
 
                 }
-                .disabled {
-                    cursor:not-allowed;
-                    font-weight: normal;
-                    color: black;
-                }
-                .disabled:hover {
-                    font-weight: normal;
-                }
+               
             }
 
         }

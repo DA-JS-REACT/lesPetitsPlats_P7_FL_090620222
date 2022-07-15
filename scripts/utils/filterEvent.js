@@ -145,12 +145,14 @@ class FilterEvent {
         // const test = onSearch(this.cacheSearchValue.get(nbrChild - 1),this.cacheSearchData.get(nbrChild),{hasFilter:true});
         // console.log(test);
         // recherche les li pour ajouter la classe disabled une fois cliquer
-      const  li = document.querySelectorAll('.list-inline-item');
-      li.forEach(li => {
+      const  buttonLi = document.querySelectorAll('.li-button');
+      buttonLi.forEach(button => {
         for (const iterator of this.cacheSearchValue) {
 
-           if(iterator.includes(li.textContent)){
-            li.classList.add('disabled');
+           if(iterator.includes(button.textContent)){
+            button.classList.add('disabled');
+            button.setAttribute('disabled','');
+            button.setAttribute('title','vous l\'avez déjà séléctionner');
            }
         }
 
@@ -178,6 +180,7 @@ class FilterEvent {
 
     whenCloseTag(button) {
         console.log('start',this.cacheTag);
+        this.stateTag.numberTag--;
         this.cacheTag.pop();
         console.log('end',this.cacheTag);
         const idButton = button.getAttribute('id');
@@ -185,13 +188,15 @@ class FilterEvent {
         const id =  parseInt(idButton);
 
          const valueButton = button.textContent;
-         const  li = document.querySelectorAll('.list-inline-item');
-         li.forEach(li => {
+         const  buttonLi = document.querySelectorAll('.li-button');
+         buttonLi.forEach(button => {
            for (const iterator of this.cacheSearchValue) {
 
               if(iterator.includes(valueButton)){
-                if(li.textContent === valueButton){
-                    li.classList.remove('disabled');
+                if(button.textContent === valueButton){
+                    button.classList.remove('disabled');
+                    button.removeAttribute('disabled','');
+                    button.removeAttribute('title','vous l\'avez déjà séléctionner');
                 }
 
               }
@@ -216,8 +221,8 @@ class FilterEvent {
 
         //  }
 
-         refreshArticle(toto);
-         console.log(toto);
+        //  refreshArticle(toto);
+        //  console.log(toto);
         if(this.cacheTag.length === 1){
             refreshArticle(recipes);
             displayFilter(recipes);

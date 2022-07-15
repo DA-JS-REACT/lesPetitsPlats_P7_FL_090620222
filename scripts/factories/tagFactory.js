@@ -30,17 +30,21 @@ class TagFactory {
         for (let i = 0; i < cacheTag.length; i++) {
 
                 button.setAttribute('id',i);
-               
 
         }
-        console.log(button.id);
-        for (const number of cacheTag) {
-            console.log('number',number);
-            if(number === parseInt(button.id)) {
-                button.setAttribute('id',number + 1);
-            }
-            
+        const id =parseInt(button.id);
+        if(!cacheTag.includes(id) ){
+            button.setAttribute('id',id + 1);
         }
+        console.log(cacheTag);
+        // console.log(button.id);
+        // for (const number of cacheTag) {
+        //     console.log('number',number);
+        //     if(number.includes(button.id)) {
+        //         button.setAttribute('id',number + 1);
+        //     }
+            
+        // }
 
 
         button.classList.add('tag--'+ choice);

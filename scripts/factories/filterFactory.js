@@ -82,7 +82,11 @@ class FilterFactory {
             for(let i=0; i<data.length; i++) {
                 const li = document.createElement('li');
                 li.classList.add('list-inline-item','filter__list--li');
-                li.textContent = data[i];
+                const button = document.createElement('button');
+                button.classList.add('li-button')
+                button.setAttribute('type', 'button');
+                li.appendChild(button);
+                button.textContent = data[i];
                 ul.appendChild(li);
                 }
 
