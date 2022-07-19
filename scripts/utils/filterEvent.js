@@ -19,7 +19,7 @@ class FilterEvent {
         this.cacheTag = [];
         this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
         this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
-        this.cacheSearchValue = this.cacheValue .set(this.state.key,this.state.value);
+        this.cacheSearchValue = this.cacheValue.set(this.state.key,this.state.value);
         this.filterData = new FilterData();
 
   
@@ -46,69 +46,60 @@ class FilterEvent {
            this.onClicklist(evt);
         }))
 
+        const tagClose = document.querySelector('.search__tag');
+        tagClose.addEventListener('click',(evt) => {
+            this.hasCloseTag(evt);
+        })
+
+
+
     }
 
 
     onClicklist(evt) {
-        // evt.preventDefault();
+
         const li = evt.target;
-        
+
         const value = li.textContent;
-        const parent = li.closest('.list-inline');
-       
+        //récupère le parent ul
+        const parent = evt.currentTarget;
 
-        const parentDiv =parent.parentElement;
-        this.stateTag.numberTag++;
-        this.cacheTag.push(this.stateTag.numberTag)
-
-
-
-
-        const nameOnFilter =  parentDiv.className.toString().toLowerCase();
-        const nameOfFilter = nameOnFilter.split('dropdown__child--');
-
-        const name = nameOfFilter[1];
-        const nbrChild = document.querySelector('.search__tag--' + name).childElementCount;
-
-        // const child = nbrChild + 1;
-        // console.log('click', nbrChild);
+        this.displayTag(parent,value);
 
       // effectuer une recherche
-      const newtab = onSearch(value,recipes,{hasFilter:true});
-        // actualiser les filtres et articles
-
-            //stocker la recherche
-            this.state.value = newtab;
-            this.state.key++;
-            this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
-            this.cacheSearchValue = this.cacheValue.set(this.state.key,value);
-
-      // effectuer une autre recherche à partir de la precedente
-      const key = this.state.key === 1  ? this.state.key  : this.state.key -1;
-      const nextSearch =  onSearch(value,this.cacheSearchData.get(key),{hasFilter:true});
-      this.state.value = nextSearch;
-      this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
-        // actualiser les filtres et articles
-        refreshArticle(nextSearch);
-        displayFilter(nextSearch);
-
-      this.displayTag(parent,value);
+      this.search(value);
+     
 
 
-        console.log('data',this.cacheSearchData);
-        console.log('value',this.cacheSearchValue);
+        const  buttonLi = document.querySelectorAll('.li-button');
+        buttonLi.forEach(button => {
+          for (const iterator of this.cacheSearchValue) {
+
+             if(iterator.includes(button.textContent)){
+              button.classList.add('disabled');
+              button.setAttribute('disabled','');
+              button.setAttribute('title','vous l\'avez déjà séléctionner');
+             }
+          }
+
+        })
+
+    
+        // console.log('data',this.cacheSearchData);
+        // console.log('value',this.cacheSearchValue);
 
     }
     displayTag(parent,value) {
 
 
-        const parentContainer = parent.parentElement;
-
         // cherche le nom de la classe du  filtre cliquer
-        const nameOnFilter = parentContainer.className.toString().toLowerCase();
-        const nameOfFilter = nameOnFilter.split('dropdown__child--');
+        const nameOnFilter = parent.className.toString().toLowerCase();
 
-        const name = nameOfFilter[1];
+        const nameOfFilter = nameOnFilter.split('list--');
+
+
+        const name = nameOfFilter[2];
+
 
         let options = '';
         if( name === 'ingredients'){
@@ -120,17 +111,16 @@ class FilterEvent {
         }
 
         const divTag = document.querySelector('.search__tag--' + name);
+
         // appel de la tagFactory
         const tag  = this.tag.tag(value,this.cacheTag,options);
 
         divTag.appendChild(tag);
-        // this.stateTag.key++;
-        
-        // const countTag =  this.cacheTag.set(this.stateTag.key,this.stateTag.numberTag);
-        console.log('object',this.cacheTag);
+
+
         //! test
         // ajoute que 2 tag
-        const lastChild = divTag.lastChild;
+        // const firstChild = divTag.firstChild;
         // if(divTag.childElementCount > 2){
         //     divTag.removeChild(lastChild);
         //     // refreshArticle(newtab);
@@ -140,48 +130,17 @@ class FilterEvent {
 
         // console.log('data',this.cacheSearchData);
         // console.log('value',this.cacheSearchValue);
-       const nbrChild = document.querySelector('.search__tag--' + name).childElementCount;
-        console.log('nbrchild',nbrChild);
-        // const test = onSearch(this.cacheSearchValue.get(nbrChild - 1),this.cacheSearchData.get(nbrChild),{hasFilter:true});
-        // console.log(test);
-        // recherche les li pour ajouter la classe disabled une fois cliquer
-      const  buttonLi = document.querySelectorAll('.li-button');
-      buttonLi.forEach(button => {
-        for (const iterator of this.cacheSearchValue) {
-
-           if(iterator.includes(button.textContent)){
-            button.classList.add('disabled');
-            button.setAttribute('disabled','');
-            button.setAttribute('title','vous l\'avez déjà séléctionner');
-           }
-        }
-
-      })
-       const tagClose = document.querySelectorAll('.tag-close');
-        tagClose.forEach(elt => elt.addEventListener('click',(evt) => {
-
-            const tag = evt.currentTarget;
-            const button = tag.parentElement;
-            console.log(button.id );
-
-            const div = button.parentElement;
-
-            
-            div.removeChild(button);
-            this.whenCloseTag(button);
-            console.log('close',this.cacheTag);
-            // refreshArticle(this.cacheSearchData.get(this.state.key -1))
-            // displayFilter(this.cacheSearchData.get(this.state.key -1))
-
-        }))
-
+        this.stateTag.numberTag++;
+    
+        this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
+        console.log('tag',this.cacheTag);
 
     }
 
     whenCloseTag(button) {
-        console.log('start',this.cacheTag);
-        this.stateTag.numberTag--;
-        this.cacheTag.pop();
+
+
+        this.cacheNumberOfTag = this.cacheTag.pop();
         console.log('end',this.cacheTag);
         const idButton = button.getAttribute('id');
 
@@ -202,33 +161,95 @@ class FilterEvent {
               }
            }
 
-         })
-       
-         // fermeture d'un tag retour à la derniére recherche
-        //  let toto = [];
-        //  const closeSearch =  onSearch(this.cacheSearchValue.get(3),this.cacheSearchData.get(1),{hasFilter:true});
-        //  if(nbrChild > 2){
-        //     if(id === 3) {
-        //         toto = onSearch(this.cacheSearchValue.get(id - 1),this.cacheSearchData.get(id -2),{hasFilter:true})
-        //     }
+         });
 
-        //  }else if (nbrChild > 1){
-        //     if(id === 2){
-        //         toto = onSearch(this.cacheSearchValue.get(id + 1),this.cacheSearchData.get(id - 1),{hasFilter:true})
-        //     }else if (id === 1){
-        //         toto = onSearch(this.cacheSearchValue.get(id + 2 ),recipes,{hasFilter:true})
-        //     }
 
-        //  }
+        // fermeture d'un tag retour à la derniére recherche
 
-        //  refreshArticle(toto);
-        //  console.log(toto);
-        if(this.cacheTag.length === 1){
-            refreshArticle(recipes);
-            displayFilter(recipes);
-            this.cacheData.clear();
+        let toto = [];
+        if(this.cacheTag.length === 0){
+            this.cacheSearchValue.clear();
+           this.cacheSearchData.clear();
+           this.cacheTag = [];
+            this.search(valueButton);
         }
 
+        console.log('before', this.cacheSearchData);
+        // @see https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Map/@@iterator
+        // permet de récuperer la clé dans le cache des valeurs afin de pouvoir supprimer dans les data 
+         const key = this.cacheSearchValue[Symbol.iterator]();
+         for (const iterator of key) {
+              if(iterator.includes(valueButton)){
+                  console.log(iterator[0]);
+                  this.cacheSearchData.delete(iterator[0]);
+                  this.cacheSearchValue.delete(iterator[0]);
+                  console.log('delete data', this.cacheSearchData);
+                  console.log('delete', this.cacheSearchValue);
+              }
+        }
+        const iteratorOfvalue = this.cacheSearchValue.entries();
+        const defaultValue = iteratorOfvalue.next().value;
+
+
+        if(this.cacheTag.length === 1){
+           toto = recipes;
+
+
+        }else if(this.cacheTag.length === 2){
+            const firstValue = iteratorOfvalue.next().value;
+            toto = onSearch(firstValue[1] ,recipes,{hasFilter:true});
+
+        }else if (this.cacheTag.length >= 2){
+
+
+        }
+
+      
+        // for(let i = 0; i < this.cacheSearchData.size;i++){
+        //     console.log(this.cacheSearchData.get(i+1));
+        // }
+      
+        // const test = this.cacheSearchData.entries();
+        // console.log(test.next().value);
+        // console.log(test.next().value);
+       
+        console.log('del', this.cacheSearchData);
+        console.log(toto);
+        refreshArticle(toto);
+        displayFilter(toto);
+      
+
+    }
+
+    search(value) {
+         // effectuer une recherche
+      const newtab = onSearch(value,recipes,{hasFilter:true});
+      // actualiser les filtres et articles
+
+          //stocker la recherche
+          this.state.value = newtab;
+          this.state.key++;
+          this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
+          this.cacheSearchValue = this.cacheValue.set(this.state.key,value);
+
+      // effectuer une autre recherche à partir de la precedente
+      const key = this.state.key === 1  ? this.state.key  : this.state.key -1;
+      const nextSearch = onSearch(value,this.cacheSearchData.get(key),{hasFilter:true});
+      this.state.value = nextSearch;
+      this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
+
+      // actualiser les filtres et articles
+      refreshArticle(nextSearch);
+      displayFilter(nextSearch);
+
+    }
+
+    hasCloseTag(evt){
+        const tag = evt.target;
+        const button = tag.closest('.tag');
+        this.whenCloseTag(button);
+
+        button.remove();
 
     }
 

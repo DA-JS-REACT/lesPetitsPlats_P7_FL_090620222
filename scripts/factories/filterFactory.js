@@ -1,11 +1,11 @@
-import {FilterEvent} from '../utils/filterEvent.js';
+
 
 class FilterFactory {
 
 
     constructor (data) {
         this.data =  data;
-        this.filterEvents = new FilterEvent();
+
 
         // this.appliance = appliance;
         // this.ustensils = ustensils;
@@ -64,6 +64,7 @@ class FilterFactory {
         span.textContent = choice;
         input.setAttribute('placeholder','Rechercher un '+ choice);
         input.setAttribute('autocomplete','off');
+        ul.classList.add('list--' + choice);
 
         input.classList.add('dropdown-input--' + choice)
         divChild.classList.add('dropdown__child--'+ choice);

@@ -27,16 +27,16 @@ class TagFactory {
             choice = 'ustensils';
         }
 
-        for (let i = 0; i < cacheTag.length; i++) {
+        // for (let i = 0; i < cacheTag.length; i++) {
 
-                button.setAttribute('id',i);
+        //         button.setAttribute('id',i);
 
-        }
-        const id =parseInt(button.id);
-        if(!cacheTag.includes(id) ){
-            button.setAttribute('id',id + 1);
-        }
-        console.log(cacheTag);
+        // }
+        // const id =parseInt(button.id);
+        // if(!cacheTag.includes(id) ){
+        //     button.setAttribute('id',id + 1);
+        // }
+        
         // console.log(button.id);
         // for (const number of cacheTag) {
         //     console.log('number',number);

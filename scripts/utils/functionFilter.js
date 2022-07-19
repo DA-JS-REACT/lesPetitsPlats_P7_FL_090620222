@@ -35,11 +35,7 @@ const filterData = new FilterData();
     const ingredients = new FilterFactory(ingredientsData).displayLiFilter(ulIngredients);
     const appliance = new FilterFactory(applianceData).displayLiFilter(ulAppliances);
     const ustensils = new FilterFactory(ustensilsData).displayLiFilter(ulUstensils);
-    const filterEvents = new FilterEvent();
-    filterEvents.initializeFilterEvents();
 
-
- 
 }
 
 export function refreshList(){
