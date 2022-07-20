@@ -128,8 +128,8 @@ class FilterEvent {
 
         // }
 
-        // console.log('data',this.cacheSearchData);
-        // console.log('value',this.cacheSearchValue);
+        console.log('data',this.cacheSearchData);
+        console.log('value',this.cacheSearchValue);
         this.stateTag.numberTag++;
     
         this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
@@ -166,13 +166,13 @@ class FilterEvent {
 
         // fermeture d'un tag retour à la derniére recherche
 
-        let toto = [];
-        if(this.cacheTag.length === 0){
-            this.cacheSearchValue.clear();
-           this.cacheSearchData.clear();
-           this.cacheTag = [];
-            this.search(valueButton);
-        }
+        let newData = [];
+        // if(this.cacheTag.length === 0){
+        //     this.cacheSearchValue.clear();
+        //    this.cacheSearchData.clear();
+        //    this.cacheTag = [];
+        //     this.search(valueButton);
+        // }
 
         console.log('before', this.cacheSearchData);
         // @see https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Map/@@iterator
@@ -180,44 +180,61 @@ class FilterEvent {
          const key = this.cacheSearchValue[Symbol.iterator]();
          for (const iterator of key) {
               if(iterator.includes(valueButton)){
-                  console.log(iterator[0]);
+                //   console.log(iterator[0]);
                   this.cacheSearchData.delete(iterator[0]);
                   this.cacheSearchValue.delete(iterator[0]);
                   console.log('delete data', this.cacheSearchData);
                   console.log('delete', this.cacheSearchValue);
               }
         }
-        const iteratorOfvalue = this.cacheSearchValue.entries();
+        // permet de récuprer dans l'ordre d'insertion
+        const iteratorOfvalue = this.cacheSearchValue.values();
         const defaultValue = iteratorOfvalue.next().value;
+
+      
+
 
 
         if(this.cacheTag.length === 1){
-           toto = recipes;
+           newData = recipes;
+        //     this.cacheSearchValue.clear();
+        //    this.cacheSearchData.clear();
+        //    this.cacheTag = [];
 
 
         }else if(this.cacheTag.length === 2){
+            // récupère la première insertion
             const firstValue = iteratorOfvalue.next().value;
-            toto = onSearch(firstValue[1] ,recipes,{hasFilter:true});
+            // nouvelle recherche lorsqu'il n'y a plus qu'un tag
+            newData = onSearch(firstValue ,recipes,{hasFilter:true});
 
         }else if (this.cacheTag.length >= 2){
+            const tab = [];
+            // parcours les valeurs des tag dans l'ordre d'insertion
+            for(let i = 1; i < this.cacheSearchValue.size;i++){
 
+                const value1 = iteratorOfvalue.next().value;
+
+                // nouvelle recherche et stock dans un tableau intermédiaire
+                const research = onSearch(value1,recipes,{hasFilter:true});
+                tab.push(research );
+                // boucle en excluant le dernier élément 
+                for(let j = 0; j < tab.length -1 ; j++) {
+                    // recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
+                    newData = onSearch(value1,tab[j],{hasFilter:true});
+
+
+                }
+            }
 
         }
 
-      
-        // for(let i = 0; i < this.cacheSearchData.size;i++){
-        //     console.log(this.cacheSearchData.get(i+1));
-        // }
-      
-        // const test = this.cacheSearchData.entries();
-        // console.log(test.next().value);
-        // console.log(test.next().value);
-       
+
         console.log('del', this.cacheSearchData);
-        console.log(toto);
-        refreshArticle(toto);
-        displayFilter(toto);
-      
+        console.log('newData',newData);
+        refreshArticle(newData);
+        displayFilter(newData);
+
 
     }
 

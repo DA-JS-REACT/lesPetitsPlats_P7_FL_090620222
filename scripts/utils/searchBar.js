@@ -158,7 +158,7 @@ class  SearchBar {
 
         }
         ul.innerHTML = suggestions ;
-        this.filterEvents.initializeFilterEvents();
+       
         refreshArticle(newTab);
 
 
