@@ -40,4 +40,5 @@ export function refreshArticle(data) {
         const card = new Recipes(data[i]);
         displayCard(card);
     }
+
 }

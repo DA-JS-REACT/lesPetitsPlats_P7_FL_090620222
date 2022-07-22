@@ -2,9 +2,11 @@ import {recipes} from '../data/recipes.js';
 import {CardFactory} from '../factories/cardFactory.js';
 import {FilterData} from '../utils/filterData.js';
 import {FilterEvent} from '../utils/filterEvent.js';
-import {onSearch,onSearchIngredients,onSearchAppliance} from '../utils/functionSearch.js';
+import {onSearch,onSearchAppliance} from '../utils/functionSearch.js';
 import {displayFilter} from '../utils/functionFilter.js';
-import {displayCard,refreshArticle, deleteArticle} from '../utils/articleForSearch.js';
+import {refreshArticle, deleteArticle} from '../utils/articleForSearch.js';
+import {StateSearch} from '../models/StateSearch.js';
+
 
 class  SearchBar {
 
@@ -13,6 +15,10 @@ class  SearchBar {
         this.divError = document.querySelector('.error');
         this.filterData = new FilterData();
         this.filterEvents = new FilterEvent();
+        // this.state = new StateSearch();
+        // this.cacheData = new Map();
+        // this.cacheValue = new Map();
+        // this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
 
     }
 
@@ -29,13 +35,13 @@ class  SearchBar {
             this.onSearchMain(evt);
 
         });
-        const dropdownInput = document.querySelectorAll('.dropdown-input');
-        dropdownInput.forEach(el => el.addEventListener('keyup',(event) => {
-            this.onSearchFilter(event);
-        }));
-        dropdownInput.forEach(el => el.addEventListener('click',(event) => {
-            this.onSearchFilter(event);
-        }));
+        // const dropdownInput = document.querySelectorAll('.dropdown-input');
+        // dropdownInput.forEach(el => el.addEventListener('keyup',(event) => {
+        //     this.onSearchFilter(event);
+        // }));
+        // dropdownInput.forEach(el => el.addEventListener('click',(event) => {
+        //     this.onSearchFilter(event);
+        // }));
 
         
     }
@@ -90,79 +96,84 @@ class  SearchBar {
 
         }
 
-       
+        
+     
     }
 
-    onSearchFilter(event){
+    // onSearchFilter(event){
 
 
-        const value = event.target.value;
+    //     const value = event.target.value;
 
-        const parent = event.target.closest('.dropdown');
+    //     const parent = event.target.closest('.dropdown');
 
-        const ul = parent.querySelector('.list-inline');
+    //     const ul = parent.querySelector('.list-inline');
 
-        if(event.type === 'click'){
-            ul.innerHTML = '';
-        }
+    //     if(event.type === 'click'){
+    //         ul.innerHTML = '';
+    //     }
 
-        const newTab = onSearch(value,recipes,{hasFilter:true});
+    //     const newTab = onSearch(value,recipes,{hasFilter:true});
 
-        let tab = [];
-        let suggestions = '';
+    //     let tab = [];
+    //     let suggestions = '';
 
-        const nameOnFilter = parent.className.toString().toLowerCase();
-        const nameOfFilter = nameOnFilter.split('dropdown--');
+    //     const nameOnFilter = parent.className.toString().toLowerCase();
+    //     const nameOfFilter = nameOnFilter.split('dropdown--');
 
-        const name = nameOfFilter[1];
+    //     const name = nameOfFilter[1];
 
-        if(value.length > 0){
+    //     if(value.length > 0){
 
-            for (const item of newTab) {
+    //         for (const item of newTab) {
 
-                if (name === "appliance"){
-                    if(onSearchAppliance(item,value)){
-                        tab.push(item[name].toLowerCase());
-                    }
-                }
-                // if(name != "appliance"){
-                     for(const element of item[name]) {
+    //             if (name === "appliance"){
+    //                 if(onSearchAppliance(item,value)){
+    //                     tab.push(item[name].toLowerCase());
+    //                 }
+    //             }
+    //             // if(name != "appliance"){
+    //                  for(const element of item[name]) {
 
-                        const elt = name === "ingredients" ? element.ingredient: element;
-
-
-                        if(elt.toString().toLowerCase().includes(value.toLowerCase())) {
-
-                            tab.push(elt.toLowerCase());
+    //                     const elt = name === "ingredients" ? element.ingredient: element;
 
 
-                        }
+    //                     if(elt.toString().toLowerCase().includes(value.toLowerCase())) {
 
-                     }
-
-                //}
-
-            }
+    //                         tab.push(elt.toLowerCase());
 
 
-           const uniqueData = this.filterData.gettingDataForFilter(tab);
+    //                     }
 
-            if(tab.length > 0) {
-                for (const iterator of [...uniqueData]) {
+    //                  }
 
-                    suggestions += `<li class="list-inline-item filter__list--li"> ${iterator}</li>`;
-                }
-            }else {
-                suggestions += `<li class="list-inline-item text-white"> Aucune correspondance</li>`;
-            }
+    //             //}
 
-        }
-        ul.innerHTML = suggestions ;
-       
-        refreshArticle(newTab);
+    //         }
 
 
-    }
+    //        const uniqueData = this.filterData.gettingDataForFilter(tab);
+    //        console.log(tab);
+
+    //         if(tab.length > 0) {
+    //             for (const iterator of [...uniqueData]) {
+
+    //                 suggestions += `<li class="list-inline-item filter__list--li text-white"><button class="li-button" type="button"> ${iterator.charAt(0).toUpperCase() + iterator.substring(1).toLowerCase() }</button></li>`;
+    //             }
+    //         }else {
+    //             suggestions += `<li class="list-inline-item text-white"> Aucune correspondance</li>`;
+    //         }
+
+    //     }
+    //     ul.innerHTML = suggestions ;
+    //     console.log(newTab);
+    //     refreshArticle(newTab);
+    //     this.state.value = newTab;
+    //     this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
+
+
+
+    // }
 
 
     displayErrorCard() {

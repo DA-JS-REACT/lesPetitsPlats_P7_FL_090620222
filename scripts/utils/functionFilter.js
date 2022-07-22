@@ -1,6 +1,6 @@
 import {FilterData} from '../utils/filterData.js';
 import {FilterFactory} from '../factories/filterFactory.js';
-import {FilterEvent} from '../utils/filterEvent.js';
+
 
 
 const filterData = new FilterData();

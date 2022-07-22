@@ -6,7 +6,6 @@ import {FilterData} from '../utils/filterData.js';
 import {SearchBar} from '../utils/searchBar.js';
 import {FilterEvent} from '../utils/filterEvent.js';
 import {TagFactory} from '../factories/tagFactory.js'
-import {test} from '../utils/tag.js';
 
 class Home {
 
