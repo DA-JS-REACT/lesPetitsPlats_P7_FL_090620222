@@ -14,12 +14,10 @@ class FilterEvent {
         this.tag = new TagFactory();
         this.state = new StateSearch();
         this.stateTag = new StateTag();
-        this.cacheData = new Map();
-        this.cacheValue = new Map();
+        this.cacheData = new Set();
+        this.cacheValue = new Set();
         this.cacheTag = [];
         this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
-        this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
-        this.cacheSearchValue = this.cacheValue.set(this.state.key,this.state.value);
         this.filterData = new FilterData();
 
   
@@ -200,14 +198,11 @@ class FilterEvent {
 
         this.cacheNumberOfTag = this.cacheTag.pop();
         console.log('end',this.cacheTag);
-        const idButton = button.getAttribute('id');
-
-        const id =  parseInt(idButton);
-
+      
          const valueButton = button.textContent;
          const  buttonLi = document.querySelectorAll('.li-button');
          buttonLi.forEach(button => {
-           for (const iterator of this.cacheSearchValue) {
+           for (const iterator of this.cacheValue) {
 
               if(iterator.includes(valueButton)){
                 if(button.textContent === valueButton){
@@ -225,69 +220,94 @@ class FilterEvent {
         // fermeture d'un tag retour à la derniére recherche
 
         let newData = [];
+        if(this.cacheTag.length === 1){
+            newData = recipes;
+        };
 
         // @see https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Map/@@iterator
         // permet de récuperer la clé dans le cache des valeurs afin de pouvoir supprimer dans les data 
-         const key = this.cacheSearchValue[Symbol.iterator]();
-         for (const iterator of key) {
-              if(iterator.includes(valueButton)){
+        //  const key = this.cacheValue[Symbol.iterator]();
+        //  for (const iterator of key) {
+        //       if(iterator.includes(valueButton)){
 
-                  this.cacheSearchData.delete(iterator[0]);
-                  this.cacheSearchValue.delete(iterator[0]);
+        //           this.cacheSearchData.delete(iterator[0]);
+        //           this.cacheValue.delete(iterator[0]);
 
-                //   console.log(' data before clear', this.cacheSearchData.size);
-                //   console.log('delete value', this.cacheSearchValue);
-                // décremente la clé pour cliquer plusieurs fois
-                this.state.key--;
-                console.log('delete data', this.cacheSearchData);
-                if(this.cacheSearchData.size === 1){
+        //         //   console.log(' data before clear', this.cacheSearchData.size);
+        //         //   console.log('delete value', this.cacheSearchValue);
+        //         // décremente la clé pour cliquer plusieurs fois
+        //         // this.state.key--;
+        //         console.log('delete data', this.cacheSearchData);
+        //         console.log('delete value', this.cacheSearchValue);
+        //         // if(this.cacheSearchData.size === 1){
 
-                    this.state.key=0;
-                }
-                //   console.log('length tag close',this.cacheTag.length);
-              }
+        //         //     this.state.key=0;
+        //         // }
+        //         //   console.log('length tag close',this.cacheTag.length);
+        //       }
+        // }
+        const iteratorOfvalue = this.cacheValue.entries();
+       
+      for(let i =0 ; i < this.cacheValue.size;i++){
+        const value = iteratorOfvalue.next().value;
+        
+        if(value[0].includes(valueButton)){
+            this.cacheValue.delete(value[0]);
+           
+            const cachcheSearch = [...this.cacheData][i];
+           
+            this.cacheData.delete(cachcheSearch);
         }
+       
+      }
+      console.log('delete data', this.cacheData);
+      console.log('delete value', this.cacheValue);
+      for(let value of this.cacheValue){
+        for(let j = 0; j <[...this.cacheData].length -1 ; j++) {
+           const data  = [...this.cacheData][j];
+         
+         
+            // recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
+            newData= onSearch(value,data,{hasFilter:true});
+          
+            
+            console.log(newData);
 
-        // permet de récuprer dans l'ordre d'insertion
-        const iteratorOfvalue = this.cacheSearchValue.values();
-        const defaultValue = iteratorOfvalue.next().value;
+        }
+   
 
 
         if(this.cacheTag.length === 1){
            newData = recipes;
+           console.log(newData,this.cacheTag.length);
+        //    this.cacheSearchData.clear();
+        //    this.state = new StateSearch();
+        //    this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
 
 
         }else if(this.cacheTag.length === 2){
             // récupère la première insertion
-            const firstValue = iteratorOfvalue.next().value;
-            // nouvelle recherche lorsqu'il n'y a plus qu'un tag
-            newData = onSearch(firstValue ,recipes,{hasFilter:true});
-            this.state.key--;
-            this.cacheSearchData = this.cacheData.set(this.state.key,newData);
-            this.cacheSearchValue = this.cacheValue.set(this.state.key,firstValue);
+            // const firstValue = iteratorOfvalue.next().value;
+            // // nouvelle recherche lorsqu'il n'y a plus qu'un tag
+            // // newData = onSearch(firstValue ,recipes,{hasFilter:true});
+            // this.state.key--;
+            // this.cacheSearchData = this.cacheData.set(this.state.key,newData);
+            // console.log('delete data', this.cacheSearchData);
+            // this.cacheSearchValue = this.cacheValue.set(this.state.key,firstValue);
+            // for(let value of this.cacheValue){
+            //     for(let j = 0; j < this.cacheValue.size   ; j++) {
+            //         // recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
+            //         newData= onSearch(value,this.cacheSearchData.get(j),{hasFilter:true});
+                    
+            //         console.log(newData);
 
-        }else if (this.cacheTag.length > 2){
-            const tab = [];
-            // parcours les valeurs des tag dans l'ordre d'insertion
-            for(let i = 1; i < this.cacheSearchValue.size;i++){
-
-                const value1 = iteratorOfvalue.next().value;
-                console.log('object',value1);
-
-                // nouvelle recherche et stock dans un tableau intermédiaire
-                const research = onSearch(value1,recipes,{hasFilter:true});
-                tab.push(research );
-                
-                // boucle en excluant le dernier élément
-                for(let j = 0; j < tab.length -1 ; j++) {
-                    // recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
-                    newData = onSearch(value1,tab[j],{hasFilter:true});
-
-
-                }
-            }
+            //     }
+            // }
+            newData= [...this.cacheData][0];
 
         }
+       
+         }
 
 
 
@@ -303,27 +323,54 @@ class FilterEvent {
      */
 
     search(value) {
-        // console.log('value',value);
-        
-        // console.log('value',this.cacheSearchValue);
+     
          // effectuer une recherche
       const newtab = onSearch(value,recipes,{hasFilter:true});
       // actualiser les filtres et articles
 
           //stocker la recherche
-          this.state.value = newtab;
-          this.state.key++;
-          this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
-          this.cacheSearchValue = this.cacheValue.set(this.state.key,value);
 
-      // effectuer une autre recherche à partir de la precedente
-      const key = this.state.key === 1  ? this.state.key  : this.state.key -1;
-      console.log(key);
-      const nextSearch = onSearch(value,this.cacheSearchData.get(key),{hasFilter:true});
-      this.state.value = nextSearch;
-      this.cacheSearchData = this.cacheData.set(this.state.key,this.state.value);
+        this.cacheData.add(newtab);
+        this.cacheValue.add(value);
+
+    let nextSearch = [];
+
+    // array intermédiaire permettant la manipulation des résultats
+    let tab = [];
+    for(let value of this.cacheValue){
+
+
+        // nouvelle recherche et stock dans un tableau intermédiaire
+        nextSearch = onSearch(value,recipes,{hasFilter:true});
+
+        // boucle en excluant le dernier élément
+        for(let j = 0; j < this.cacheData.size-1  ; j++) {
+
+            const data = [...this.cacheData][j];
+            //recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
+            const  overSearch = onSearch(value,data,{hasFilter:true});
+
+            tab.push(overSearch);
+            // trie des arrays en fonction de leur longueur
+            tab.sort((a,b) => {
+
+                return b.length - a.length;
+            })
+
+            if(tab[tab.length-1].length === 0){
+                tab.pop(tab[tab.length-1]);
+            }
       
-      console.log('data',this.cacheSearchData);
+            nextSearch = tab[tab.length - 1];
+           
+
+
+        }
+    }
+   
+      
+
+     
       // actualiser les filtres et articles
       refreshArticle(nextSearch);
       displayFilter(nextSearch);
@@ -344,7 +391,7 @@ class FilterEvent {
         const  buttonLi = document.querySelectorAll('.li-button');
 
         buttonLi.forEach(button => {
-          for (const iterator of this.cacheSearchValue) {
+          for (const iterator of this.cacheValue) {
 
              if(iterator.includes(button.textContent)){
 
