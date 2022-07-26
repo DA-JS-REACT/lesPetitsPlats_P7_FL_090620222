@@ -2,11 +2,11 @@ import {TagFactory} from '../factories/tagFactory.js';
 import {onSearch} from './functionSearch.js';
 import {displayFilter} from './functionFilter.js';
 import {refreshArticle, deleteArticle} from './articleForSearch.js';
-import {StateSearch} from '../models/StateSearch.js';
 import { StateTag } from '../models/StateTag.js';
 import {recipes} from '../data/recipes.js';
 import {state} from './searchBar.js';
 import {CardFactory} from '../factories/cardFactory.js';
+import{StateSearch} from '../models/StateSearch.js';
 
 
 import {FilterData} from './filterData.js';
@@ -14,7 +14,6 @@ import {FilterData} from './filterData.js';
 class SearchEvent {
     constructor () {
         this.tag = new TagFactory();
-        this.state = new StateSearch();
         this.stateTag = new StateTag();
         this.cacheData = new Set();
         this.cacheValue = new Set();
@@ -23,8 +22,12 @@ class SearchEvent {
         this.filterData = new FilterData();
         this.articleDiv = document.querySelector('.recipes');
         this.divError = document.querySelector('.error');
+        this.eventsController = new StateSearch();
+        this.Events = new Map();
+        this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
 
-  
+
+ 
     }
 
     initializeSearchEvents(){
@@ -54,7 +57,7 @@ class SearchEvent {
             this.onSearchFilter(event);
         }));
 
-        
+
         const input = document.getElementById('mainSearch');
         // input.addEventListener('change',(evt) => {
         //     this.onSearchMain(evt);
@@ -72,6 +75,10 @@ class SearchEvent {
      */
     onSearchMain(evt) {
 
+        this.eventsController.key = evt.type;
+        
+       
+        console.log(this.cacheEvents);
         evt.preventDefault();
         const search = evt.target.value.toLowerCase();
 
@@ -90,14 +97,15 @@ class SearchEvent {
 
         if (search.length >= 3 ){
             newtab = onSearch(search,recipes);
-            this.cacheData.add(newtab);
-            this.cacheValue.add(search);
+            this.eventsController.value = true;
 
 
             if(newtab.length > 0){
 
                 displayFilter(newtab);
                 refreshArticle(newtab);
+                this.cacheData.add(newtab);
+                this.cacheValue.add(search);
 
 
 
@@ -111,6 +119,7 @@ class SearchEvent {
                 }
                 newtab= [];
                 displayFilter(recipes);
+                this.eventsController.value = false;
 
             }
 
@@ -120,11 +129,16 @@ class SearchEvent {
             newtab = [];
             displayFilter(recipes);
             refreshArticle(recipes);
+            this.cacheData.clear();
+            this.cacheValue.clear();
+            this.eventsController.value = false;
 
         }
 
-        
-     
+        console.log('main end',this.cacheData);
+        this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
+        console.log(this.cacheEvents);
+        this.test();
     }
 
     /**
@@ -149,11 +163,16 @@ class SearchEvent {
 
         //récupère le parent ul
         const parent = evt.currentTarget;
+        this.eventsController.key = evt.type;
+        this.eventsController.value= true;
+        this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
 
         this.displayTag(parent,value);
 
         // effectuer une recherche
         this.search(value);
+        this.test();
+       
 
     }
     /**
@@ -161,7 +180,8 @@ class SearchEvent {
      * @param {event} event
      */
     onSearchFilter(event){
-
+        this.cacheData.clear();
+       
 
         const value = event.target.value;
 
@@ -263,7 +283,7 @@ class SearchEvent {
         const divTag = document.querySelector('.search__tag--' + name);
 
         // appel de la tagFactory
-        const tag  = this.tag.tag(value,this.cacheTag,options);
+        const tag  = this.tag.tag(value,options);
 
         divTag.appendChild(tag);
 
@@ -272,6 +292,7 @@ class SearchEvent {
 
         this.stateTag.numberTag++;
         this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
+        console.log('add',this.cacheTag);
 
     }
 
@@ -308,6 +329,9 @@ class SearchEvent {
         let newData = [];
         if(this.cacheTag.length === 1){
             newData = recipes;
+            if(this.cacheEvents.get('keyup')){
+                newData= [...this.cacheData][0];
+            }
         };
 
         const iteratorOfvalue = this.cacheValue.entries();
@@ -340,13 +364,14 @@ class SearchEvent {
       if(this.cacheTag.length === 2){
 
             newData= [...this.cacheData][0];
+            console.log(this.cacheData);
 
         }
 
     }
 
 
-
+    console.log('delete tag',this.cacheData);
         refreshArticle(newData);
         displayFilter(newData);
         // desactive le bouton dans la liste
@@ -359,17 +384,21 @@ class SearchEvent {
      */
 
     search(value) {
+        let newtab = [];
+        if(this.cacheEvents.get('click')){
+            console.log('click');
+               // effectuer une recherche
+             newtab = onSearch(value,recipes,{hasFilter:true});
+        };
+      
 
-         // effectuer une recherche
-      const newtab = onSearch(value,recipes,{hasFilter:true});
-      const test =  state();
-      console.log(test);
       // actualiser les filtres et articles
 
           //stocker la recherche
 
         this.cacheData.add(newtab);
         this.cacheValue.add(value);
+        console.log('search tag',this.cacheData);
 
     let nextSearch = [];
 
@@ -411,6 +440,7 @@ class SearchEvent {
       displayFilter(nextSearch);
       // desactive le bouton dans la liste
       this.hasListClicked();
+      console.log(this.cacheEvents);
 
     }
 
@@ -420,6 +450,7 @@ class SearchEvent {
         this.whenCloseTag(button);
 
         button.remove();
+        console.log(this.cacheEvents);
 
     }
     hasListClicked(){
@@ -437,6 +468,15 @@ class SearchEvent {
           }
 
         })
+    }
+
+    test(){
+        if(this.cacheEvents.get('keyup')){
+            this.cacheEvents.set('click',false);
+        }else if(this.cacheEvents.get('click')){
+            this.cacheEvents.set('keyup',false);
+        }
+        
     }
 
 }

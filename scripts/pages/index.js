@@ -59,10 +59,8 @@ class Home {
         }
 
         this.displayFilterHome();
-        // this.searchBar.initializeSearch();
         this.searchEvents.initializeSearchEvents();
-   
-       
+
 
     }
 }

@@ -1,5 +1,5 @@
 class StateSearch {
-    constructor(key= 0,value= []){
+    constructor(key= '',value= false){
 
         this._key = key;
         this._value = value;

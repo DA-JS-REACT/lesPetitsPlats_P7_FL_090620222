@@ -18,12 +18,12 @@ export function  onSearch(search,recipes,options={}){
     for(let i = 0; i < recipes.length; i++) {
 
         recipe = recipes[i];
-       
+
 
         for (const key in recipe) {
             if (Object.hasOwnProperty.call(recipe, key)) {
                 const element = recipe[key];
-              
+
                 if(options.hasFilter){
                     if(key === 'ingredients') {
                         if(onSearchIngredients(recipe,search)){
