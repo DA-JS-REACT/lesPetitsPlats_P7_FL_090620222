@@ -3,8 +3,7 @@ import {CardFactory} from '../factories/cardFactory.js';
 import {Recipes} from '../models/Recipes.js';
 import {FilterFactory} from '../factories/filterFactory.js';
 import {FilterData} from '../utils/filterData.js';
-import {SearchBar} from '../utils/searchBar.js';
-import {FilterEvent} from '../utils/filterEvent.js';
+import {SearchEvent} from '../utils/SearchEvent.js';
 import {TagFactory} from '../factories/tagFactory.js'
 
 class Home {
@@ -12,8 +11,7 @@ class Home {
     constructor () {
         this.articleDiv = document.querySelector('.recipes');
         this.filterData = new FilterData();
-        this.searchBar = new SearchBar();
-        this.filterEvents = new FilterEvent();
+        this.searchEvents = new SearchEvent();
         this.tag = new TagFactory();
     }
 
@@ -47,11 +45,11 @@ class Home {
         filter.appendChild(ingredients);
         filter.appendChild(appliance);
         filter.appendChild(ustensils);
-        
+
     }
 
     init() {
-        
+
         recipes.sort((a,b) => {
           return  a.name.toLowerCase().localeCompare(b.name);
         });
@@ -61,8 +59,8 @@ class Home {
         }
 
         this.displayFilterHome();
-        this.searchBar.initializeSearch();
-        this.filterEvents.initializeFilterEvents();
+        // this.searchBar.initializeSearch();
+        this.searchEvents.initializeSearchEvents();
    
        
 

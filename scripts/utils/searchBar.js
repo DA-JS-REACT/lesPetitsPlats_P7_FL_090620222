@@ -1,7 +1,7 @@
 import {recipes} from '../data/recipes.js';
 import {CardFactory} from '../factories/cardFactory.js';
 import {FilterData} from '../utils/filterData.js';
-import {FilterEvent} from '../utils/filterEvent.js';
+
 import {onSearch,onSearchAppliance} from '../utils/functionSearch.js';
 import {displayFilter} from '../utils/functionFilter.js';
 import {refreshArticle, deleteArticle} from '../utils/articleForSearch.js';
@@ -14,7 +14,7 @@ class  SearchBar {
         this.articleDiv = document.querySelector('.recipes');
         this.divError = document.querySelector('.error');
         this.filterData = new FilterData();
-        this.filterEvents = new FilterEvent();
+     
         // this.state = new StateSearch();
         // this.cacheData = new Map();
         // this.cacheValue = new Map();
@@ -46,59 +46,60 @@ class  SearchBar {
         
     }
 
-    onSearchMain(evt) {
+    // onSearchMain(evt) {
 
-        evt.preventDefault();
-        const search = evt.target.value.toLowerCase();
-
-
-        // for  the main search
-
-        // recherche si  article d'erreur existe
-        const searchError = this.divError.childElementCount;
-        const lastElement = this.divError.lastChild;
-        // si oui delete the last child
-        if(searchError > 0){
-            this.divError.removeChild(lastElement);
-        }
-
-        let newtab = [];
-
-        if (search.length >= 3 ){
-            newtab = onSearch(search,recipes);
-
-            if(newtab.length > 0){
-
-                displayFilter(newtab);
-                refreshArticle(newtab);
+    //     evt.preventDefault();
+    //     const search = evt.target.value.toLowerCase();
 
 
+    //     // for  the main search
 
-            }else if(newtab.length === 0){
-                deleteArticle();
+    //     // recherche si  article d'erreur existe
+    //     const searchError = this.divError.childElementCount;
+    //     const lastElement = this.divError.lastChild;
+    //     // si oui delete the last child
+    //     if(searchError > 0){
+    //         this.divError.removeChild(lastElement);
+    //     }
 
-                this.displayErrorCard();
-                // delete the last element , limmit 1
-                if(searchError === 1) {
-                    this.divError.removeChild(lastElement);
-                }
-                newtab= [];
-                displayFilter(recipes);
+    //     let newtab = [];
 
-            }
+    //     if (search.length >= 3 ){
+    //         newtab = onSearch(search,recipes);
+    //         state(newtab);
+
+    //         if(newtab.length > 0){
+
+    //             displayFilter(newtab);
+    //             refreshArticle(newtab);
 
 
-        }else if(search.length === 0 || search.length < 3 ) {
 
-            newtab = [];
-            displayFilter(recipes);
-            refreshArticle(recipes);
+    //         }else if(newtab.length === 0){
+    //             deleteArticle();
 
-        }
+    //             this.displayErrorCard();
+    //             // delete the last element , limmit 1
+    //             if(searchError === 1) {
+    //                 this.divError.removeChild(lastElement);
+    //             }
+    //             newtab= [];
+    //             displayFilter(recipes);
+
+    //         }
+
+
+    //     }else if(search.length === 0 || search.length < 3 ) {
+
+    //         newtab = [];
+    //         displayFilter(recipes);
+    //         refreshArticle(recipes);
+
+    //     }
 
         
      
-    }
+    // }
 
     // onSearchFilter(event){
 
@@ -195,3 +196,11 @@ class  SearchBar {
 }
 
 export {SearchBar};
+
+export function state(newtab = []){
+    const tab = [];
+    tab.push(newtab);
+  
+    return tab;
+
+}
