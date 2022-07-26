@@ -172,7 +172,7 @@ class SearchEvent {
         // effectuer une recherche
         this.search(value);
         this.test();
-       
+
 
     }
     /**
@@ -181,7 +181,7 @@ class SearchEvent {
      */
     onSearchFilter(event){
         this.cacheData.clear();
-       
+
 
         const value = event.target.value;
 
@@ -386,7 +386,6 @@ class SearchEvent {
     search(value) {
         let newtab = [];
         if(this.cacheEvents.get('click')){
-            console.log('click');
                // effectuer une recherche
              newtab = onSearch(value,recipes,{hasFilter:true});
         };

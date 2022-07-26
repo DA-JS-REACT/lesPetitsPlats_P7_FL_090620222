@@ -1,15 +1,45 @@
 
 
 
-
-// || key === 'description'
-
 /**
  *
  * @param {String} search
  * @returns array
  */
 export function  onSearch(search,recipes,options={}){
+
+    // recipes.forEach(elt => {
+    //     console.log(elt);
+      
+    // })
+    const result = [];
+   const test = recipes.filter(elt => elt.name.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+   
+   result.push(test);
+
+   const toto = recipes.filter(elt => elt.description.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+ 
+   result.push(toto);
+   
+   result.sort((a,b) => {
+        return a.length - b.length;
+   } );
+   console.log(result[result.length - 1]);
+
+    recipes.forEach(elt => {
+        const ingredient = elt.ingredients;
+  
+        const resultSearch = ingredient.filter(elt => elt.ingredient.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+        console.log(resultSearch );
+        if(resultSearch.length > 0) {
+            result.push(elt);
+            
+        }
+      
+        })
+        console.log(result);
+    
+   
 
     const tab =new Set();
     let recipe = {};
