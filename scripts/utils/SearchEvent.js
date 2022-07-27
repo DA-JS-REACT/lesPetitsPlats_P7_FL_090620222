@@ -78,7 +78,7 @@ class SearchEvent {
         this.eventsController.key = evt.type;
         
        
-        console.log(this.cacheEvents);
+       
         evt.preventDefault();
         const search = evt.target.value.toLowerCase();
 
@@ -137,7 +137,6 @@ class SearchEvent {
 
         console.log('main end',this.cacheData);
         this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
-        console.log(this.cacheEvents);
         this.test();
     }
 
@@ -180,7 +179,7 @@ class SearchEvent {
      * @param {event} event
      */
     onSearchFilter(event){
-        this.cacheData.clear();
+        // this.cacheData.clear();
 
 
         const value = event.target.value;
@@ -233,12 +232,12 @@ class SearchEvent {
 
 
            const uniqueData = this.filterData.gettingDataForFilter(tab);
-           console.log(tab);
+           
 
             if(tab.length > 0) {
                 for (const iterator of [...uniqueData]) {
 
-                    suggestions += `<li class="list-inline-item filter__list--li text-white"><button class="li-button" type="button"> ${iterator.charAt(0).toUpperCase() + iterator.substring(1).toLowerCase() }</button></li>`;
+                    suggestions += `<li class="list-inline-item filter__list--li text-white"><button class="li-button" type="button">${iterator.charAt(0).toUpperCase() + iterator.substring(1).toLowerCase() }</button></li>`;
                 }
             }else {
                 suggestions += `<li class="list-inline-item text-white"> Aucune correspondance</li>`;
@@ -248,7 +247,7 @@ class SearchEvent {
         ul.innerHTML = suggestions ;
         console.log(newTab);
         refreshArticle(newTab);
-        this.search(value);
+        // this.search(value);
 
 
 

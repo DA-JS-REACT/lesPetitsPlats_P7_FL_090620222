@@ -8,94 +8,133 @@
  */
 export function  onSearch(search,recipes,options={}){
 
-    // recipes.forEach(elt => {
-    //     console.log(elt);
-      
-    // })
-    const result = [];
-   const test = recipes.filter(elt => elt.name.toLowerCase().indexOf(search.toLowerCase()) !== -1);
-   
-   result.push(test);
 
-   const toto = recipes.filter(elt => elt.description.toLowerCase().indexOf(search.toLowerCase()) !== -1);
- 
-   result.push(toto);
-   
-   result.sort((a,b) => {
-        return a.length - b.length;
-   } );
-   console.log(result[result.length - 1]);
+    const tab = new Set();
 
-    recipes.forEach(elt => {
-        const ingredient = elt.ingredients;
-  
-        const resultSearch = ingredient.filter(elt => elt.ingredient.toLowerCase().indexOf(search.toLowerCase()) !== -1);
-        console.log(resultSearch );
-        if(resultSearch.length > 0) {
-            result.push(elt);
-            
-        }
-      
-        })
-        console.log(result);
-    
-   
+    if(options.hasFilter){
+        // By Ingredient
+        recipes.forEach(recipe => {
+            const ingredient = recipe.ingredients;
 
-    const tab =new Set();
-    let recipe = {};
+            const serachByIngredient = ingredient.filter(elt => elt.ingredient.toLowerCase().indexOf(search.toLowerCase()) !== -1);
 
+            if(serachByIngredient.length > 0){
 
-    for(let i = 0; i < recipes.length; i++) {
-
-        recipe = recipes[i];
-
-
-        for (const key in recipe) {
-            if (Object.hasOwnProperty.call(recipe, key)) {
-                const element = recipe[key];
-
-                if(options.hasFilter){
-                    if(key === 'ingredients') {
-                        if(onSearchIngredients(recipe,search)){
-                            tab.add(recipe);
-                        }
-
-                    }
-                    if(key === 'ustensils') {
-                        if(onSearchUstensils(recipe,search)){
-                            tab.add(recipe);
-                        }
-
-                    }
-                    if(key === 'appliance') {
-                        if(onSearchAppliance(recipe,search)){
-                            tab.add(recipe);
-                        }
-
-                    }
-                }else{
-                    if(key === 'name'|| key === 'description' ){
-                        // recherche dans tout les éléments des recettes et convertit tout en string
-                        if(element.toString().toLowerCase().includes(search.toLowerCase())) {
-                                // si ok stock dans le tableau
-                                tab.add(recipe);
-                            }
-                    }
-                    if(key === 'ingredients') {
-                        if(onSearchIngredients(recipe,search)){
-                            tab.add(recipe);
-                        }
-    
-                    }
-
-                }
-
-
+                tab.add(recipe);
             }
 
-        }
+        });
+
+        // By Appliance
+        const searchByAppliance = recipes.filter(elt => elt.appliance.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+        searchByAppliance.forEach(recipe => {
+            tab.add(recipe);
+        });
+
+        // By Ustensils
+        recipes.forEach(recipe => {
+            const ustensils = recipe.ustensils;
+            const searchByUstensils = ustensils.filter(elt => elt.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+            if(searchByUstensils.length > 0){
+                tab.add(recipe);
+            }
+
+        });
+
+
+
+    }else {
+
+
+        // By name
+        const searchByName = recipes.filter(elt => elt.name.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+
+        searchByName.forEach(recipe => {
+            tab.add(recipe);
+        });
+
+
+        // By description
+        const searchByDescription = recipes.filter(elt => elt.description.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+
+        searchByDescription.forEach(recipe => {
+            tab.add(recipe);
+        });
+
+        // by Ingredient
+        recipes.forEach(recipe => {
+            const ingredient = recipe.ingredients;
+
+            const serachByIngredient = ingredient.filter(elt => elt.ingredient.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+
+            if(serachByIngredient.length > 0){
+
+                tab.add(recipe);
+            }
+
+        });
 
     }
+
+
+   
+
+
+    // const tab =new Set();
+    // let recipe = {};
+
+
+    // for(let i = 0; i < recipes.length; i++) {
+
+    //     recipe = recipes[i];
+
+
+    //     for (const key in recipe) {
+    //         if (Object.hasOwnProperty.call(recipe, key)) {
+    //             const element = recipe[key];
+
+    //             if(options.hasFilter){
+    //                 if(key === 'ingredients') {
+    //                     if(onSearchIngredients(recipe,search)){
+    //                         tab.add(recipe);
+    //                     }
+
+    //                 }
+    //                 if(key === 'ustensils') {
+    //                     if(onSearchUstensils(recipe,search)){
+    //                         tab.add(recipe);
+    //                     }
+
+    //                 }
+    //                 if(key === 'appliance') {
+    //                     if(onSearchAppliance(recipe,search)){
+    //                         tab.add(recipe);
+    //                     }
+
+    //                 }
+    //             }else{
+    //                 if(key === 'name'|| key === 'description' ){
+    //                     // recherche dans tout les éléments des recettes et convertit tout en string
+    //                     if(element.toString().toLowerCase().includes(search.toLowerCase())) {
+    //                             // si ok stock dans le tableau
+    //                             tab.add(recipe);
+    //                         }
+    //                 }
+    //                 if(key === 'ingredients') {
+    //                     if(onSearchIngredients(recipe,search)){
+    //                         tab.add(recipe);
+    //                     }
+    
+    //                 }
+
+    //             }
+
+
+    //         }
+
+    //     }
+
+    // }
 
     return [...tab];
 
