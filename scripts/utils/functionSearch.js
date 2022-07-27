@@ -1,9 +1,4 @@
 
-
-
-
-// || key === 'description'
-
 /**
  *
  * @param {String} search

@@ -4,7 +4,6 @@ import {displayFilter} from './functionFilter.js';
 import {refreshArticle, deleteArticle} from './articleForSearch.js';
 import { StateTag } from '../models/StateTag.js';
 import {recipes} from '../data/recipes.js';
-import {state} from './searchBar.js';
 import {CardFactory} from '../factories/cardFactory.js';
 import{StateSearch} from '../models/StateSearch.js';
 
@@ -59,9 +58,6 @@ class SearchEvent {
 
 
         const input = document.getElementById('mainSearch');
-        // input.addEventListener('change',(evt) => {
-        //     this.onSearchMain(evt);
-        // });
         input.addEventListener('keyup',(evt) => {
             this.onSearchMain(evt);
 
@@ -76,9 +72,7 @@ class SearchEvent {
     onSearchMain(evt) {
 
         this.eventsController.key = evt.type;
-        
-       
-        console.log(this.cacheEvents);
+
         evt.preventDefault();
         const search = evt.target.value.toLowerCase();
 
@@ -137,8 +131,8 @@ class SearchEvent {
 
         console.log('main end',this.cacheData);
         this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
-        console.log(this.cacheEvents);
-        this.test();
+        // console.log(this.cacheEvents);
+        // this.test();
     }
 
     /**
@@ -171,8 +165,8 @@ class SearchEvent {
 
         // effectuer une recherche
         this.search(value);
-        this.test();
-       
+        // this.test();
+
 
     }
     /**
@@ -238,7 +232,7 @@ class SearchEvent {
             if(tab.length > 0) {
                 for (const iterator of [...uniqueData]) {
 
-                    suggestions += `<li class="list-inline-item filter__list--li text-white"><button class="li-button" type="button"> ${iterator.charAt(0).toUpperCase() + iterator.substring(1).toLowerCase() }</button></li>`;
+                    suggestions += `<li class="list-inline-item filter__list--li text-white"><button class="li-button" type="button">${iterator.charAt(0).toUpperCase() + iterator.substring(1).toLowerCase() }</button></li>`;
                 }
             }else {
                 suggestions += `<li class="list-inline-item text-white"> Aucune correspondance</li>`;
@@ -246,9 +240,8 @@ class SearchEvent {
 
         }
         ul.innerHTML = suggestions ;
-        console.log(newTab);
         refreshArticle(newTab);
-        this.search(value);
+
 
 
 
@@ -292,7 +285,7 @@ class SearchEvent {
 
         this.stateTag.numberTag++;
         this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
-        console.log('add',this.cacheTag);
+        // console.log('add',this.cacheTag);
 
     }
 
@@ -304,8 +297,8 @@ class SearchEvent {
 
 
         this.cacheNumberOfTag = this.cacheTag.pop();
-        console.log('end',this.cacheTag);
-      
+        // console.log('end',this.cacheTag);
+
          const valueButton = button.textContent;
          const  buttonLi = document.querySelectorAll('.li-button');
          buttonLi.forEach(button => {
@@ -329,6 +322,7 @@ class SearchEvent {
         let newData = [];
         if(this.cacheTag.length === 1){
             newData = recipes;
+            // actualise selon l'event
             if(this.cacheEvents.get('keyup')){
                 newData= [...this.cacheData][0];
             }
@@ -364,14 +358,13 @@ class SearchEvent {
       if(this.cacheTag.length === 2){
 
             newData= [...this.cacheData][0];
-            console.log(this.cacheData);
 
         }
 
     }
 
 
-    console.log('delete tag',this.cacheData);
+    // console.log('delete tag',this.cacheData);
         refreshArticle(newData);
         displayFilter(newData);
         // desactive le bouton dans la liste
@@ -385,8 +378,8 @@ class SearchEvent {
 
     search(value) {
         let newtab = [];
+        // verifie l'event en cours
         if(this.cacheEvents.get('click')){
-            console.log('click');
                // effectuer une recherche
              newtab = onSearch(value,recipes,{hasFilter:true});
         };
@@ -398,7 +391,7 @@ class SearchEvent {
 
         this.cacheData.add(newtab);
         this.cacheValue.add(value);
-        console.log('search tag',this.cacheData);
+        // console.log('search tag',this.cacheData);
 
     let nextSearch = [];
 
@@ -440,7 +433,7 @@ class SearchEvent {
       displayFilter(nextSearch);
       // desactive le bouton dans la liste
       this.hasListClicked();
-      console.log(this.cacheEvents);
+
 
     }
 
@@ -450,9 +443,10 @@ class SearchEvent {
         this.whenCloseTag(button);
 
         button.remove();
-        console.log(this.cacheEvents);
+
 
     }
+
     hasListClicked(){
         const  buttonLi = document.querySelectorAll('.li-button');
 
@@ -470,14 +464,13 @@ class SearchEvent {
         })
     }
 
-    test(){
-        if(this.cacheEvents.get('keyup')){
-            this.cacheEvents.set('click',false);
-        }else if(this.cacheEvents.get('click')){
-            this.cacheEvents.set('keyup',false);
-        }
-        
-    }
+    // test(){
+    //     if(this.cacheEvents.get('keyup')){
+    //         this.cacheEvents.set('click',false);
+    //     }else if(this.cacheEvents.get('click')){
+    //         this.cacheEvents.set('keyup',false);
+    //     }
+    // }
 
 }
 
