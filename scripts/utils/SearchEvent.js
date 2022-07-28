@@ -135,9 +135,9 @@ class SearchEvent {
 
         }
 
-        console.log('main end',this.cacheData);
+       
         this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
-        this.test();
+        // this.test();
     }
 
     /**
@@ -170,7 +170,7 @@ class SearchEvent {
 
         // effectuer une recherche
         this.search(value);
-        this.test();
+        // this.test();
 
 
     }
@@ -232,7 +232,7 @@ class SearchEvent {
 
 
            const uniqueData = this.filterData.gettingDataForFilter(tab);
-           
+
 
             if(tab.length > 0) {
                 for (const iterator of [...uniqueData]) {
@@ -245,7 +245,7 @@ class SearchEvent {
 
         }
         ul.innerHTML = suggestions ;
-        console.log(newTab);
+        // console.log(newTab);
         refreshArticle(newTab);
         // this.search(value);
 
@@ -291,7 +291,7 @@ class SearchEvent {
 
         this.stateTag.numberTag++;
         this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
-        console.log('add',this.cacheTag);
+        // console.log('add',this.cacheTag);
 
     }
 
@@ -303,7 +303,7 @@ class SearchEvent {
 
 
         this.cacheNumberOfTag = this.cacheTag.pop();
-        console.log('end',this.cacheTag);
+        // console.log('end',this.cacheTag);
       
          const valueButton = button.textContent;
          const  buttonLi = document.querySelectorAll('.li-button');
@@ -327,10 +327,15 @@ class SearchEvent {
 
         let newData = [];
         if(this.cacheTag.length === 1){
-            newData = recipes;
+
             if(this.cacheEvents.get('keyup')){
                 newData= [...this.cacheData][0];
+                console.log('newdata = 1',newData);
+                console.log('newdata = 1 cache',this.cacheData);
+            }else {
+                newData = recipes;
             }
+
         };
 
         const iteratorOfvalue = this.cacheValue.entries();
@@ -344,6 +349,7 @@ class SearchEvent {
                 const cacheSearch = [...this.cacheData][i];
 
                 this.cacheData.delete(cacheSearch);
+
             }
 
       }
@@ -354,6 +360,9 @@ class SearchEvent {
 
             // recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
             newData= onSearch(value,data,{hasFilter:true});
+            if(this.cacheEvents.get('keyup')){
+                newData= onSearch(value,data);
+            }
 
         }
 
@@ -363,14 +372,14 @@ class SearchEvent {
       if(this.cacheTag.length === 2){
 
             newData= [...this.cacheData][0];
-            console.log(this.cacheData);
+            // console.log(this.cacheData);
 
         }
 
     }
 
 
-    console.log('delete tag',this.cacheData);
+    
         refreshArticle(newData);
         displayFilter(newData);
         // desactive le bouton dans la liste
@@ -422,6 +431,7 @@ class SearchEvent {
                 return b.length - a.length;
             })
 
+
             if(tab[tab.length-1].length === 0){
                 tab.pop(tab[tab.length-1]);
             }
@@ -431,14 +441,16 @@ class SearchEvent {
 
 
         }
+
     }
+
 
       // actualiser les filtres et articles
       refreshArticle(nextSearch);
       displayFilter(nextSearch);
       // desactive le bouton dans la liste
       this.hasListClicked();
-      console.log(this.cacheEvents);
+    //   console.log(this.cacheEvents);
 
     }
 
@@ -448,7 +460,7 @@ class SearchEvent {
         this.whenCloseTag(button);
 
         button.remove();
-        console.log(this.cacheEvents);
+        // console.log(this.cacheEvents);
 
     }
     hasListClicked(){
@@ -468,14 +480,14 @@ class SearchEvent {
         })
     }
 
-    test(){
-        if(this.cacheEvents.get('keyup')){
-            this.cacheEvents.set('click',false);
-        }else if(this.cacheEvents.get('click')){
-            this.cacheEvents.set('keyup',false);
-        }
+    // test(){
+    //     if(this.cacheEvents.get('keyup')){
+    //         this.cacheEvents.set('click',false);
+    //     }else if(this.cacheEvents.get('click')){
+    //         this.cacheEvents.set('keyup',false);
+    //     }
         
-    }
+    // }
 
 }
 
