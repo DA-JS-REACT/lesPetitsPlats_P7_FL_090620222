@@ -107,8 +107,6 @@ class SearchEvent {
                 this.cacheData.add(newtab);
                 this.cacheValue.add(search);
 
-
-
             }else if(newtab.length === 0){
                 deleteArticle();
 
@@ -129,8 +127,11 @@ class SearchEvent {
             newtab = [];
             displayFilter(recipes);
             refreshArticle(recipes);
-            this.cacheData.clear();
-            this.cacheValue.clear();
+            if(this.cacheEvents.has('click') === false){
+                this.cacheData.clear();
+                this.cacheValue.clear();
+            }
+           
             this.eventsController.value = false;
 
         }
@@ -350,6 +351,7 @@ class SearchEvent {
 
                 this.cacheData.delete(cacheSearch);
 
+
             }
 
       }
@@ -367,19 +369,19 @@ class SearchEvent {
         }
 
 
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+            if(this.cacheTag.length === 2){
 
+                newData= [...this.cacheData][0];
 
-      if(this.cacheTag.length === 2){
-
-            newData= [...this.cacheData][0];
-            // console.log(this.cacheData);
+            }
 
         }
 
     }
 
 
-    
+
         refreshArticle(newData);
         displayFilter(newData);
         // desactive le bouton dans la liste
@@ -397,15 +399,16 @@ class SearchEvent {
                // effectuer une recherche
              newtab = onSearch(value,recipes,{hasFilter:true});
         };
-      
+
 
       // actualiser les filtres et articles
 
           //stocker la recherche
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+            this.cacheData.add(newtab);
+        }
+    this.cacheValue.add(value);
 
-        this.cacheData.add(newtab);
-        this.cacheValue.add(value);
-        console.log('search tag',this.cacheData);
 
     let nextSearch = [];
 
@@ -416,15 +419,22 @@ class SearchEvent {
 
         // nouvelle recherche et stock dans un tableau intermédiaire
         nextSearch = onSearch(value,recipes,{hasFilter:true});
-
         // boucle en excluant le dernier élément
         for(let j = 0; j < this.cacheData.size-1  ; j++) {
+            let data = [];
+            if(this.cacheEvents.get('keyup')){
+                data = [...this.cacheData][this.cacheData.size-1];
+            }else if(this.cacheEvents.has('keyup') === false) {
+                data = [...this.cacheData][j];
+            }
 
-            const data = [...this.cacheData][j];
+
+            // const data = [...this.cacheData][j];
             //recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
-            const  overSearch = onSearch(value,data,{hasFilter:true});
+            let  overSearch = onSearch(value,data,{hasFilter:true});
 
             tab.push(overSearch);
+
             // trie des arrays en fonction de leur longueur
             tab.sort((a,b) => {
 
@@ -443,7 +453,10 @@ class SearchEvent {
         }
 
     }
-
+  
+    if(this.cacheEvents.get('keyup')){
+        this.cacheData.add(nextSearch);
+    };
 
       // actualiser les filtres et articles
       refreshArticle(nextSearch);
@@ -480,15 +493,7 @@ class SearchEvent {
         })
     }
 
-    // test(){
-    //     if(this.cacheEvents.get('keyup')){
-    //         this.cacheEvents.set('click',false);
-    //     }else if(this.cacheEvents.get('click')){
-    //         this.cacheEvents.set('keyup',false);
-    //     }
-        
-    // }
-
+  
 }
 
 
