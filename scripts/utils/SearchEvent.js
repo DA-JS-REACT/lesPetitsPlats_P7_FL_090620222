@@ -67,7 +67,7 @@ class SearchEvent {
 
         });
 
-
+        
     }
     /**
      * search  with main searchBar
@@ -83,6 +83,7 @@ class SearchEvent {
         const search = evt.target.value.toLowerCase();
 
 
+
         // for  the main search
 
         // recherche si  article d'erreur existe
@@ -94,6 +95,7 @@ class SearchEvent {
         }
 
         let newtab = [];
+       
 
         if (search.length >= 3 ){
             newtab = onSearch(search,recipes);
@@ -128,7 +130,7 @@ class SearchEvent {
             newtab = [];
             displayFilter(recipes);
             refreshArticle(recipes);
-            if(this.cacheEvents.has('click') === false){
+            if(this.cacheEvents.has('click') === false || this.cacheEvents.get('click')){
                 this.cacheData.clear();
                 this.cacheValue.clear();
             }
@@ -139,7 +141,9 @@ class SearchEvent {
 
 
         this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
-        // this.test();
+      
+
+      
     }
 
     /**
@@ -172,6 +176,9 @@ class SearchEvent {
 
         // effectuer une recherche
         this.search(value);
+
+
+        console.log(this.cacheEvents);
 
 
 
@@ -355,7 +362,7 @@ class SearchEvent {
             }
 
       }
-
+      console.log('delete',this.cacheData);
 
       for(let value of this.cacheValue){
         for(let j = 0; j <[...this.cacheData].length -1 ; j++) {
@@ -370,12 +377,9 @@ class SearchEvent {
         }
 
 
-        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
-            if(this.cacheTag.length === 2){
+        if(this.cacheTag.length === 2){
 
-                newData= [...this.cacheData][0];
-
-            }
+            newData= [...this.cacheData][0];
 
         }
 
@@ -396,21 +400,20 @@ class SearchEvent {
 
     search(value) {
         let newtab = [];
-        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false || !this.cacheEvents.get('keyup')){
                // effectuer une recherche
              newtab = onSearch(value,recipes,{hasFilter:true});
 
         };
+        if(newtab.length > 0){
 
-
-      // actualiser les filtres et articles
-
-          //stocker la recherche
-        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+            //stocke la recherche
             this.cacheData.add(newtab);
         }
-    this.cacheValue.add(value);
+ 
+      // actualiser les filtres et articles
 
+    this.cacheValue.add(value);
 
     let nextSearch = [];
 
@@ -418,29 +421,33 @@ class SearchEvent {
     let tab = [];
     for(let value of this.cacheValue){
 
-        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false || !this.cacheEvents.get('keyup')){
              // nouvelle recherche et stock dans un tableau intermédiaire
             nextSearch = onSearch(value,recipes,{hasFilter:true});
-        }else {
+
+        }else if(this.cacheEvents.get('keyup')) {
             nextSearch = onSearch(value,[...this.cacheData][0],{hasFilter:true});
+
         }
+
 
         // boucle en excluant le dernier élément
         for(let j = 0; j < this.cacheData.size-1  ; j++) {
             let data = [];
             if(this.cacheEvents.get('keyup')){
                 data = [...this.cacheData][this.cacheData.size-1];
-                console.log('data',data);
-            }else if(this.cacheEvents.has('keyup') === false) {
+
+            }else if(this.cacheEvents.has('keyup') === false || !this.cacheEvents.get('keyup')) {
                 data = [...this.cacheData][j];
             }
 
 
-            // const data = [...this.cacheData][j];
+
             //recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
             let  overSearch = onSearch(value,data,{hasFilter:true});
 
             tab.push(overSearch);
+
 
             // trie des arrays en fonction de leur longueur
             tab.sort((a,b) => {
@@ -464,13 +471,13 @@ class SearchEvent {
     if(this.cacheEvents.get('keyup')){
         this.cacheData.add(nextSearch);
     };
-        
+
       // actualiser les filtres et articles
       refreshArticle(nextSearch);
       displayFilter(nextSearch);
       // desactive le bouton dans la liste
       this.hasListClicked();
-    //   console.log(this.cacheEvents);
+      console.log('search',this.cacheData);
 
     }
 
