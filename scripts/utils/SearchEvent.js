@@ -129,10 +129,9 @@ class SearchEvent {
 
         }
 
-        console.log('main end',this.cacheData);
+
         this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
-        // console.log(this.cacheEvents);
-        // this.test();
+
     }
 
     /**
@@ -165,8 +164,6 @@ class SearchEvent {
 
         // effectuer une recherche
         this.search(value);
-        // this.test();
-
 
     }
     /**
@@ -174,8 +171,7 @@ class SearchEvent {
      * @param {event} event
      */
     onSearchFilter(event){
-        this.cacheData.clear();
-       
+        // this.cacheData.clear();
 
         const value = event.target.value;
 
@@ -321,10 +317,11 @@ class SearchEvent {
 
         let newData = [];
         if(this.cacheTag.length === 1){
-            newData = recipes;
             // actualise selon l'event
             if(this.cacheEvents.get('keyup')){
                 newData= [...this.cacheData][0];
+            }else {
+                newData = recipes;
             }
         };
 
@@ -349,22 +346,25 @@ class SearchEvent {
 
             // recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
             newData= onSearch(value,data,{hasFilter:true});
+            if(this.cacheEvents.get('keyup')){
+                newData= onSearch(value,data);
+            }
 
         }
 
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+            if(this.cacheTag.length === 2){
 
+                newData= [...this.cacheData][0];
 
-
-      if(this.cacheTag.length === 2){
-
-            newData= [...this.cacheData][0];
-
+            }
         }
+
 
     }
 
 
-    // console.log('delete tag',this.cacheData);
+
         refreshArticle(newData);
         displayFilter(newData);
         // desactive le bouton dans la liste
@@ -379,19 +379,22 @@ class SearchEvent {
     search(value) {
         let newtab = [];
         // verifie l'event en cours
-        if(this.cacheEvents.get('click')){
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
                // effectuer une recherche
              newtab = onSearch(value,recipes,{hasFilter:true});
         };
-      
+
 
       // actualiser les filtres et articles
 
           //stocker la recherche
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+            this.cacheData.add(newtab);
+        }
 
-        this.cacheData.add(newtab);
-        this.cacheValue.add(value);
-        // console.log('search tag',this.cacheData);
+
+    this.cacheValue.add(value);
+
 
     let nextSearch = [];
 
@@ -399,14 +402,26 @@ class SearchEvent {
     let tab = [];
     for(let value of this.cacheValue){
 
-
-        // nouvelle recherche et stock dans un tableau intermédiaire
-        nextSearch = onSearch(value,recipes,{hasFilter:true});
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+            // nouvelle recherche et stock dans un tableau intermédiaire
+            nextSearch = onSearch(value,recipes,{hasFilter:true});
+        }else {
+            nextSearch = onSearch(value,[...this.cacheData][0],{hasFilter:true});
+        }
 
         // boucle en excluant le dernier élément
         for(let j = 0; j < this.cacheData.size-1  ; j++) {
 
-            const data = [...this.cacheData][j];
+
+            let data = [];
+            if(this.cacheEvents.get('keyup')){
+                data = [...this.cacheData][this.cacheData.size-1];
+                console.log('data',data);
+            }else if(this.cacheEvents.has('keyup') === false) {
+                data = [...this.cacheData][j];
+            }
+
+
             //recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
             const  overSearch = onSearch(value,data,{hasFilter:true});
 
@@ -464,13 +479,6 @@ class SearchEvent {
         })
     }
 
-    // test(){
-    //     if(this.cacheEvents.get('keyup')){
-    //         this.cacheEvents.set('click',false);
-    //     }else if(this.cacheEvents.get('click')){
-    //         this.cacheEvents.set('keyup',false);
-    //     }
-    // }
 
 }
 
