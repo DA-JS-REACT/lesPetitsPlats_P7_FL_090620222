@@ -107,6 +107,7 @@ class SearchEvent {
                 this.cacheData.add(newtab);
                 this.cacheValue.add(search);
 
+
             }else if(newtab.length === 0){
                 deleteArticle();
 
@@ -131,12 +132,12 @@ class SearchEvent {
                 this.cacheData.clear();
                 this.cacheValue.clear();
             }
-           
+
             this.eventsController.value = false;
 
         }
 
-       
+
         this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
         // this.test();
     }
@@ -171,7 +172,7 @@ class SearchEvent {
 
         // effectuer une recherche
         this.search(value);
-        // this.test();
+
 
 
     }
@@ -248,7 +249,7 @@ class SearchEvent {
         ul.innerHTML = suggestions ;
         // console.log(newTab);
         refreshArticle(newTab);
-        // this.search(value);
+
 
 
 
@@ -305,7 +306,7 @@ class SearchEvent {
 
         this.cacheNumberOfTag = this.cacheTag.pop();
         // console.log('end',this.cacheTag);
-      
+
          const valueButton = button.textContent;
          const  buttonLi = document.querySelectorAll('.li-button');
          buttonLi.forEach(button => {
@@ -331,8 +332,7 @@ class SearchEvent {
 
             if(this.cacheEvents.get('keyup')){
                 newData= [...this.cacheData][0];
-                console.log('newdata = 1',newData);
-                console.log('newdata = 1 cache',this.cacheData);
+
             }else {
                 newData = recipes;
             }
@@ -355,6 +355,7 @@ class SearchEvent {
             }
 
       }
+
 
       for(let value of this.cacheValue){
         for(let j = 0; j <[...this.cacheData].length -1 ; j++) {
@@ -395,9 +396,10 @@ class SearchEvent {
 
     search(value) {
         let newtab = [];
-        if(this.cacheEvents.get('click')){
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
                // effectuer une recherche
              newtab = onSearch(value,recipes,{hasFilter:true});
+
         };
 
 
@@ -416,14 +418,19 @@ class SearchEvent {
     let tab = [];
     for(let value of this.cacheValue){
 
+        if(this.cacheEvents.get('click') && this.cacheEvents.has('keyup') === false){
+             // nouvelle recherche et stock dans un tableau intermédiaire
+            nextSearch = onSearch(value,recipes,{hasFilter:true});
+        }else {
+            nextSearch = onSearch(value,[...this.cacheData][0],{hasFilter:true});
+        }
 
-        // nouvelle recherche et stock dans un tableau intermédiaire
-        nextSearch = onSearch(value,recipes,{hasFilter:true});
         // boucle en excluant le dernier élément
         for(let j = 0; j < this.cacheData.size-1  ; j++) {
             let data = [];
             if(this.cacheEvents.get('keyup')){
                 data = [...this.cacheData][this.cacheData.size-1];
+                console.log('data',data);
             }else if(this.cacheEvents.has('keyup') === false) {
                 data = [...this.cacheData][j];
             }
@@ -457,7 +464,7 @@ class SearchEvent {
     if(this.cacheEvents.get('keyup')){
         this.cacheData.add(nextSearch);
     };
-
+        
       // actualiser les filtres et articles
       refreshArticle(nextSearch);
       displayFilter(nextSearch);
@@ -493,7 +500,7 @@ class SearchEvent {
         })
     }
 
-  
+
 }
 
 
