@@ -380,6 +380,9 @@ class SearchEvent {
         if(this.cacheTag.length === 2){
 
             newData= [...this.cacheData][0];
+            if(this.cacheEvents.get('keyup')){
+                newData= [...this.cacheData][this.cacheData.size -1];
+            }
 
         }
 
