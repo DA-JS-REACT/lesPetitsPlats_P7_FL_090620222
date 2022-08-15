@@ -229,7 +229,7 @@ class SearchEvent {
             if(tab.length > 0) {
                 for (const iterator of [...uniqueData]) {
 
-                    suggestions += `<li class="list-inline-item filter__list--li text-white"><button class="li-button" type="button"> ${iterator.charAt(0).toUpperCase() + iterator.substring(1).toLowerCase() }</button></li>`;
+                    suggestions += `<li class="list-inline-item filter__list--li text-white"><button class="li-button" type="button">${iterator.charAt(0).toUpperCase() + iterator.substring(1).toLowerCase() }</button></li>`;
                 }
             }else {
                 suggestions += `<li class="list-inline-item text-white"> Aucune correspondance</li>`;
