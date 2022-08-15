@@ -4,7 +4,6 @@ import {displayFilter} from './functionFilter.js';
 import {refreshArticle, deleteArticle} from './articleForSearch.js';
 import { StateTag } from '../models/StateTag.js';
 import {recipes} from '../data/recipes.js';
-import {state} from './searchBar.js';
 import {CardFactory} from '../factories/cardFactory.js';
 import{StateSearch} from '../models/StateSearch.js';
 
@@ -59,9 +58,6 @@ class SearchEvent {
 
 
         const input = document.getElementById('mainSearch');
-        // input.addEventListener('change',(evt) => {
-        //     this.onSearchMain(evt);
-        // });
         input.addEventListener('keyup',(evt) => {
             this.onSearchMain(evt);
 
@@ -76,8 +72,7 @@ class SearchEvent {
     onSearchMain(evt) {
 
         this.eventsController.key = evt.type;
-        
-       
+
         console.log(this.cacheEvents);
         evt.preventDefault();
         const search = evt.target.value.toLowerCase();
@@ -135,10 +130,8 @@ class SearchEvent {
 
         }
 
-        console.log('main end',this.cacheData);
         this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
-        console.log(this.cacheEvents);
-        this.test();
+
     }
 
     /**
@@ -172,7 +165,7 @@ class SearchEvent {
         // effectuer une recherche
         this.search(value);
         this.test();
-       
+
 
     }
     /**
@@ -181,7 +174,6 @@ class SearchEvent {
      */
     onSearchFilter(event){
         this.cacheData.clear();
-       
 
         const value = event.target.value;
 
@@ -246,7 +238,6 @@ class SearchEvent {
 
         }
         ul.innerHTML = suggestions ;
-        console.log(newTab);
         refreshArticle(newTab);
         this.search(value);
 
@@ -292,7 +283,6 @@ class SearchEvent {
 
         this.stateTag.numberTag++;
         this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
-        console.log('add',this.cacheTag);
 
     }
 
@@ -304,8 +294,7 @@ class SearchEvent {
 
 
         this.cacheNumberOfTag = this.cacheTag.pop();
-        console.log('end',this.cacheTag);
-      
+
          const valueButton = button.textContent;
          const  buttonLi = document.querySelectorAll('.li-button');
          buttonLi.forEach(button => {
@@ -364,14 +353,13 @@ class SearchEvent {
       if(this.cacheTag.length === 2){
 
             newData= [...this.cacheData][0];
-            console.log(this.cacheData);
 
         }
 
     }
 
 
-    console.log('delete tag',this.cacheData);
+
         refreshArticle(newData);
         displayFilter(newData);
         // desactive le bouton dans la liste
@@ -384,63 +372,63 @@ class SearchEvent {
      */
 
     search(value) {
+
         let newtab = [];
         if(this.cacheEvents.get('click')){
-            console.log('click');
-               // effectuer une recherche
-             newtab = onSearch(value,recipes,{hasFilter:true});
-        };
-      
 
-      // actualiser les filtres et articles
+            // effectuer une recherche
+            newtab = onSearch(value,recipes,{hasFilter:true});
+        };
+
+
+        // actualiser les filtres et articles
 
           //stocker la recherche
 
         this.cacheData.add(newtab);
         this.cacheValue.add(value);
-        console.log('search tag',this.cacheData);
+      
 
-    let nextSearch = [];
+        let nextSearch = [];
 
-    // array intermédiaire permettant la manipulation des résultats
-    let tab = [];
-    for(let value of this.cacheValue){
+        // array intermédiaire permettant la manipulation des résultats
+        let tab = [];
+        for(let value of this.cacheValue){
 
 
-        // nouvelle recherche et stock dans un tableau intermédiaire
-        nextSearch = onSearch(value,recipes,{hasFilter:true});
+            // nouvelle recherche et stock dans un tableau intermédiaire
+            nextSearch = onSearch(value,recipes,{hasFilter:true});
 
-        // boucle en excluant le dernier élément
-        for(let j = 0; j < this.cacheData.size-1  ; j++) {
+            // boucle en excluant le dernier élément
+            for(let j = 0; j < this.cacheData.size-1  ; j++) {
 
-            const data = [...this.cacheData][j];
-            //recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
-            const  overSearch = onSearch(value,data,{hasFilter:true});
+                const data = [...this.cacheData][j];
+                //recherche dans les tableaux obtenus  à partir des valeurs des tag cliqués
+                const  overSearch = onSearch(value,data,{hasFilter:true});
 
-            tab.push(overSearch);
-            // trie des arrays en fonction de leur longueur
-            tab.sort((a,b) => {
+                tab.push(overSearch);
+                // trie des arrays en fonction de leur longueur
+                tab.sort((a,b) => {
 
-                return b.length - a.length;
-            })
+                    return b.length - a.length;
+                })
 
-            if(tab[tab.length-1].length === 0){
-                tab.pop(tab[tab.length-1]);
+                if(tab[tab.length-1].length === 0){
+                    tab.pop(tab[tab.length-1]);
+                }
+
+                nextSearch = tab[tab.length - 1];
+
+
+
             }
-
-            nextSearch = tab[tab.length - 1];
-
-
-
         }
-    }
 
-      // actualiser les filtres et articles
-      refreshArticle(nextSearch);
-      displayFilter(nextSearch);
-      // desactive le bouton dans la liste
-      this.hasListClicked();
-      console.log(this.cacheEvents);
+        // actualiser les filtres et articles
+        refreshArticle(nextSearch);
+        displayFilter(nextSearch);
+        // desactive le bouton dans la liste
+        this.hasListClicked();
 
     }
 
@@ -450,9 +438,9 @@ class SearchEvent {
         this.whenCloseTag(button);
 
         button.remove();
-        console.log(this.cacheEvents);
 
     }
+
     hasListClicked(){
         const  buttonLi = document.querySelectorAll('.li-button');
 
@@ -468,15 +456,6 @@ class SearchEvent {
           }
 
         })
-    }
-
-    test(){
-        if(this.cacheEvents.get('keyup')){
-            this.cacheEvents.set('click',false);
-        }else if(this.cacheEvents.get('click')){
-            this.cacheEvents.set('keyup',false);
-        }
-        
     }
 
 }

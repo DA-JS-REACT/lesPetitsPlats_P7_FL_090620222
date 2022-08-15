@@ -1,9 +1,5 @@
 
 
-
-
-// || key === 'description'
-
 /**
  *
  * @param {String} search
@@ -55,7 +51,7 @@ export function  onSearch(search,recipes,options={}){
                         if(onSearchIngredients(recipe,search)){
                             tab.add(recipe);
                         }
-    
+
                     }
 
                 }
@@ -71,6 +67,13 @@ export function  onSearch(search,recipes,options={}){
 
 }
 
+/**
+ *
+ * @param {Array} recipe
+ * @param {String} search
+ * @param {Object} options
+ * @returns Boolean
+ */
 export function onSearchIngredients(recipe,search,options={}){
     if(options.hasFilter){
         tab =new Set();
@@ -95,6 +98,12 @@ export function onSearchIngredients(recipe,search,options={}){
     return false;
 }
 
+/**
+ *
+ * @param {Array} recipe
+ * @param {String} search
+ * @returns Boolean
+ */
 export function onSearchUstensils(recipe,search){
     for(let i=0;i<recipe['ustensils'].length;i++){
 
@@ -108,6 +117,12 @@ export function onSearchUstensils(recipe,search){
     return false;
 }
 
+/**
+ *
+ * @param {Array} recipe
+ * @param {String} search
+ * @returns Boolean
+ */
 export function onSearchAppliance(recipe, search) {
 
     const appliance = recipe['appliance'];

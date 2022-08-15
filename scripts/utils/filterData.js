@@ -6,7 +6,6 @@ class  FilterData {
         this.dataIngredients = new Set();
         this.dataAppliance = new Set();
         this.dataUstensils = new Set();
-        // this.ingredient = new Set();
     }
 
 
