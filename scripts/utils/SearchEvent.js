@@ -4,11 +4,8 @@ import {displayFilter} from './functionFilter.js';
 import {refreshArticle, deleteArticle} from './articleForSearch.js';
 import { StateTag } from '../models/StateTag.js';
 import {recipes} from '../data/recipes.js';
-import {state} from './searchBar.js';
 import {CardFactory} from '../factories/cardFactory.js';
 import{StateSearch} from '../models/StateSearch.js';
-
-
 import {FilterData} from './filterData.js';
 
 class SearchEvent {
@@ -67,8 +64,8 @@ class SearchEvent {
 
         });
 
-        
     }
+
     /**
      * search  with main searchBar
      * @param {event} evt
@@ -76,9 +73,7 @@ class SearchEvent {
     onSearchMain(evt) {
 
         this.eventsController.key = evt.type;
-        
-       
-       
+
         evt.preventDefault();
         const search = evt.target.value.toLowerCase();
 
@@ -95,7 +90,6 @@ class SearchEvent {
         }
 
         let newtab = [];
-       
 
         if (search.length >= 3 ){
             newtab = onSearch(search,recipes);
@@ -141,9 +135,7 @@ class SearchEvent {
 
 
         this.cacheEvents = this.Events.set(this.eventsController.key, this.eventsController.value);
-      
 
-      
     }
 
     /**
@@ -152,7 +144,7 @@ class SearchEvent {
     displayErrorCard() {
         const articleError = new CardFactory().getCardError();
         this.divError.appendChild(articleError);
- 
+
      }
 
     /**
@@ -177,12 +169,8 @@ class SearchEvent {
         // effectuer une recherche
         this.search(value);
 
-
-        console.log(this.cacheEvents);
-
-
-
     }
+
     /**
      * use input on the filter
      * @param {event} event
@@ -254,7 +242,6 @@ class SearchEvent {
 
         }
         ul.innerHTML = suggestions ;
-        // console.log(newTab);
         refreshArticle(newTab);
 
 
@@ -300,7 +287,6 @@ class SearchEvent {
 
         this.stateTag.numberTag++;
         this.cacheNumberOfTag = this.cacheTag.push(this.stateTag.numberTag);
-        // console.log('add',this.cacheTag);
 
     }
 
@@ -312,7 +298,6 @@ class SearchEvent {
 
 
         this.cacheNumberOfTag = this.cacheTag.pop();
-        // console.log('end',this.cacheTag);
 
          const valueButton = button.textContent;
          const  buttonLi = document.querySelectorAll('.li-button');
@@ -362,7 +347,6 @@ class SearchEvent {
             }
 
       }
-      console.log('delete',this.cacheData);
 
       for(let value of this.cacheValue){
         for(let j = 0; j <[...this.cacheData].length -1 ; j++) {
@@ -396,6 +380,7 @@ class SearchEvent {
         this.hasListClicked();
 
     }
+
     /**
      *
      * @param {string} value
@@ -480,7 +465,6 @@ class SearchEvent {
       displayFilter(nextSearch);
       // desactive le bouton dans la liste
       this.hasListClicked();
-      console.log('search',this.cacheData);
 
     }
 
@@ -490,9 +474,9 @@ class SearchEvent {
         this.whenCloseTag(button);
 
         button.remove();
-        // console.log(this.cacheEvents);
 
     }
+
     hasListClicked(){
         const  buttonLi = document.querySelectorAll('.li-button');
 
